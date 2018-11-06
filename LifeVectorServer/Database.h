@@ -2,7 +2,9 @@
 #define DATABASE_H
 #include<iostream>
 #include<string>
-#include<mysql/mysql.h>
+#include<mysql/mysql.h> 
+// If mysql.h is not installed, "apt-get install defaultlibmysqlclient-dev"
+// Need to add "-lmysqlclient" when compiling
 using namespace std;
 
 class Database

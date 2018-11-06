@@ -2,45 +2,54 @@
  * cpp file for user class which contains getters and setters
  */
 
-#include "user.h"
+#include "User.h"
 
 
 using namespace std;
 
-	string user :: getDeviceID(){
+	User::User(std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime) {
+		self_deviceID = deviceID;
+		self_hash = hash;
+		self_salt = salt;
+		self_report = report;
+		self_syncTime = syncTime;
+		self_reportTime = reportTime;
+	}
+
+	string User :: getDeviceID(){
 		return self_deviceID;
 	}
-	string user :: getHash(){
+	string User :: getHash(){
 		return self_hash;
 	}
-    string user :: getSalt(){
+    string User :: getSalt(){
     	return self_salt;
     }
-    json user:: getReport(){
+    json User:: getReport(){
     	return self_report;
     }
-    int user :: getSyncTime(){
+    int User :: getSyncTime(){
     	return self_syncTime;
     }
-    int user :: getReportTime(){
+    int User :: getReportTime(){
     	return self_reportTime;
     }
 
-    string user :: setDeviceID(string deviceID){
+    string User :: setDeviceID(string deviceID){
     	self_deviceID = deviceID;
     }
-	string user :: setHash(string hash){
+	string User :: setHash(string hash){
 		self_hash = hash;
 	}
-    string user :: setSalt(string salt){
+    string User :: setSalt(string salt){
     	self_salt = salt;
     }
-    json user:: setReport(json report){
+    json User:: setReport(json report){
     	self_report = report;
     }
-    int user :: setSyncTime(int syncTime){
+    int User :: setSyncTime(int syncTime){
     	self_syncTime = syncTime;
     }
-    int user :: setReportTime(int reportTime){
+    int User :: setReportTime(int reportTime){
     	self_reportTime = reportTime;
     }

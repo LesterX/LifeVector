@@ -2,6 +2,7 @@
 #define USERLIBRARY_H
 
 #include "user.h"
+#include "Database.h"
 #include <nlohmann/json.hpp> //"https://github.com/nlohmann/json"
 #include <mysql/mysql.h> //https://dev.mysql.com/downloads/connector/c/
 
@@ -15,13 +16,13 @@ public:
 	bool deleteUserFromDB(User user);
 	bool retrieveUser(std::string devID);
 	bool compareUserHash(std::string devID);
-	bool updateUserSyncTime(int syncTime);
-	bool updateReport(nlohmann::json report); 
+	bool updateUserSyncTime(User user, int syncTime);
+	bool updateReport(User user, nlohmann::json report); 
 
 private:
-	MYSQL *connection;
-	MYSQL_RES *result;
-	MYSQL_ROW row;
+
+	Database db;
+
 };
 
 #endif
