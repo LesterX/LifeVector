@@ -9,6 +9,8 @@
 
 #include <string>
 #include <vector>
+#include <map>
+#include <utility>
 #include <fstream>
 #include <iostream>
 
@@ -28,21 +30,22 @@ class RawDataRepository
         double latitude, longitude;
     };
 
-    nlohmann::json jsonFile;       // the object holding the imported .json file
-    std::vector<gpsLog> rawData; // the vector holding the raw gps coordinates
+    nlohmann::json jsonFile;        // the object holding the imported .json file
+    std::map<long, gpsLog> rawData; // map holding the raw gps coordinates
+    std::vector<long> logTimes;     // vector of times with logged gps data
 
     void initJSON(std::string source);          // function to import the .json file
     void buildRepository(std::string fileSpec); // function used to parse the json object to extract the timestamp and coordinate data to be stored in the vector
+    void mapEntry(long time, gpsLog data);      // helper function to insert a single gps entry into the rawData map
 
   public:
     // Constructor & Destructor
     RawDataRepository(std::string sourceFile, std::string fileSpecification);
     ~RawDataRepository();
 
-    bool saveToDB();
-    std::vector<gpsLog>::const_iterator getIterator();
-    std::string prettifyTimestamp();
-    gpsLog fetchEntry(long time);
+    // Fetching coordinates
+    std::vector<long> getTimeStamps();
+    void getCoordinates(double * coordinates, long timestamp);
     void dumpData();
 };
 
