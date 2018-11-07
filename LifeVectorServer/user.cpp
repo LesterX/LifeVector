@@ -7,7 +7,7 @@
 
 using namespace std;
 
-	User::User(std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime) {
+	User :: User(std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime) {
 		self_deviceID = deviceID;
 		self_hash = hash;
 		self_salt = salt;
@@ -35,21 +35,21 @@ using namespace std;
     	return self_reportTime;
     }
 
-    string User :: setDeviceID(string deviceID){
+    void User :: setDeviceID(string deviceID){
     	self_deviceID = deviceID;
     }
-	string User :: setHash(string hash){
+	void User :: setHash(string hash){
 		self_hash = hash;
 	}
-    string User :: setSalt(string salt){
+    void User :: setSalt(string salt){
     	self_salt = salt;
     }
-    json User:: setReport(json report){
+    void User:: setReport(json report){
     	self_report = report;
     }
-    int User :: setSyncTime(int syncTime){
+    void User :: setSyncTime(int syncTime){
     	self_syncTime = syncTime;
     }
-    int User :: setReportTime(int reportTime){
+    void User :: setReportTime(int reportTime){
     	self_reportTime = reportTime;
     }

@@ -8,8 +8,8 @@
 #include <unistd.h>
 #include <string>
 //json parser for c++
-#include <nlohmann/json.hpp>
-using json = nlohmann::json
+#include "json.hpp"
+using json = nlohmann::json;
 
 class User  
 {
@@ -20,21 +20,21 @@ class User
 		User(std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime);
 
 		//destructor
-		~User();
+		//~User();
 
 		std::string getDeviceID();
 		std::string getHash();
 	    std::string getSalt();
-	    std::json getReport();
+	    json getReport();
 	    int getSyncTime();
 	    int getReportTime();
 
-	    std::string setDeviceID();
-		std::string setHash();
-	    std::string setSalt();
-	    json setReport();
-	    int setSyncTime();
-	    int setReportTime();
+	    void setDeviceID(std::string devID);
+		void setHash(std::string hash);
+	    void setSalt(std::string salt);
+	    void setReport(json report);
+	    void setSyncTime(int syncTime);
+	    void setReportTime(int reportTime);
 
 	private:
 

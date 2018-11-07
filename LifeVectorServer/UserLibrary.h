@@ -3,7 +3,7 @@
 
 #include "user.h"
 #include "Database.h"
-#include <nlohmann/json.hpp> //"https://github.com/nlohmann/json"
+#include "json.hpp"
 #include <mysql/mysql.h> //https://dev.mysql.com/downloads/connector/c/
 
 class UserLibrary{
@@ -11,7 +11,6 @@ class UserLibrary{
 public:
 
 	UserLibrary();
-	~UserLibrary();
 	bool createUserInDB(User user);
 	bool deleteUserFromDB(User user);
 	bool retrieveUser(std::string devID);

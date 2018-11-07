@@ -1,8 +1,9 @@
 #include <iostream>
+#include <sstream>
 #include "UserLibrary.h"
 #include "User.h"
 using namespace std;
-//using json = nlohmann::json
+using json = nlohmann::json;
 
 UserLibrary::UserLibrary(){
 	db.initDB("localhost", "root", "623062", "LifeVector"); //Remember to change password
@@ -16,9 +17,12 @@ bool UserLibrary::createUserInDB(User user) {
 	int syncTime = user.getSyncTime();
 	int reportTime = user.getReportTime();
 
-	string sql = "INSERT INTO User VALUES ('" + deviceID +
-		"','" + hash + "','" + salt + "'," + report + "," +
-		syncTime + "," + reportTime;
+	stringstream ss;
+	ss <<  "INSERT INTO User VALUES ('" << deviceID <<
+		"','" << hash << "','" << salt << "','" << report << "'," <<
+		syncTime << "," << reportTime << ");";
+	string sql = ss.str();
+	cout << sql << endl;
 
 	if (db.exeSQL(sql)) {
 		cout << "User created" << endl;
@@ -30,9 +34,11 @@ bool UserLibrary::createUserInDB(User user) {
 	}
 }
 
-bool deleteUserFromDB(User user) {
+bool UserLibrary::deleteUserFromDB(User user) {
 	
-	string sql = "DELETE FROM User WHERE deviceID = '" + user.getDeviceID() + "'";
+	stringstream ss; 
+	ss << "DELETE FROM User WHERE deviceID = '" + user.getDeviceID() + "'";
+	string sql = ss.str();
 
 	if (db.exeSQL(sql)) {
 		cout << "User deleted" << endl;
@@ -44,13 +50,16 @@ bool deleteUserFromDB(User user) {
 	}
 }
 
-bool retrieveUser(std::string devID);
-bool compareUserHash(std::string devID);
+bool UserLibrary::retrieveUser(std::string devID) {}
+bool UserLibrary::compareUserHash(std::string devID) {}
 
-bool updateUserSyncTime(User user, int syncTime) {
+bool UserLibrary::updateUserSyncTime(User user, int syncTime) {
 
-	string sql = "UPDATE User SET (syncTime = " + syncTime + 
-		") WHERE deviceID = '" + user.getDeviceID() + "'";
+	stringstream ss;
+	ss << "UPDATE User SET (syncTime = " << syncTime << 
+		") WHERE deviceID = '" << user.getDeviceID() << "'";
+
+	string sql = ss.str();
 
 	if (db.exeSQL(sql)) {
 		cout << "SyncTime updated" << endl;
@@ -61,9 +70,12 @@ bool updateUserSyncTime(User user, int syncTime) {
 		return false;
 	}
 }
-bool updateReport(User user, json report) {
-	string sql = "UPDATE User SET (report = " + report +
-		") WHERE deviceID = '" + user.getDeviceID() + "'";
+bool UserLibrary::updateReport(User user, json report) {
+	stringstream ss;
+	ss << "UPDATE User SET (report = " << report <<
+		") WHERE deviceID = '" << user.getDeviceID() << "'";
+	
+	string sql = ss.str();
 
 	if (db.exeSQL(sql)) {
 		cout << "Report updated" << endl;

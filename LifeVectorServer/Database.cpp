@@ -28,7 +28,7 @@ bool Database::initDB(string host, string user, string pwd, string db_name)
 		user.c_str(), pwd.c_str(), db_name.c_str(), 0, NULL, 0);
 	if (connection == NULL)
 	{
-		cout << "Error:" << mysql_error(connection);
+		cout << "Error:" << mysql_error(connection) << endl;
 		exit(1);
 	}
 	return true;
@@ -38,7 +38,7 @@ bool Database::exeSQL(string sql)
 {
 	if (mysql_query(connection, sql.c_str()))
 	{
-		cout << "Query Error:" << mysql_error(connection);
+		cout << "Query Error:" << mysql_error(connection) << endl;
 		exit(1);
 	}
 	else

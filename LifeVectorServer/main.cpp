@@ -1,15 +1,18 @@
-/*#include <nlohmann/json.hpp> //"https://github.com/nlohmann/json"
-*/
-#include<iostream>
-#include "Database.h"
+#include <iostream>
+#include "UserLibrary.h"
 using namespace std;
+using json = nlohmann::json;
 
 int main()
 {
-	Database db;
-	//Hostname, Username, Password, Database name
-	db.initDB("localhost", "root", "623062", "LifeVector");
-	db.exeSQL("INSERT INTO User VALUES ('02','Arthur Morgan');");
-	db.exeSQL("SELECT * FROM User;");
+	json j1 = {
+		{"key1_1","value1_1"},
+		{"key1_2","value1_2"}
+	};
+
+	User u1("01", "Test_Hash01", "Test_Salt01", j1, 1001, 1002);
+
+	UserLibrary userlib;
+	userlib.createUserInDB(u1);
 	return 0;
 }
