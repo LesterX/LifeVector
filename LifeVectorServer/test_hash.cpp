@@ -1,6 +1,6 @@
 
 
-#include "salt.h"
+#include "hashfunc.h"
 #include <string>
 
 using namespace std;
@@ -11,17 +11,17 @@ int main(){
 
     std::string str = "Mario Fernandez";
 
-    salt a ;
+    hashfunc a ;
 
-    a.saltUser(str);
+    a.hashUser(str);
 
-    size_t salt = a.getSalt();
-    size_t hash = a.getHash();
-    string name = a.getUserName();
+    //size_t salt = a.getSalt();
+    //size_t hash = a.getHash();
+    //string name = a.getUserName();
 
 
-    cout << "Salt: " << salt << endl;
-    cout << "Hash: " << hash << endl;
-    cout << "Name: " << name << endl;
+   // cout << "Salt: " << salt << endl;
+   // cout << "Hash: " << hash << endl;
+    //cout << "Name: " << name << endl;
 
 }

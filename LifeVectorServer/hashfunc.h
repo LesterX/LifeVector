@@ -1,8 +1,8 @@
 /**
  * header file for salt class
  */
-#ifndef SALT_H
-#define SALT_H
+#ifndef HASHFUNC_H
+#define HASHFUNC_H
 
 #include <iostream>
 #include <iomanip>
@@ -11,11 +11,13 @@
 #include <stdlib.h> 
 #include <sys/random.h>
 
-class salt  {
+#include "CkCrypt2.h"
+
+class hashfunc  {
  
 	public:
 		
-		void saltUser(std::string user_name);
+		void hashUser(std::string user_name);
 		std::size_t getSalt();
 		std::size_t getHash();
 		std::string getUserName();
