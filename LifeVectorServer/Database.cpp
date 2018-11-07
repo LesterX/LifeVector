@@ -15,7 +15,7 @@ Database::Database()
 	}
 }
 
-Database::~Database()
+Database :: ~Database()
 {
 	if (connection != NULL) 
 	{
@@ -23,7 +23,7 @@ Database::~Database()
 	}
 }
 
-bool Database::initDB(string host, string user, string pwd, string db_name)
+bool Database :: initDB(string host, string user, string pwd, string db_name)
 {
 	// Build a connection with database
 	connection = mysql_real_connect(connection, host.c_str(),
@@ -36,7 +36,7 @@ bool Database::initDB(string host, string user, string pwd, string db_name)
 	return true;
 }
 
-bool Database::exeSQL(string sql)
+bool Database :: exeSQL(string sql)
 {
 	if (mysql_query(connection, sql.c_str()))
 	{
@@ -66,7 +66,7 @@ bool Database::exeSQL(string sql)
 	return true;
 }
 
-std::string Database::getSQLResult(string sql)
+std::string Database :: getSQLResult(string sql)
 {
     stringstream ss;
     

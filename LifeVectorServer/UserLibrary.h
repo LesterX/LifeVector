@@ -11,12 +11,13 @@ class UserLibrary{
 public:
 
 	UserLibrary();
+    bool createUserTable();
     bool printAllUsers();
 	bool createUserInDB(User user);
 	bool deleteUserFromDB(User user);
     bool deleteUserFromDB(string username,string deviceID); //Overload
     User retrieveUser(std::string username, std::string devID);
-	bool compareUserHash(std::string devID);
+    bool compareUserHash(std::string username,std::string devID,std::string password);
 	bool updateUserSyncTime(User user, int syncTime);
 	bool updateReport(User user, nlohmann::json report); 
 

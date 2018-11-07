@@ -1,0 +1,1 @@
+sudo mysql --verbose -ppw123 < db_script.txt
