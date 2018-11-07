@@ -1,0 +1,5 @@
+LifeVectorMobile/node_modules
+LifeVectorMobile/android/app/build
+LifeVectorMobile/android/.gradle
+.idea/
+LifeVectorMobile/package-lock.json
