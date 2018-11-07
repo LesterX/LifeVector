@@ -1,6 +1,8 @@
 #include<iostream>
 #include<cstdlib>
 #include "Database.h"
+#include <typeinfo>
+#include <sstream>
 using namespace std;
 
 Database::Database()
@@ -44,14 +46,14 @@ bool Database::exeSQL(string sql)
 	else
 	{
 		result = mysql_use_result(connection); // Get Result
-		// mysql_field_count() return number of columns
+		// mysql_field_count() return number of rows
 		for (int i = 0; i < mysql_field_count(connection); ++i)
 		{
 			// Get next row
 			row = mysql_fetch_row(result);
 			if (row <= 0)
 				break;
-			// mysql_num_fields return number of words
+			// mysql_num_fields return number of columns
 			for (int j = 0; j < mysql_num_fields(result); ++j)
 			{
 				cout << row[j] << " ";
@@ -62,4 +64,36 @@ bool Database::exeSQL(string sql)
 		mysql_free_result(result);
 	}
 	return true;
+}
+
+std::string Database::getSQLResult(string sql)
+{
+    stringstream ss;
+    
+    if (mysql_query(connection, sql.c_str()))
+    {
+        ss << "Query Error:" << mysql_error(connection) << endl;
+        return ss.str();
+    }
+    else
+    {
+        result = mysql_use_result(connection); // Get Result
+        // mysql_field_count() return number of rows
+        for (int i = 0; i < mysql_field_count(connection); ++i)
+        {
+            // Get next row
+            row = mysql_fetch_row(result);
+            if (row <= 0)
+                break;
+            // mysql_num_fields return number of columns
+            for (int j = 0; j < mysql_num_fields(result); ++j)
+            {
+                ss << row[j] << " ";
+            }
+            ss << endl;
+        }
+        // Free memory
+        mysql_free_result(result);
+    }
+    return ss.str();
 }

@@ -3,7 +3,7 @@
 #include<iostream>
 #include<string>
 #include<mysql/mysql.h> 
-// If mysql.h is not installed, "apt-get install defaultlibmysqlclient-dev"
+// If mysql.h is not installed, "apt-get install libmysqlclient-dev"
 // Need to add "-lmysqlclient" when compiling
 using namespace std;
 
@@ -14,6 +14,7 @@ public:
 	~Database();
 	bool initDB(string host, string user, string pw, string db_name);
 	bool exeSQL(string sql);
+    std::string getSQLResult(string sql);
 private:
 	MYSQL *connection;
 	MYSQL_RES *result;

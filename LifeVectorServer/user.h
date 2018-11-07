@@ -17,33 +17,38 @@ class User
 	public:
 
 		//constructor
-		User(std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime);
+        User(std::string username, std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime);
+        //alternative constructor
+        User(std::string username,std::string deviceID);
 
 		//destructor
 		//~User();
 
+        std::string getUsername();
 		std::string getDeviceID();
 		std::string getHash();
 	    std::string getSalt();
 	    json getReport();
-	    int getSyncTime();
-	    int getReportTime();
+	    long getSyncTime();
+	    long getReportTime();
 
+        void setUsername(std::string username);
 	    void setDeviceID(std::string devID);
 		void setHash(std::string hash);
 	    void setSalt(std::string salt);
 	    void setReport(json report);
-	    void setSyncTime(int syncTime);
-	    void setReportTime(int reportTime);
+	    void setSyncTime(long syncTime);
+	    void setReportTime(long reportTime);
 
 	private:
 
+        std::string self_username;
 		std::string self_deviceID;
 		std::string self_hash;
 		std::string self_salt;
 		json self_report;
-		int self_syncTime;
-		int self_reportTime;
+		long self_syncTime;
+		long self_reportTime;
 		
 };
 

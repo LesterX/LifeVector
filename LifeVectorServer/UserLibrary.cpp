@@ -5,12 +5,41 @@
 using namespace std;
 using json = nlohmann::json;
 
+/*
+ User Table Creating Query
+ CREATE TABLE User(
+ username CHAR(10) NOT NULL,
+ deviceID CHAR(10) NOT NULL,
+ hash CHAR(128),
+ salt CHAR(128),
+ report JSON,
+ syncTime BIGINT,
+ reportTime BIGINT,
+ PRIMARY KEY (username,deviceID)
+ );
+ */
+
+
 UserLibrary::UserLibrary(){
 	db.initDB("localhost", "root", "623062", "LifeVector"); //Remember to change password
 }
 
-bool UserLibrary::createUserInDB(User user) {
-	string deviceID = user.getDeviceID();
+bool UserLibrary :: printAllUsers() {
+    string sql = "SELECT * FROM User;";
+    cout << sql << endl;
+    
+    if (db.exeSQL(sql)) {
+        return true;
+    }
+    else {
+        cout << "Failed to display user" << endl;
+        return false;
+    }
+}
+
+bool UserLibrary :: createUserInDB(User user) {
+    string username = user.getUsername();
+    string deviceID = user.getDeviceID();
 	string hash = user.getHash();
 	string salt = user.getSalt();
 	json report = user.getReport();
@@ -18,7 +47,7 @@ bool UserLibrary::createUserInDB(User user) {
 	int reportTime = user.getReportTime();
 
 	stringstream ss;
-	ss <<  "INSERT INTO User VALUES ('" << deviceID <<
+	ss <<  "INSERT INTO User VALUES ('" << username << "','" << deviceID <<
 		"','" << hash << "','" << salt << "','" << report << "'," <<
 		syncTime << "," << reportTime << ");";
 	string sql = ss.str();
@@ -34,10 +63,11 @@ bool UserLibrary::createUserInDB(User user) {
 	}
 }
 
-bool UserLibrary::deleteUserFromDB(User user) {
+bool UserLibrary :: deleteUserFromDB(User user) {
 	
 	stringstream ss; 
-	ss << "DELETE FROM User WHERE deviceID = '" + user.getDeviceID() + "'";
+	ss << "DELETE FROM User WHERE deviceID = '" << user.getDeviceID() <<
+    "' AND username = '" << user.getUsername() << "';";
 	string sql = ss.str();
 
 	if (db.exeSQL(sql)) {
@@ -50,17 +80,90 @@ bool UserLibrary::deleteUserFromDB(User user) {
 	}
 }
 
-bool UserLibrary::retrieveUser(std::string devID) {}
-bool UserLibrary::compareUserHash(std::string devID) {}
+bool UserLibrary :: deleteUserFromDB(string username, string deviceID) {
+    
+    stringstream ss;
+    ss << "DELETE FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    string sql = ss.str();
+    
+    if (db.exeSQL(sql)) {
+        cout << "User deleted" << endl;
+        return true;
+    }
+    else {
+        cout << "Failed to delete user" << endl;
+        return false;
+    }
+}
 
-bool UserLibrary::updateUserSyncTime(User user, int syncTime) {
+User UserLibrary::retrieveUser(std::string username, std::string deviceID) {
+    
+    stringstream ss;
+    
+    ss << "SELECT * FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    string sql = ss.str();
+    
+    string result = db.getSQLResult(sql);
+    
+    //Check if user exists
+    if (result.length() < 3){
+        cout << "Cannot find user" << endl;
+    }
+    else
+    {
+        cout << result << endl;
+    }
+    
+    ss.str("");
+    ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    string salt = db.getSQLResult(sql);
+    
+    /* Bug: Don't know how to convert string type to JSON type
+    ss.str("");
+    ss << "SELECT report FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    json report;
+    db.getSQLResult(sql) >> report;
+     */
+    
+    ss.str("");
+    ss << "SELECT syncTime FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    long syncTime = atol(db.getSQLResult(sql).c_str());
+    
+    ss.str("");
+    ss << "SELECT reportTime FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    long reportTime = atol(db.getSQLResult(sql).c_str());
+    
+    User user(username,deviceID);
+    user.setSalt(salt);
+    user.setSyncTime(syncTime);
+    user.setReportTime(reportTime);
+    
+    return user;
+}
+
+bool UserLibrary :: compareUserHash(std::string devID) {
+    
+}
+
+bool UserLibrary :: updateUserSyncTime(User user, int syncTime) {
 
 	stringstream ss;
-	ss << "UPDATE User SET (syncTime = " << syncTime << 
-		") WHERE deviceID = '" << user.getDeviceID() << "'";
+	ss << "UPDATE User SET syncTime = " << syncTime <<
+		" WHERE deviceID = '" << user.getDeviceID() <<
+    "' AND username = '" + user.getUsername() + "';";
 
 	string sql = ss.str();
-
+    cout << sql <<endl;
 	if (db.exeSQL(sql)) {
 		cout << "SyncTime updated" << endl;
 		return true;
@@ -70,10 +173,11 @@ bool UserLibrary::updateUserSyncTime(User user, int syncTime) {
 		return false;
 	}
 }
-bool UserLibrary::updateReport(User user, json report) {
+
+bool UserLibrary :: updateReport(User user, json report) {
 	stringstream ss;
-	ss << "UPDATE User SET (report = " << report <<
-		") WHERE deviceID = '" << user.getDeviceID() << "'";
+	ss << "UPDATE User SET report = " << report <<
+		" WHERE deviceID = '" << user.getDeviceID() << "'";
 	
 	string sql = ss.str();
 
