@@ -1,0 +1,19 @@
+{
+    "gps_coordinates_dump": [
+        {
+            "time_stamp": 1541431800,
+            "longitude": 43.0086943,
+            "latitude": -81.2691205
+        },
+        {
+            "time_stamp": 1541537922,
+            "longitude": 43.0100555,
+            "latitude": -81.2695445
+        },
+        {
+            "time_stamp": 1541534400,
+            "longitude": 43.0086011,
+            "latitude": -81.2759612
+        }
+    ]
+}

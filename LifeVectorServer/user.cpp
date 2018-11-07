@@ -2,45 +2,68 @@
  * cpp file for user class which contains getters and setters
  */
 
-#include "user.h"
+#include "User.h"
 
 
 using namespace std;
 
-	string user :: getDeviceID(){
+    User :: User(std::string username, std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime) {
+        self_username = username;
+        self_deviceID = deviceID;
+		self_hash = hash;
+		self_salt = salt;
+		self_report = report;
+		self_syncTime = syncTime;
+		self_reportTime = reportTime;
+	}
+
+    User :: User(string username,string deviceID){
+        self_username = username;
+        self_deviceID = deviceID;
+    }
+
+    string User :: getUsername(){
+        return self_username;
+    }
+
+	string User :: getDeviceID(){
 		return self_deviceID;
 	}
-	string user :: getHash(){
+	string User :: getHash(){
 		return self_hash;
 	}
-    string user :: getSalt(){
+    string User :: getSalt(){
     	return self_salt;
     }
-    json user:: getReport(){
+    json User:: getReport(){
     	return self_report;
     }
-    int user :: getSyncTime(){
+    long User :: getSyncTime(){
     	return self_syncTime;
     }
-    int user :: getReportTime(){
+    long User :: getReportTime(){
     	return self_reportTime;
     }
 
-    string user :: setDeviceID(string deviceID){
+    void User :: setUsername(string username){
+        self_username = username;
+    }
+
+    void User :: setDeviceID(string deviceID){
     	self_deviceID = deviceID;
     }
-	string user :: setHash(string hash){
+	void User :: setHash(string hash){
 		self_hash = hash;
 	}
-    string user :: setSalt(string salt){
+    void User :: setSalt(string salt){
     	self_salt = salt;
     }
-    json user:: setReport(json report){
+    void User:: setReport(json report){
     	self_report = report;
     }
-    int user :: setSyncTime(int syncTime){
+    void User :: setSyncTime(long syncTime){
     	self_syncTime = syncTime;
     }
-    int user :: setReportTime(int reportTime){
+    void User :: setReportTime(long reportTime){
     	self_reportTime = reportTime;
     }

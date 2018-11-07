@@ -8,50 +8,48 @@
 #include <unistd.h>
 #include <string>
 //json parser for c++
-#include <nlohmann/json.hpp>
- 
+#include "json.hpp"
+using json = nlohmann::json;
 
-class user  
+class User  
 {
  
 	public:
-		
+
+		//constructor
+        User(std::string username, std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime);
+        //alternative constructor
+        User(std::string username,std::string deviceID);
+
+		//destructor
+		//~User();
+
+        std::string getUsername();
 		std::string getDeviceID();
 		std::string getHash();
 	    std::string getSalt();
-	    std::json getReport();
-	    std::int getSyncTime();
-	    std::int getReportTime();
+	    json getReport();
+	    long getSyncTime();
+	    long getReportTime();
 
-	    std::string setDeviceID();
-		std::string setHash();
-	    std::string setSalt();
-	    std::json setReport();
-	    std::int setSyncTime();
-	    std::int setReportTime();
+        void setUsername(std::string username);
+	    void setDeviceID(std::string devID);
+		void setHash(std::string hash);
+	    void setSalt(std::string salt);
+	    void setReport(json report);
+	    void setSyncTime(long syncTime);
+	    void setReportTime(long reportTime);
 
 	private:
 
+        std::string self_username;
 		std::string self_deviceID;
 		std::string self_hash;
 		std::string self_salt;
-		std::json self_report;
-		std::int self_syncTime;
-		std::int self_reportTime;
-		//constructor
-		user(std::string deviceID, std::string hash, std::string salt, std::json report, std::int syncTime, std::int reportTime;){
-
-			self_deviceID = deviceID;
-			self_hash = hash;
-			self_salt = salt;
-			self_report = report;
-			self_syncTime = syncTime;
-			self_reportTime = reportTime;
-		};
-
-		//destructor
-		~user();
-    
+		json self_report;
+		long self_syncTime;
+		long self_reportTime;
+		
 };
 
 #endif
