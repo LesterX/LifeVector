@@ -32,7 +32,6 @@ UserLibrary::UserLibrary(std::string userName, std::string password)
 bool UserLibrary::printAllUsers()
 {
     string sql = "SELECT * FROM User;";
-    cout << sql << endl;
 
     if (db.exeSQL(sql))
     {
