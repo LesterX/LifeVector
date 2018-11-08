@@ -21,6 +21,8 @@ class hashfunc  {
 		std::size_t getSalt();
 		std::size_t getHash();
 		std::string getUserName();
+		//need to implement
+		std::size_t getHash(std::string password, std::string salt);
 
 
 	private:
