@@ -15,13 +15,13 @@ int main(){
 
     a.hashUser(str);
 
-    //size_t salt = a.getSalt();
-    //size_t hash = a.getHash();
-    //string name = a.getUserName();
+    size_t salt = a.getSalt();
+    size_t hash = a.getHash();
+    string name = a.getUserName();
 
 
-   // cout << "Salt: " << salt << endl;
-   // cout << "Hash: " << hash << endl;
-    //cout << "Name: " << name << endl;
+    cout << "Salt: " << salt << endl;
+    cout << "Hash: " << hash << endl;
+    cout << "Name: " << name << endl;
 
 }

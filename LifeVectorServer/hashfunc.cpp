@@ -28,7 +28,7 @@ struct MyHash
     }
 };
 
-/*
+
 void hashfunc :: hashUser(string str){
     //store username
     user_name = str;
@@ -55,7 +55,7 @@ void hashfunc :: hashUser(string str){
 
     //return hash;
 }
-*/
+
 
 size_t hashfunc :: getSalt(){
     return *salt;
@@ -66,7 +66,7 @@ size_t hashfunc :: getHash(){
 string hashfunc :: getUserName(){
     return user_name;
 }
-
+/*
 void hashfunc :: hashUser(string str){
    
     CkCrypt2 crypt;
@@ -80,7 +80,7 @@ void hashfunc :: hashUser(string str){
     const char *hexKey = 0;
     //  http://www.di-mgt.com.au/cryptoKDFs.html#examplespbkdf
 
-    const char *pw = str;
+    const char *pw = "password";
     const char *pwCharset = "ansi";
     //  Hash algorithms may be: sha1, md2, md5, etc.
     const char *hashAlg = "sha1";
@@ -103,7 +103,7 @@ void hashfunc :: hashUser(string str){
     //  BFDE6BE94DF7E11DD409BCE20A0255EC327CB936FFE93643
 
     }
-
+*/
 
 
 	
