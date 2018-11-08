@@ -15,14 +15,12 @@ int main(){
 
     a.hashUser(str);
 
-    size_t salt = a.getSalt();
-    size_t hash = a.getHash();
-    string pass = a.getUserPass();
-    size_t specific_salt = a.getHash(str, to_string(salt));
+    string salt = a.getSalt();
+    string hash = a.getHash();
+    string specific_salt = a.getHash(str, salt);
 
     cout << "Salt: " << salt << endl;
     cout << "Hash: " << hash << endl;
-    cout << "Password: " << pass << endl;
 
     cout << "Return specific hash: " << specific_salt << endl;
 

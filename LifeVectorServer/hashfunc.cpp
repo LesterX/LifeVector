@@ -2,15 +2,19 @@
  * cpp file for salt calss
  */
 
+#include <cstdlib>
 #include "hashfunc.h"
+#include "md5.h"
 
 
 using namespace std;
 
+/*
 struct S {
     std::string first_name;
     std::string last_name;
 };
+ 
 
 bool operator==(const S& lhs, const S& rhs) {
     return lhs.first_name == rhs.first_name && lhs.last_name == rhs.last_name;
@@ -27,55 +31,38 @@ struct MyHash
         return h1 ^ (h2 << 1); 
     }
 };
-
+*/
 
 void hashfunc :: hashUser(string str){
     //store username
-    user_name = str;
+    password = str;
 
-    size_t bufsz = 1024;
+    salt = to_string(rand() % 1000000 + 1);
 
-    char *buf = (char *)malloc(bufsz);
-
-    getrandom(buf, bufsz, GRND_RANDOM);
-
-    salt = (size_t*)buf;
-
-    //onlt generate positive salt values
-    while (*salt < 0){
-        getrandom(buf, bufsz, GRND_RANDOM);
-        salt = (size_t*)buf;
-    }
-
-    //join str to salt
-    string salt_str = to_string(*salt);
-    string salt_plus_string = str + salt_str;
+    string salt_plus_string = str + salt;
     //hash name and salt value together
     hash = std::hash<std::string>{}(salt_plus_string );
 
     //return hash;
 }
 
-size_t hashfunc :: getHash(string password, string in_salt){
+string hashfunc :: getHash(string password, string in_salt){
 
-    size_t ret_hash;
+    string ret_hash;
 
     string salt_plus_string = password + in_salt;
 
-    ret_hash = std::hash<std::string>{}(salt_plus_string );
+    ret_hash = md5(salt_plus_string);
 
     return ret_hash;
 }
 
 
-size_t hashfunc :: getSalt(){
-    return *salt;
+string hashfunc :: getSalt(){
+    return salt;
 }
-size_t hashfunc :: getHash(){
+string hashfunc :: getHash(){
     return hash;
-}
-string hashfunc :: getUserPass(){
-    return user_name;
 }
 /*
 void hashfunc :: hashUser(string str){

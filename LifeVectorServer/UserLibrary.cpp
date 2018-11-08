@@ -217,14 +217,7 @@ bool UserLibrary::compareUserHash(std::string username, std::string deviceID, st
     sql = ss.str();
     string hash = db.getSQLResult(sql);
 
-    cout << hash << hashToCompare << endl;
-
-    cout << hash.compare(hashToCompare) << endl;
-
-    if (hash.compare(hashToCompare))
-        return false;
-    else
-        return true;
+    return false;
 }
 
 //Update user's last synchronization time
