@@ -33,7 +33,7 @@ public:
 
   // Update User Information
   bool updateReport(string username, string deviceID, json newReport);
-  json fetchReport(string username, string deviceID);
+  bool fetchReport(string username, string deviceID);
 
 private:
   UserLibrary userLibrary;
