@@ -153,6 +153,7 @@ User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
     }
     else
     {
+        cout << "Error: Could not retrieve any user for database. Exiting..." << endl;
         exit(0);
     }
 }
