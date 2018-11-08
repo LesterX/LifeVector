@@ -24,12 +24,12 @@ class UserController
         UserController(std::string dbUsername, std::string dbPassword);
 
         // Destructor
-        ~UserController()
+        ~UserController();
 
         // User Controls
-        bool createUser(std::username, std::string devID, std::string password);
+        bool createUser(std::string username, std::string devID, std::string password);
         User retrieveUser(std::string username, std::string devID);
-        bool deleteUser(std::string devID);
+        bool deleteUser(std::string username, std::string devID);
 
         // Update User Information
         bool updateReport(string username, string deviceID, json newReport);

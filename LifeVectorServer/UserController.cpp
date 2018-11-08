@@ -65,6 +65,8 @@ json UserController::fetchReport(string username, string deviceID)
 	{
 		cout << "Error: No reports stored in Database" << endl;
 	}
+    
+    return dbReport;
 }
 
 //Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
