@@ -1,5 +1,7 @@
 #include <iostream>
 #include <sstream>
+#include <functional>
+#include <algorithm>
 #include "UserLibrary.h"
 #include "User.h"
 using namespace std;
@@ -181,8 +183,55 @@ User UserLibrary::retrieveUser(std::string username, std::string deviceID) {
     return user;
 }
 
-bool UserLibrary :: compareUserHash(std::string devID) {
+//Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
+bool UserLibrary :: compareUserHash(std::string username, std::string deviceID, std::string password) {
+
+    stringstream ss;
     
+    ss << "SELECT * FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    string sql = ss.str();
+    
+    string result = db.getSQLResult(sql);
+    
+    //Check if user exists
+    if (result.length() < 3){
+        cout << "Cannot find user" << endl;
+    }
+    
+    ss.str("");
+    ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    string salt = db.getSQLResult(sql);
+    
+    ss.str("");
+    ss << "password" << "Test_Salt01";
+    
+    //convert hash value from size_t to string
+    string saltedPwd = ss.str();
+    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), '\n'), saltedPwd.end()); // cout << saltedPwd << endl;
+    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), '\n'), saltedPwd.end());
+    hash<string> h;
+    ss.str("");
+    ss << h(saltedPwd);
+    string hashToCompare = ss.str();
+    //cout << hashToCompare << endl;
+    
+    ss.str("");
+    ss << "SELECT hash FROM User WHERE deviceID = '" << deviceID <<
+    "' AND username = '" << username << "';";
+    sql = ss.str();
+    string hash = db.getSQLResult(sql);
+    
+    cout << hash << hashToCompare << endl;
+    
+    cout << hash.compare(hashToCompare) << endl;
+    
+    if (hash.compare(hashToCompare))
+        return false;
+    else
+        return true;
 }
 
 //Update user's last synchronization time
@@ -194,7 +243,7 @@ bool UserLibrary :: updateUserSyncTime(User user, int syncTime) {
     "' AND username = '" + user.getUsername() + "';";
 
 	string sql = ss.str();
-    cout << sql <<endl;
+    
 	if (db.exeSQL(sql)) {
 		cout << "SyncTime updated" << endl;
 		return true;
@@ -213,8 +262,6 @@ bool UserLibrary :: updateReport(User user, json report) {
     "' AND username = '" << user.getUsername() << "';";
     
 	string sql = ss.str();
-    
-    cout << sql << endl << endl;
 
 	if (db.exeSQL(sql)) {
 		cout << "Report updated" << endl;
