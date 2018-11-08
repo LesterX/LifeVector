@@ -26,29 +26,6 @@ UserLibrary :: UserLibrary(){
 	db.initDB("localhost", "root", "623062", "LifeVector"); //Remember to change password
 }
 
-//Create User table (might cause error if the table already exists)
-bool UserLibrary :: createUserTable(){
-    stringstream ss;
-    ss << "CREATE TABLE USER(username CHAR(10) NOT NULL," <<
-    "deviceID CHAR(10) NOT NULL," <<
-    "hash CHAR(128)," <<
-    "salt CHAR(128)," <<
-    "report JSON," <<
-    "syncTime BIGINT," <<
-    "reportTime BIGINT," <<
-    "PRIMARY KEY (username,deviceID));";
-    
-    string sql = ss.str();
-    if (db.exeSQL(sql)) {
-        cout << "User Table created" << endl;
-        return true;
-    }
-    else {
-        cout << "Failed to create Table" << endl;
-        return false;
-    }
-}
-
 //Print all user information from database
 bool UserLibrary :: printAllUsers() {
     string sql = "SELECT * FROM User;";
