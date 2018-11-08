@@ -21,8 +21,7 @@ class UserLibrary
 	bool printAllUsers();
 
 	// Removers
-	bool deleteUserFromDB(User user);
-	bool deleteUserFromDB(string username, string deviceID); //Overload
+	bool deleteUserFromDB(string username, string deviceID);
 
 	// Getters
 	User retrieveUser(std::string username, std::string devID);
@@ -33,10 +32,14 @@ class UserLibrary
 	bool uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet);
 
 	// Helpers
-	bool isPresent(std::string deviceID);
+	
+	bool isRegistered(std::string username, std::string deviceID);
 
   private:
 	Database db;
+
+	// Helpers
+	bool isPresent(std::string deviceID);
 };
 
 #endif
