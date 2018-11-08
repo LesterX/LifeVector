@@ -6,17 +6,20 @@ using namespace std;
 
 bool UserController :: createUser(string username, string devID, string password){
 
-	compareUserHash(username, devID, password);
+	if(!isPresent(devID)){
 
-	
-
-	//if exists then exit
-
-	//else create the user
+		printf("User alread exists");
+		exit(0);
+	}
 
 	User user = User(username, devID);
 
-	createUserInDB(user);
+	if(!createUserInDB(user)){
+		printf("Unable to create user");
+		exit(0);
+	}
+
+	return true;
 
 }
 bool UserController :: deleteUser(std::string devID){

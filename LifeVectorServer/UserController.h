@@ -12,6 +12,7 @@
 
 #include "UserLibrary.h"
 #include "user.h"
+#include "hashfunc.h"
 
 #include "json.hpp"
 using json = nlohmann::json;
