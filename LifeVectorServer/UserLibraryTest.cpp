@@ -1,8 +1,5 @@
 /*
- Test file for UserLibrary
- Class Needed:
-    user.cpp
-    Database.cpp
+ g++ Database.cpp user.cpp UserLibrary.cpp DataDepositor.cpp RawDataRepository.cpp UserLibraryTest.cpp -lmysqlclient -o LibraryTest
 */
 
 #include <iostream>
