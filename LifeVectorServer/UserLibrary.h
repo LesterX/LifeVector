@@ -22,7 +22,7 @@ class UserLibrary
 	bool deleteUserFromDB(string username, string deviceID);
 
 	// Getters
-	User retrieveUserFromDB(std::string username, std::string deviceID);
+	bool retrieveUserFromDB(User *user, std::string username, std::string deviceID);
 
 	// Updater & Uploaders
 	bool updateUserSyncTime(User user, int syncTime);

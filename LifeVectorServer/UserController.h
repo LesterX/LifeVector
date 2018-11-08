@@ -28,7 +28,7 @@ public:
 
   // User Controls
   bool createUser(std::string username, std::string devID, std::string password);
-  User retrieveUser(std::string username, std::string devID);
+  bool retrieveUser(User *target, std::string username, std::string devID);
   bool deleteUser(std::string username, std::string devID);
 
   // Update User Information

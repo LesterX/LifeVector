@@ -109,7 +109,7 @@ bool UserLibrary::deleteUserFromDB(string username, string deviceID)
 }
 
 //Get user object from database based on username and deviceID
-User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
+bool UserLibrary::retrieveUserFromDB(User *user, std::string username, std::string deviceID)
 {
     stringstream ss;
     if (isRegistered(username, deviceID))
@@ -143,18 +143,18 @@ User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
         long reportTime = atol(db.getSQLResult(sql).c_str());
 
         // insert retrieved information into User object
-        User user(username, deviceID);
-        user.setSalt(salt);
-        user.setReport(report);
-        user.setSyncTime(syncTime);
-        user.setReportTime(reportTime);
+        (*user).setUsername(username);
+        (*user).setDeviceID(deviceID);
+        (*user).setSalt(salt);
+        (*user).setReport(report);
+        (*user).setSyncTime(syncTime);
+        (*user).setReportTime(reportTime);
 
-        return user;
+        return true;
     }
     else
     {
-        cout << "Error: Could not retrieve any user for database. Exiting..." << endl;
-        exit(0);
+        return false;
     }
 }
 

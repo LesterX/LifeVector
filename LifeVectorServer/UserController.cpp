@@ -3,9 +3,7 @@
 using namespace std;
 
 // Constructor
-UserController::UserController(std::string dbUsername, std::string dbPassword) : userLibrary(dbUsername, dbPassword)
-{
-}
+UserController::UserController(std::string dbUsername, std::string dbPassword) : userLibrary(dbUsername, dbPassword) {}
 
 // Destructor
 UserController::~UserController() {}
@@ -34,9 +32,14 @@ bool UserController::createUser(string username, string devID, string password)
 	return userLibrary.createUserInDB(newUser);
 }
 
-User UserController::retrieveUser(std::string username, std::string devID)
+bool UserController::retrieveUser(User *target, std::string username, std::string devID)
 {
-	return userLibrary.retrieveUserFromDB(username, devID);
+	if (userLibrary.retrieveUserFromDB(target, username, devID))
+	{
+		return true;
+	}
+	else
+		return false;
 }
 
 bool UserController::deleteUser(std::string username, std::string devID)
@@ -47,32 +50,42 @@ bool UserController::deleteUser(std::string username, std::string devID)
 /* User Information Editors */
 bool UserController::updateReport(string username, string deviceID, json newReport)
 {
-	User target = retrieveUser(username, deviceID);
-
-	return userLibrary.updateReport(target, newReport);
+	User *target;
+	if (retrieveUser(target, username, deviceID))
+	{
+		return userLibrary.updateReport(target, newReport);
+	}
+	else
+		return false;
 }
 
-json UserController::fetchReport(string username, string deviceID)
+bool UserController::fetchReport(json *dbReport, string username, string deviceID)
 {
-	User target = retrieveUser(username, deviceID);
+	User *target;
 
-	json dbReport = target.getReport();
-	if (dbReport.empty())
+	if (retrieveUser(target, username, deviceID))
 	{
-		cout << "Error: No reports stored in Database" << endl;
-	}
+		*dbReport = (*target).getReport();
 
-	return dbReport;
+		// Check if report is empty
+		if (dbReport.empty())
+		{
+			cout << "Error: No reports stored in Database" << endl;
+			return false;
+		}
+
+		return true;
+	}
+	else
+		return false;
 }
 
 //Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
 bool UserController::compareUserHash(std::string username, std::string deviceID, std::string password)
 {
-	if (userLibrary.isRegistered(username, deviceID))
+	User *target;
+	if (retrieveUser(target, username, deviceID))
 	{
-		// fetch user from DB
-		User target = retrieveUser(username, deviceID);
-
 		// store hash from DB
 		string dbHash = target.getHash();
 
