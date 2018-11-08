@@ -5,9 +5,11 @@ using namespace std;
 // Constructor
 UserController::UserController(std::string dbUsername, std::string dbPassword)
 {
-	UserLibrary newLib = UserLibrary(dbUsername, dbPassword);
-	userLibrary = newLib;
+	userLibrary = UserLibrary(dbUsername, dbPassword);
 }
+
+// Destructor
+UserController::~UserController() {}
 
 /* User Functions */
 bool UserController::createUser(string username, string devID, string password)
@@ -54,14 +56,14 @@ bool UserController::updateReport(string username, string deviceID, json newRepo
 json UserController::fetchReport(string username, string deviceID)
 {
 	User target = retrieveUser(username, deviceID);
-	
+
 	json dbReport = target.getReport();
-	if(dbReport.empty())
+	if (dbReport.empty())
 	{
 		cout << "Error: No reports stored in Database" << endl;
 	}
-    
-    return dbReport;
+
+	return dbReport;
 }
 
 //Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches

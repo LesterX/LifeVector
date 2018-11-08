@@ -12,7 +12,7 @@ using json = nlohmann::json;
 int main()
 {
     //Connecting to database
-    UserLibrary userlib("root","623062");//Change username and password to your own mysql database info
+    UserLibrary userlib = UserLibrary("pi","pw123");  //Change username and password to your own mysql database info
     
     //Data creating
     //User 1 information

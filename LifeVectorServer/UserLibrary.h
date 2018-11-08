@@ -1,6 +1,7 @@
 #ifndef USERLIBRARY_H
 #define USERLIBRARY_H
 
+#include <string>
 #include <mysql/mysql.h> //https://dev.mysql.com/downloads/connector/c/
 #include "json.hpp"
 
@@ -10,10 +11,9 @@
 
 class UserLibrary
 {
-
   public:
-	// Constructor
-	UserLibrary(std::string userName, std::string password); //userName and Password are for logging into and connecting with SQL server
+	// Constructor - userName and Password are for logging into and connecting with SQL server
+	UserLibrary(std::string userName, std::string password);
 
 	// Creater
 	bool createUserInDB(User user);

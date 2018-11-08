@@ -25,7 +25,6 @@ using json = nlohmann::json;
 //Building connection to LifeVector database
 UserLibrary::UserLibrary(std::string userName, std::string password)
 {
-    db = Database();
     db.initDB("localhost", userName, password, "LifeVector");
 }
 
