@@ -3,9 +3,8 @@
 using namespace std;
 
 // Constructor
-UserController::UserController(std::string dbUsername, std::string dbPassword)
+UserController::UserController(std::string dbUsername, std::string dbPassword) : userLibrary(dbUsername, dbPassword)
 {
-	userLibrary = UserLibrary(dbUsername, dbPassword);
 }
 
 // Destructor
@@ -15,7 +14,7 @@ UserController::~UserController() {}
 bool UserController::createUser(string username, string devID, string password)
 {
 	// Test if User already in database
-	if (compareUserHash(username, devID, password))
+	if (userLibrary.isRegistered(username, devID))
 	{
 		//the user is found in database
 		cout << "Error: User Creation Failed: User is already registered in Database" << endl;
@@ -69,30 +68,35 @@ json UserController::fetchReport(string username, string deviceID)
 //Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
 bool UserController::compareUserHash(std::string username, std::string deviceID, std::string password)
 {
-	// fetch user from DB
-	User target = retrieveUser(username, deviceID);
+	if (userLibrary.isRegistered(username, deviceID))
+	{
+		// fetch user from DB
+		User target = retrieveUser(username, deviceID);
 
-	// store hash from DB
-	string dbHash = target.getHash();
+		// store hash from DB
+		string dbHash = target.getHash();
 
-	// initialize hash function for password parameter
-	hashfunc hf;
-	string inputHash = hf.getHash(password, target.getSalt());
+		// initialize hash function for password parameter
+		hashfunc hf;
+		string inputHash = hf.getHash(password, target.getSalt());
 
-	// Remove the ******* white space and \n from hash strings
-	dbHash.erase(std::remove(dbHash.begin(), dbHash.end(), ' '), dbHash.end());
-	dbHash.erase(std::remove(dbHash.begin(), dbHash.end(), '\n'), dbHash.end());
+		// Remove the ******* white space and \n from hash strings
+		dbHash.erase(std::remove(dbHash.begin(), dbHash.end(), ' '), dbHash.end());
+		dbHash.erase(std::remove(dbHash.begin(), dbHash.end(), '\n'), dbHash.end());
 
-	inputHash.erase(std::remove(inputHash.begin(), inputHash.end(), ' '), inputHash.end());
-	inputHash.erase(std::remove(inputHash.begin(), inputHash.end(), '\n'), inputHash.end());
+		inputHash.erase(std::remove(inputHash.begin(), inputHash.end(), ' '), inputHash.end());
+		inputHash.erase(std::remove(inputHash.begin(), inputHash.end(), '\n'), inputHash.end());
 
-	// Print input hash and database hash - check
-	cout << dbHash << endl
-		 << inputHash << endl;
+		// Print input hash and database hash - check
+		cout << dbHash << endl
+			 << inputHash << endl;
 
-	// Compare and return result
-	if (dbHash.compare(inputHash) == 0)
-		return true;
+		// Compare and return result
+		if (dbHash.compare(inputHash) == 0)
+			return true;
+		else
+			return false;
+	}
 	else
 		return false;
 }
