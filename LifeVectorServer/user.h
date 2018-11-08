@@ -16,13 +16,15 @@ class User
  
 	public:
 
-		//constructor
+		//Full constructor
         User(std::string username, std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime);
-        //alternative constructor
+		//Registration constructor
+		User(std::string username, std::string deviceID, std::string hash, std::string salt);
+        //Barebone constructor
         User(std::string username,std::string deviceID);
 
 		//destructor
-		//~User();
+		~User();
 
         std::string getUsername();
 		std::string getDeviceID();

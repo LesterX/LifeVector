@@ -79,38 +79,6 @@ bool UserLibrary::createUserInDB(User user)
     }
 }
 
-//Hashing in the library, might be used for testing purpost only for security
-bool UserLibrary :: createUserInDB(std::string username, std::string devID, std::string password,
-                   json report, int syncTime, int reportTime){
-    hashfunc hf;
-    hf.hashString(password);
-    
-    string salt = hf.getSalt();
-    string hash = hf.getHash();
-    
-    stringstream ss;
-    ss << "INSERT INTO User VALUES ('"
-    << username << "','"
-    << devID << "','"
-    << hash << "','"
-    << salt << "','"
-    << report << "',"
-    << to_string(syncTime) << ","
-    << to_string(reportTime) << ");";
-    string sql = ss.str();
-    
-    if (db.exeSQL(sql))
-    {
-        cout << "User created" << endl;
-        return true;
-    }
-    else
-    {
-        cout << "Failed to create user" << endl;
-        return false;
-    }
-}
-
 //Delete user information from database
 bool UserLibrary::deleteUserFromDB(User user)
 {
@@ -207,54 +175,6 @@ User UserLibrary::retrieveUser(std::string username, std::string deviceID)
     user.setReportTime(reportTime);
 
     return user;
-}
-
-//Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
-bool UserLibrary::compareUserHash(std::string username, std::string deviceID, std::string password)
-{
-    stringstream ss;
-
-    ss << "SELECT * FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    string sql = ss.str();
-
-    string result = db.getSQLResult(sql);
-
-    //Check if user exists
-    if (result.length() < 3)
-    {
-        cout << "Cannot find user" << endl;
-    }
-
-    ss.str("");
-    ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    sql = ss.str();
-    string salt = db.getSQLResult(sql);
-    
-    hashfunc hf;
-    string hash_compare = hf.getHash(password,salt);
-
-    ss.str("");
-    ss << "SELECT hash FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    sql = ss.str();
-    string hash = db.getSQLResult(sql);
-    
-    
-    //Remove the ******* white space and \n from string
-    hash.erase(std::remove(hash.begin(), hash.end(), ' '),
-                           hash.end());
-    hash.erase(std::remove(hash.begin(), hash.end(), '\n'),
-                           hash.end());
-    hash_compare.erase(std::remove(hash_compare.begin(), hash_compare.end(), ' '),
-               hash_compare.end());
-    hash_compare.erase(std::remove(hash_compare.begin(), hash_compare.end(), '\n'),
-               hash_compare.end());
-    
-    cout << hash << endl << hash_compare << endl;
-    
-    if (hash.compare(hash_compare) == 0)
-        return true;
-    else
-        return false;
 }
 
 //Update user's last synchronization time

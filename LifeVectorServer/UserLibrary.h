@@ -13,13 +13,12 @@ class UserLibrary
 
   public:
 	// Constructor
-	UserLibrary(std::string userName, std::string password);
+	UserLibrary(std::string userName, std::string password); //userName and Password are for logging into and connecting with SQL server
 
 	// Creater
 	bool createUserInDB(User user);
-    bool createUserInDB(std::string username, std::string devID, std::string password,
-                        nlohmann::json report, int syncTime, int reportTime);
-    
+	bool createUserInDB(std::string username, std::string devID, std::string password, nlohmann::json report, int syncTime, int reportTime);
+
 	bool printAllUsers();
 
 	// Removers
@@ -28,9 +27,6 @@ class UserLibrary
 
 	// Getters
 	User retrieveUser(std::string username, std::string devID);
-
-	// Comparator
-	bool compareUserHash(std::string username, std::string devID, std::string password);
 
 	// Updater & Uploaders
 	bool updateUserSyncTime(User user, int syncTime);
@@ -42,8 +38,6 @@ class UserLibrary
 
   private:
 	Database db;
-
-	
 };
 
 #endif
