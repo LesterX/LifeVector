@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "UserLibrary.h"
 #include "User.h"
+#include "hashfunc.h"
 using namespace std;
 using json = nlohmann::json;
 
@@ -65,8 +66,39 @@ bool UserLibrary::createUserInDB(User user)
        << syncTime << ","
        << reportTime << ");";
     string sql = ss.str();
-    cout << sql << endl;
 
+    if (db.exeSQL(sql))
+    {
+        cout << "User created" << endl;
+        return true;
+    }
+    else
+    {
+        cout << "Failed to create user" << endl;
+        return false;
+    }
+}
+
+//Hashing in the library, might be used for testing purpost only for security
+bool UserLibrary :: createUserInDB(std::string username, std::string devID, std::string password,
+                   json report, int syncTime, int reportTime){
+    hashfunc hf;
+    hf.hashString(password);
+    
+    string salt = hf.getSalt();
+    string hash = hf.getHash();
+    
+    stringstream ss;
+    ss << "INSERT INTO User VALUES ('"
+    << username << "','"
+    << devID << "','"
+    << hash << "','"
+    << salt << "','"
+    << report << "',"
+    << to_string(syncTime) << ","
+    << to_string(reportTime) << ");";
+    string sql = ss.str();
+    
     if (db.exeSQL(sql))
     {
         cout << "User created" << endl;
@@ -197,27 +229,32 @@ bool UserLibrary::compareUserHash(std::string username, std::string deviceID, st
     ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
     sql = ss.str();
     string salt = db.getSQLResult(sql);
-
-    ss.str("");
-    ss << "password"
-       << "Test_Salt01";
-
-    //convert hash value from size_t to string
-    string saltedPwd = ss.str();
-    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), '\n'), saltedPwd.end()); // cout << saltedPwd << endl;
-    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), '\n'), saltedPwd.end());
-    hash<string> h;
-    ss.str("");
-    ss << h(saltedPwd);
-    string hashToCompare = ss.str();
-    //cout << hashToCompare << endl;
+    
+    hashfunc hf;
+    string hash_compare = hf.getHash(password,salt);
 
     ss.str("");
     ss << "SELECT hash FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
     sql = ss.str();
     string hash = db.getSQLResult(sql);
-
-    return false;
+    
+    
+    //Remove the ******* white space and \n from string
+    hash.erase(std::remove(hash.begin(), hash.end(), ' '),
+                           hash.end());
+    hash.erase(std::remove(hash.begin(), hash.end(), '\n'),
+                           hash.end());
+    hash_compare.erase(std::remove(hash_compare.begin(), hash_compare.end(), ' '),
+               hash_compare.end());
+    hash_compare.erase(std::remove(hash_compare.begin(), hash_compare.end(), '\n'),
+               hash_compare.end());
+    
+    cout << hash << endl << hash_compare << endl;
+    
+    if (hash.compare(hash_compare) == 0)
+        return true;
+    else
+        return false;
 }
 
 //Update user's last synchronization time
@@ -275,6 +312,7 @@ bool UserLibrary::uploadRawGPSData(std::string deviceID, RawDataRepository rawDa
     }
 
     return uploader.depositRaw(deviceID, rawDataSet);
+    
 }
 
 bool UserLibrary::isPresent(std::string deviceID)

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <algorithm>
 #include "UserLibrary.h"
+#include "hashfunc.h"
 using namespace std;
 using json = nlohmann::json;
 
@@ -13,26 +14,15 @@ int main()
 		{"key1_2","value1_2"}
 	};
     
-    stringstream ss;
-    ss << "password" << "Test_Salt01";
-    string saltedPwd = ss.str();
-    //Remove new line and space 
-    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), '\n'), saltedPwd.end());
-    saltedPwd.erase(remove(saltedPwd.begin(), saltedPwd.end(), ' '), saltedPwd.end());
-    hash<string> h;
-    ss.str("");
-    ss << h(saltedPwd);
-    string hash1 = ss.str();
     
     //cout << saltedPwd << endl << hash1 << endl;
 
-	User u1("user1","01", hash1, "Test_Salt01", j1, 1001, 1002);
+	User u1("user1","01", "aaaaa", "Test_Salt01", j1, 1001, 1002);
 
-	UserLibrary userlib;
+	UserLibrary userlib("root","623062");//Change username and password to your own mysql database info
     
-	//userlib.deleteUserFromDB("user1","01");
-    //userlib.createUserInDB(u1);
-    //userlib.printAllUsers();
+	userlib.deleteUserFromDB("user1","01");
+    userlib.createUserInDB("user1","01","password",j1,1001,1002);
     //userlib.printAllUsers();
     
     /*
