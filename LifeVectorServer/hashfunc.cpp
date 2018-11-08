@@ -80,7 +80,7 @@ size_t hashfunc :: getSalt(){
 size_t hashfunc :: getHash(){
     return hash;
 }
-string hashfunc :: getUserName(){
+string hashfunc :: getUserPass(){
     return user_name;
 }
 /*

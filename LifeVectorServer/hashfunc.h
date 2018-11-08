@@ -20,7 +20,7 @@ class hashfunc  {
 		void hashUser(std::string user_name);
 		std::size_t getSalt();
 		std::size_t getHash();
-		std::string getUserName();
+		std::string getUserPass();
 		//need to implement
 		std::size_t getHash(std::string password, std::string salt);
 
