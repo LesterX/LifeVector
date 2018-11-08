@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <functional>
 #include <string>
-#include <stdlib.h> 
+#include <stdlib.h>
 
 #include "UserLibrary.h"
 #include "user.h"
@@ -17,21 +17,29 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
+class UserController
+{
+      public:
+        // Constructors
+        UserController(std::string dbUsername, std::string dbPassword);
 
-class UserController  {
- 
-	public:
-		
-		bool createUser(std:: username, std::string devID, int password);
+        // Destructor
+        ~UserController()
+
+        // User Controls
+        bool createUser(std::username, std::string devID, std::string password);
+        User retrieveUser(std::string username, std::string devID);
         bool deleteUser(std::string devID);
-        bool synchronizeUser(std::spec, json data);
-        json retrieveUser(std::string devID);
-       
-		
-	private:
 
-        UserLibrary userlibrary;
+        // Update User Information
+        bool updateReport(string username, string deviceID, json newReport);
+        json fetchReport(string username, string deviceID);
 
+      private:
+        UserLibrary userLibrary;
+
+        // Comparator
+	bool compareUserHash(std::string username, std::string devID, std::string password);
 };
 
 #endif

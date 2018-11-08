@@ -18,13 +18,11 @@ class UserLibrary
 	// Creater
 	bool createUserInDB(User user);
 
-	bool printAllUsers();
-
 	// Removers
 	bool deleteUserFromDB(string username, string deviceID);
 
 	// Getters
-	User retrieveUser(std::string username, std::string devID);
+	User retrieveUserFromDB(std::string username, std::string deviceID);
 
 	// Updater & Uploaders
 	bool updateUserSyncTime(User user, int syncTime);
@@ -32,8 +30,10 @@ class UserLibrary
 	bool uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet);
 
 	// Helpers
-	
 	bool isRegistered(std::string username, std::string deviceID);
+	
+	// Printer
+	bool printAllUsers();
 
   private:
 	Database db;

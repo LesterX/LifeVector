@@ -40,7 +40,7 @@ bool UserLibrary::printAllUsers()
     }
     else
     {
-        cout << "Failed to display user" << endl;
+        cout << "Error: Failed to display user" << endl;
         return false;
     }
 }
@@ -110,7 +110,7 @@ bool UserLibrary::deleteUserFromDB(string username, string deviceID)
 }
 
 //Get user object from database based on username and deviceID
-User UserLibrary::retrieveUser(std::string username, std::string deviceID)
+User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
 {
     if (isRegistered(username, deviceID))
     {
@@ -151,6 +151,8 @@ User UserLibrary::retrieveUser(std::string username, std::string deviceID)
 
         return user;
     }
+    else
+        return NULL;
 }
 
 //Update user's last synchronization time
@@ -199,7 +201,7 @@ bool UserLibrary::updateReport(User user, json report)
         }
         else
         {
-            cout << "Failed to update report" << endl;
+            cout << "Error: Failed to update report" << endl;
             return false;
         }
     }
@@ -213,7 +215,7 @@ bool UserLibrary::uploadRawGPSData(std::string deviceID, RawDataRepository rawDa
 
     if (!isPresent(deviceID))
     {
-        cout << "User/Device not present in Database, please register device!" << endl;
+        cout << "Error: User/Device not present in Database, Please register device!" << endl;
         return false;
     }
 
