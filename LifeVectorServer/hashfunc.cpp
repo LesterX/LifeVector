@@ -41,7 +41,7 @@ void hashfunc :: hashUser(string str){
 
     string salt_plus_string = str + salt;
     //hash name and salt value together
-    hash = std::hash<std::string>{}(salt_plus_string );
+    hash = md5(salt_plus_string);
 
     //return hash;
 }
