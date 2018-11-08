@@ -3,7 +3,8 @@
 #include<iostream>
 #include<string>
 #include<mysql/mysql.h> 
-// If mysql.h is not installed, "apt-get install libmysqlclient-dev"
+// If mysql.h is not installed, "sudo apt-get install libmysqlclient-dev"
+// If that command didn't work, try "sudo apt-get install default-libmysqlclient-dev"
 // Need to add "-lmysqlclient" when compiling
 using namespace std;
 

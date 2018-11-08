@@ -111,13 +111,14 @@ bool UserLibrary::deleteUserFromDB(string username, string deviceID)
 //Get user object from database based on username and deviceID
 User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
 {
+    stringstream ss;
     if (isRegistered(username, deviceID))
     {
         // retrieve salt
         ss.str("");
         ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID
            << "' AND username = '" << username << "';";
-        sql = ss.str();
+        string sql = ss.str();
         string salt = db.getSQLResult(sql);
 
         // retrieve report
@@ -151,7 +152,7 @@ User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
         return user;
     }
     else
-        return NULL;
+        exit(0);
 }
 
 //Update user's last synchronization time

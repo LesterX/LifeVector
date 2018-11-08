@@ -26,7 +26,7 @@ int main()
     userlib.deleteUserFromDB("user1","01");
     userlib.createUserInDB(u1);
     
-    User user = userlib.retrieveUser("user1","01");
+    User user = userlib.retrieveUserFromDB("user1","01");
     cout << user.getUsername() << "  " << user.getDeviceID() <<
     "  " << user.getHash() << "  " << user.getSalt() << endl <<
     user.getReport() << endl << user.getSyncTime() << "  " <<
