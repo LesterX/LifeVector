@@ -3,7 +3,7 @@
 #include <functional>
 #include <algorithm>
 #include "UserLibrary.h"
-#include "User.h"
+#include "user.h"
 #include "hashfunc.h"
 using namespace std;
 using json = nlohmann::json;

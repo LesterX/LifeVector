@@ -2,7 +2,7 @@
  * cpp file for user class which contains getters and setters
  */
 
-#include "User.h"
+#include "user.h"
 
 using namespace std;
 
