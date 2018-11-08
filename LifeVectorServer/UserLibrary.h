@@ -11,6 +11,7 @@ class UserLibrary{
 public:
 
 	UserLibrary();
+    bool createUserTable();
     bool printAllUsers();
 	bool createUserInDB(User user);
 	bool deleteUserFromDB(User user);

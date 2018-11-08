@@ -19,11 +19,35 @@ using json = nlohmann::json;
  );
  */
 
-
-UserLibrary::UserLibrary(){
+//Building connection to LifeVector database
+UserLibrary :: UserLibrary(){
 	db.initDB("localhost", "root", "623062", "LifeVector"); //Remember to change password
 }
 
+//Create User table (might cause error if the table already exists)
+bool UserLibrary :: createUserTable(){
+    stringstream ss;
+    ss << "CREATE TABLE USER(username CHAR(10) NOT NULL," <<
+    "deviceID CHAR(10) NOT NULL," <<
+    "hash CHAR(128)," <<
+    "salt CHAR(128)," <<
+    "report JSON," <<
+    "syncTime BIGINT," <<
+    "reportTime BIGINT," <<
+    "PRIMARY KEY (username,deviceID));";
+    
+    string sql = ss.str();
+    if (db.exeSQL(sql)) {
+        cout << "User Table created" << endl;
+        return true;
+    }
+    else {
+        cout << "Failed to create Table" << endl;
+        return false;
+    }
+}
+
+//Print all user information from database
 bool UserLibrary :: printAllUsers() {
     string sql = "SELECT * FROM User;";
     cout << sql << endl;
@@ -37,6 +61,7 @@ bool UserLibrary :: printAllUsers() {
     }
 }
 
+//Store the user information into database
 bool UserLibrary :: createUserInDB(User user) {
     string username = user.getUsername();
     string deviceID = user.getDeviceID();
@@ -63,6 +88,7 @@ bool UserLibrary :: createUserInDB(User user) {
 	}
 }
 
+//Delete user information from database
 bool UserLibrary :: deleteUserFromDB(User user) {
 	
 	stringstream ss; 
@@ -80,6 +106,7 @@ bool UserLibrary :: deleteUserFromDB(User user) {
 	}
 }
 
+//Delete user information from database, based on username and deviceID to search
 bool UserLibrary :: deleteUserFromDB(string username, string deviceID) {
     
     stringstream ss;
@@ -97,6 +124,7 @@ bool UserLibrary :: deleteUserFromDB(string username, string deviceID) {
     }
 }
 
+//Get user object from database based on username and deviceID
 User UserLibrary::retrieveUser(std::string username, std::string deviceID) {
     
     stringstream ss;
@@ -122,14 +150,15 @@ User UserLibrary::retrieveUser(std::string username, std::string deviceID) {
     sql = ss.str();
     string salt = db.getSQLResult(sql);
     
-    /* Bug: Don't know how to convert string type to JSON type
     ss.str("");
     ss << "SELECT report FROM User WHERE deviceID = '" << deviceID <<
     "' AND username = '" << username << "';";
     sql = ss.str();
     json report;
-    db.getSQLResult(sql) >> report;
-     */
+    ss.str("");
+    ss << db.getSQLResult(sql);
+    ss >> report;
+     
     
     ss.str("");
     ss << "SELECT syncTime FROM User WHERE deviceID = '" << deviceID <<
@@ -145,6 +174,7 @@ User UserLibrary::retrieveUser(std::string username, std::string deviceID) {
     
     User user(username,deviceID);
     user.setSalt(salt);
+    user.setReport(report);
     user.setSyncTime(syncTime);
     user.setReportTime(reportTime);
     
@@ -155,6 +185,7 @@ bool UserLibrary :: compareUserHash(std::string devID) {
     
 }
 
+//Update user's last synchronization time
 bool UserLibrary :: updateUserSyncTime(User user, int syncTime) {
 
 	stringstream ss;
@@ -174,12 +205,16 @@ bool UserLibrary :: updateUserSyncTime(User user, int syncTime) {
 	}
 }
 
+//Update the user's report content
 bool UserLibrary :: updateReport(User user, json report) {
 	stringstream ss;
-	ss << "UPDATE User SET report = " << report <<
-		" WHERE deviceID = '" << user.getDeviceID() << "'";
-	
+	ss << "UPDATE User SET report = '" << report <<
+    "' WHERE deviceID = '" << user.getDeviceID() <<
+    "' AND username = '" << user.getUsername() << "';";
+    
 	string sql = ss.str();
+    
+    cout << sql << endl << endl;
 
 	if (db.exeSQL(sql)) {
 		cout << "Report updated" << endl;
