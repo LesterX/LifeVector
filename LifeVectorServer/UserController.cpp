@@ -1,4 +1,3 @@
-
 #include "UserController.h"
 
 using namespace std;
@@ -6,7 +5,8 @@ using namespace std;
 // Constructor
 UserController::UserController(std::string dbUsername, std::string dbPassword)
 {
-	userlibrary = UserLibrary(dbUsername, dbPassword);
+	UserLibrary newLib = UserLibrary(dbUsername, dbPassword);
+	userLibrary = newLib;
 }
 
 /* User Functions */
@@ -30,7 +30,7 @@ bool UserController::createUser(string username, string devID, string password)
 	User newUser = User(username, devID, hash, salt);
 
 	// save user to DB
-	return userLibrary.createUserInDB();
+	return userLibrary.createUserInDB(newUser);
 }
 
 User UserController::retrieveUser(std::string username, std::string devID)
@@ -47,21 +47,16 @@ bool UserController::deleteUser(std::string username, std::string devID)
 bool UserController::updateReport(string username, string deviceID, json newReport)
 {
 	User target = retrieveUser(username, deviceID);
-	if (target == NULL)
-	{
-		return false;
-	}
+
 	return userLibrary.updateReport(target, newReport);
 }
 
 json UserController::fetchReport(string username, string deviceID)
 {
 	User target = retrieveUser(username, deviceID);
-	if (target == NULL)
-		return false;
-
+	
 	json dbReport = target.getReport();
-	if(dbReport ==NULL)
+	if(dbReport.empty())
 	{
 		cout << "Error: No reports stored in Database" << endl;
 	}
@@ -74,12 +69,6 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 {
 	// fetch user from DB
 	User target = retrieveUser(username, deviceID);
-
-	// user not in DB
-	if (target == NULL)
-	{
-		return false;
-	}
 
 	// store hash from DB
 	string dbHash = target.getHash();
@@ -100,7 +89,7 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 		 << inputHash << endl;
 
 	// Compare and return result
-	if (hash.compare(inputHash) == 0)
+	if (dbHash.compare(inputHash) == 0)
 		return true;
 	else
 		return false;

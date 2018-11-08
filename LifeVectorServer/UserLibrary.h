@@ -31,7 +31,7 @@ class UserLibrary
 
 	// Helpers
 	bool isRegistered(std::string username, std::string deviceID);
-	
+
 	// Printer
 	bool printAllUsers();
 

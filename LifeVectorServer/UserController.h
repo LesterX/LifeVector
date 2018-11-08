@@ -19,27 +19,27 @@ using json = nlohmann::json;
 
 class UserController
 {
-      public:
-        // Constructors
-        UserController(std::string dbUsername, std::string dbPassword);
+public:
+  // Constructors
+  UserController(std::string dbUsername, std::string dbPassword);
 
-        // Destructor
-        ~UserController();
+  // Destructor
+  ~UserController();
 
-        // User Controls
-        bool createUser(std::string username, std::string devID, std::string password);
-        User retrieveUser(std::string username, std::string devID);
-        bool deleteUser(std::string username, std::string devID);
+  // User Controls
+  bool createUser(std::string username, std::string devID, std::string password);
+  User retrieveUser(std::string username, std::string devID);
+  bool deleteUser(std::string username, std::string devID);
 
-        // Update User Information
-        bool updateReport(string username, string deviceID, json newReport);
-        json fetchReport(string username, string deviceID);
+  // Update User Information
+  bool updateReport(string username, string deviceID, json newReport);
+  json fetchReport(string username, string deviceID);
 
-      private:
-        UserLibrary userLibrary;
+private:
+  UserLibrary userLibrary;
 
-        // Comparator
-	bool compareUserHash(std::string username, std::string devID, std::string password);
+  // Comparator
+  bool compareUserHash(std::string username, std::string devID, std::string password);
 };
 
 #endif

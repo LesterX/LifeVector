@@ -25,6 +25,7 @@ using json = nlohmann::json;
 //Building connection to LifeVector database
 UserLibrary::UserLibrary(std::string userName, std::string password)
 {
+    db = Database();
     db.initDB("localhost", userName, password, "LifeVector");
 }
 
@@ -152,7 +153,9 @@ User UserLibrary::retrieveUserFromDB(std::string username, std::string deviceID)
         return user;
     }
     else
+    {
         exit(0);
+    }
 }
 
 //Update user's last synchronization time

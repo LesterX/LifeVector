@@ -12,7 +12,7 @@ int main(){
         {"key1_2","value1_2"}
     };
     
-	UserController uc("root","623062");
+	UserController uc("pi","pw123");
 
 	if(uc.createUser(username, devID, password)){
 		printf("User %s created", username);

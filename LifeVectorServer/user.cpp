@@ -39,7 +39,7 @@ User::User(string username, string deviceID)
     self_deviceID = deviceID;
     self_hash = "";
     self_salt = "";
-    self_report = NULL;
+    self_report = "";
     self_syncTime = 0;
     self_reportTime = 0;
 }
