@@ -19,7 +19,7 @@ class DataDepositor
 {
   private:
     Database *db_link;
-    std::string concatQuery(long timestamp, double latitude, double longitude, std::string device);
+    std::string concatRawQuery(long timestamp, double latitude, double longitude, std::string device);
 
   public:
     DataDepositor(Database *db_pointer);

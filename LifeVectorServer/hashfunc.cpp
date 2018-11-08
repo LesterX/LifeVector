@@ -3,6 +3,7 @@
  */
 
 #include <cstdlib>
+#include <algorithm>
 #include "hashfunc.h"
 #include "md5.h"
 
@@ -33,13 +34,17 @@ struct MyHash
 };
 */
 
-void hashfunc :: hashUser(string str){
+void hashfunc :: hashString(string str){
     //store username
     password = str;
 
     salt = to_string(rand() % 1000000 + 1);
 
     string salt_plus_string = str + salt;
+    salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), ' '),
+               salt_plus_string.end());
+    salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), '\n'),
+                           salt_plus_string.end());
     //hash name and salt value together
     hash = md5(salt_plus_string);
 
@@ -51,6 +56,10 @@ string hashfunc :: getHash(string password, string in_salt){
     string ret_hash;
 
     string salt_plus_string = password + in_salt;
+    salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), ' '),
+                           salt_plus_string.end());
+    salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), '\n'),
+                           salt_plus_string.end());
 
     ret_hash = md5(salt_plus_string);
 

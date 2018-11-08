@@ -13,7 +13,7 @@ int main(){
 
     hashfunc a ;
 
-    a.hashUser(str);
+    a.hashString(str);
 
     string salt = a.getSalt();
     string hash = a.getHash();

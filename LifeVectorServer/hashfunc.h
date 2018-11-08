@@ -17,7 +17,9 @@ class hashfunc  {
  
 	public:
 		
-		void hashUser(std::string password);
+
+		void hashString(std::string str);
+
         std::string getSalt();
         std::string getHash();
 		//need to implement
