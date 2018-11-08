@@ -56,190 +56,175 @@ bool UserLibrary::createUserInDB(User user)
     int syncTime = user.getSyncTime();
     int reportTime = user.getReportTime();
 
-    stringstream ss;
-    ss << "INSERT INTO User VALUES ('"
-       << username << "','"
-       << deviceID << "','"
-       << hash << "','"
-       << salt << "','"
-       << report << "',"
-       << syncTime << ","
-       << reportTime << ");";
-    string sql = ss.str();
-
-    if (db.exeSQL(sql))
+    if (!isRegistered(username, deviceID))
     {
-        cout << "User created" << endl;
-        return true;
+        stringstream ss;
+        ss << "INSERT INTO User VALUES ('"
+           << username << "','"
+           << deviceID << "','"
+           << hash << "','"
+           << salt << "','"
+           << report << "',"
+           << syncTime << ","
+           << reportTime << ");";
+        string sql = ss.str();
+
+        if (db.exeSQL(sql))
+        {
+            cout << "User created" << endl;
+            return true;
+        }
+        else
+        {
+            cout << "Error: Failed to create user" << endl;
+            return false;
+        }
     }
     else
-    {
-        cout << "Failed to create user" << endl;
         return false;
-    }
-}
-
-//Delete user information from database
-bool UserLibrary::deleteUserFromDB(User user)
-{
-    stringstream ss;
-    ss << "DELETE FROM User WHERE deviceID = '" << user.getDeviceID()
-       << "' AND username = '" << user.getUsername() << "';";
-    string sql = ss.str();
-
-    if (db.exeSQL(sql))
-    {
-        cout << "User deleted" << endl;
-        return true;
-    }
-    else
-    {
-        cout << "Failed to delete user" << endl;
-        return false;
-    }
 }
 
 //Delete user information from database, based on username and deviceID to search
 bool UserLibrary::deleteUserFromDB(string username, string deviceID)
 {
-    stringstream ss;
-    ss << "DELETE FROM User WHERE deviceID = '" << deviceID
-       << "' AND username = '" << username << "';";
-
-    string sql = ss.str();
-    if (db.exeSQL(sql))
+    if (isRegistered(username, deviceID))
     {
-        cout << "User deleted" << endl;
-        return true;
+        stringstream ss;
+        ss << "DELETE FROM User WHERE deviceID = '" << deviceID
+           << "' AND username = '" << username << "';";
+
+        string sql = ss.str();
+        if (db.exeSQL(sql))
+        {
+            cout << "User deleted" << endl;
+            return true;
+        }
+        else
+        {
+            cout << "Error: Failed to delete user for Database" << endl;
+            return false;
+        }
     }
     else
-    {
-        cout << "Failed to delete user" << endl;
         return false;
-    }
 }
 
 //Get user object from database based on username and deviceID
 User UserLibrary::retrieveUser(std::string username, std::string deviceID)
 {
-    stringstream ss;
-    ss << "SELECT * FROM User WHERE deviceID = '" << deviceID
-       << "' AND username = '" << username << "';";
-    string sql = ss.str();
-
-    string result = db.getSQLResult(sql);
-
-    //Check if user exists
-    if (result.length() < 3)
+    if (isRegistered(username, deviceID))
     {
-        cout << "Cannot find user" << endl;
+        // retrieve salt
+        ss.str("");
+        ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID
+           << "' AND username = '" << username << "';";
+        sql = ss.str();
+        string salt = db.getSQLResult(sql);
+
+        // retrieve report
+        ss.str("");
+        ss << "SELECT report FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
+        sql = ss.str();
+        json report;
+        ss.str("");
+        ss << db.getSQLResult(sql);
+        ss >> report;
+
+        // retireve last sync time
+        ss.str("");
+        ss << "SELECT syncTime FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
+        sql = ss.str();
+        long syncTime = atol(db.getSQLResult(sql).c_str());
+
+        // retrieve last report generation time
+        ss.str("");
+        ss << "SELECT reportTime FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
+        sql = ss.str();
+        long reportTime = atol(db.getSQLResult(sql).c_str());
+
+        // insert retrieved information into User object
+        User user(username, deviceID);
+        user.setSalt(salt);
+        user.setReport(report);
+        user.setSyncTime(syncTime);
+        user.setReportTime(reportTime);
+
+        return user;
     }
-    else
-    {
-        cout << result << endl;
-    }
-
-    // retrieve salt
-    ss.str("");
-    ss << "SELECT salt FROM User WHERE deviceID = '" << deviceID
-       << "' AND username = '" << username << "';";
-    sql = ss.str();
-    string salt = db.getSQLResult(sql);
-
-    // retrieve report
-    ss.str("");
-    ss << "SELECT report FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    sql = ss.str();
-    json report;
-    ss.str("");
-    ss << db.getSQLResult(sql);
-    ss >> report;
-
-    // retireve last sync time
-    ss.str("");
-    ss << "SELECT syncTime FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    sql = ss.str();
-    long syncTime = atol(db.getSQLResult(sql).c_str());
-
-    // retrieve last report generation time
-    ss.str("");
-    ss << "SELECT reportTime FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
-    sql = ss.str();
-    long reportTime = atol(db.getSQLResult(sql).c_str());
-
-    // insert retrieved information into User object
-    User user(username, deviceID);
-    user.setSalt(salt);
-    user.setReport(report);
-    user.setSyncTime(syncTime);
-    user.setReportTime(reportTime);
-
-    return user;
 }
 
 //Update user's last synchronization time
 bool UserLibrary::updateUserSyncTime(User user, int syncTime)
 {
-    stringstream ss;
-    ss << "UPDATE User SET syncTime = " << syncTime
-       << " WHERE deviceID = '" << user.getDeviceID()
-       << "' AND username = '" + user.getUsername() + "';";
-
-    string sql = ss.str();
-
-    if (db.exeSQL(sql))
+    if (isRegistered(user.getUsername(), user.getDeviceID()))
     {
-        cout << "SyncTime updated" << endl;
-        return true;
+        stringstream ss;
+        ss << "UPDATE User SET syncTime = " << syncTime
+           << " WHERE deviceID = '" << user.getDeviceID()
+           << "' AND username = '" + user.getUsername() + "';";
+
+        string sql = ss.str();
+
+        if (db.exeSQL(sql))
+        {
+            cout << "SyncTime updated" << endl;
+            return true;
+        }
+        else
+        {
+            cout << "Error: Failed to update syncTime" << endl;
+            return false;
+        }
     }
     else
-    {
-        cout << "Failed to update syncTime" << endl;
         return false;
-    }
 }
 
 //Update the user's report content
 bool UserLibrary::updateReport(User user, json report)
 {
-    stringstream ss;
-    ss << "UPDATE User SET report = '" << report
-       << "' WHERE deviceID = '" << user.getDeviceID()
-       << "' AND username = '" << user.getUsername() << "';";
-
-    string sql = ss.str();
-
-    if (db.exeSQL(sql))
+    if (isRegistered(user.getUsername(), user.getDeviceID()))
     {
-        cout << "Report updated" << endl;
-        return true;
+        stringstream ss;
+        ss << "UPDATE User SET report = '" << report
+           << "' WHERE deviceID = '" << user.getDeviceID()
+           << "' AND username = '" << user.getUsername() << "';";
+
+        string sql = ss.str();
+
+        if (db.exeSQL(sql))
+        {
+            cout << "Report updated" << endl;
+            return true;
+        }
+        else
+        {
+            cout << "Failed to update report" << endl;
+            return false;
+        }
     }
     else
-    {
-        cout << "Failed to update report" << endl;
         return false;
-    }
 }
 
 bool UserLibrary::uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet)
 {
     DataDepositor uploader = DataDepositor(&db);
 
-    if(!isPresent(deviceID))
+    if (!isPresent(deviceID))
     {
         cout << "User/Device not present in Database, please register device!" << endl;
         return false;
     }
 
     return uploader.depositRaw(deviceID, rawDataSet);
-    
 }
 
 bool UserLibrary::isPresent(std::string deviceID)
 {
     stringstream ss;
     ss << "SELECT username FROM User WHERE deviceID = '" << deviceID << "';";
-    
+
     string sql = ss.str();
     string result = db.getSQLResult(sql);
 
@@ -252,6 +237,28 @@ bool UserLibrary::isPresent(std::string deviceID)
     else
     {
         // cout << result << endl;
+        return true;
+    }
+}
+
+bool UserLibrary::isRegistered(std::string username, std::string deviceID)
+{
+    stringstream ss;
+    ss << "SELECT * FROM User WHERE deviceID = '" << deviceID
+       << "' AND username = '" << username << "';";
+    string sql = ss.str();
+
+    string result = db.getSQLResult(sql);
+
+    //Check if user exists
+    if (result.length() < 3)
+    {
+        cout << "User and Device queried not in Database" << endl;
+        return false;
+    }
+    else
+    {
+        cout << "User found in Database" << endl;
         return true;
     }
 }
