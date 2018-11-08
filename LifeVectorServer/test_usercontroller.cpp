@@ -17,6 +17,12 @@ int main(){
 		printf("Unable to create user %s", username);
 	}
 
+    if(uc.deleteUser(username, devID, password)){
+        printf("User %s deleted", username);
+    }
+    else{
+        printf("Unable to delete user %s", username);
+    }
 
 	return 0;
 }
