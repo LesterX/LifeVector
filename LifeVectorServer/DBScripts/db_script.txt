@@ -13,9 +13,11 @@ CREATE TABLE IF NOT EXISTS User(
     PRIMARY KEY (username, deviceID)
 );
 
+DROP TABLE GPSUnprocessed;
+
 CREATE TABLE IF NOT EXISTS GPSUnprocessed(
-    timeStamp INT UNSIGNED NOT NULL PRIMARY KEY,
-    latitude DECIMAL(8,6) NOT NULL,
-    longitude DECIMAL(9,6) NOT NULL,
-    devID VARCHAR(10) NOT NULL
+  timeStamp INT UNSIGNED NOT NULL PRIMARY KEY,
+  latitude DECIMAL(8, 6) NOT NULL,
+  longitude DECIMAL(9, 6) NOT NULL,
+  devID VARCHAR(10) NOT NULL
 );
