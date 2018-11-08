@@ -37,11 +37,13 @@ class UserLibrary
 	bool updateReport(User user, nlohmann::json report);
 	bool uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet);
 
+	// Helpers
+	bool isPresent(std::string deviceID);
+
   private:
 	Database db;
 
-	// Helpers
-	bool isPresent(std::string deviceID);
+	
 };
 
 #endif
