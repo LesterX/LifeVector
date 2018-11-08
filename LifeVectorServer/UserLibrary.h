@@ -17,7 +17,6 @@ class UserLibrary
 
 	// Creater
 	bool createUserInDB(User user);
-	bool createUserInDB(std::string username, std::string devID, std::string password, nlohmann::json report, int syncTime, int reportTime);
 
 	bool printAllUsers();
 

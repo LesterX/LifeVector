@@ -11,8 +11,6 @@
 #include <stdlib.h> 
 #include <linux/random.h>
 
-#include "CkCrypt2.h"
-
 class hashfunc  {
  
 	public:
