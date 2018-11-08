@@ -60,15 +60,9 @@ size_t hashfunc :: getHash(string password, string in_salt){
 
     size_t ret_hash;
 
-    
-
-    
     string salt_plus_string = password + in_salt;
 
     ret_hash = std::hash<std::string>{}(salt_plus_string );
-
-
-
 
     return ret_hash;
 }
