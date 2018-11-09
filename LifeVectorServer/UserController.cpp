@@ -114,3 +114,12 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 	else
 		return false;
 }
+
+bool SaveRawGPStoDB(std::string deviceID, RawDataRepository rawDataSet){
+	if(userLibrary.uploadRawGPSData(deviceID, rawDataSet))
+	{
+		cout << "Raw GPS data successfully saved to Database" << endl;
+		return true;
+	}
+	else return false;
+}
