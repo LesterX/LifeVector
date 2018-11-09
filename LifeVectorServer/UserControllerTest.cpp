@@ -12,29 +12,30 @@ int main(){
         {"key1_2","value1_2"}
     };
     
-	UserController uc("pi","pw123");
+	UserController uc("root","623062");
 
 	if(uc.createUser(username, devID, password)){
-		printf("User %s created", username);
+        cout << "User " << username << "created";
 	}
 	else{
-		printf("Unable to create user %s", username);
+        cout << "Unable to create user" << username << endl;
 	}
 
     if(uc.deleteUser(username, devID)){
-        printf("User %s deleted", username);
+        cout << "User " << username << " deleted" << endl;
     }
     else{
-        printf("Unable to delete user %s", username);
+        cout << "Unable to delete user " << username << endl;
     }
     
     if (uc.updateReport(username,devID,report)){
         cout << "Report updated for " << username << endl;
     }
     
-    nlohmann::json reportFromDB = uc.fetchReport(username,devID);
-    if (reportFromDB != NULL){
-        cout << reportFromDB << endl;
+    nlohmann::json *reportFromDB;
+    ;
+    if (uc.fetchReport(reportFromDB,username,devID)){
+        cout << "Report: " << endl << *reportFromDB << endl;
     }
     
     

@@ -53,7 +53,7 @@ bool UserController::updateReport(string username, string deviceID, json newRepo
 	User *target;
 	if (retrieveUser(target, username, deviceID))
 	{
-		return userLibrary.updateReport(target, newReport);
+		return userLibrary.updateReport(*target, newReport);
 	}
 	else
 		return false;
@@ -68,7 +68,7 @@ bool UserController::fetchReport(json *dbReport, string username, string deviceI
 		*dbReport = (*target).getReport();
 
 		// Check if report is empty
-		if (dbReport.empty())
+		if (dbReport->empty())
 		{
 			cout << "Error: No reports stored in Database" << endl;
 			return false;
@@ -87,11 +87,11 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 	if (retrieveUser(target, username, deviceID))
 	{
 		// store hash from DB
-		string dbHash = target.getHash();
+		string dbHash = target->getHash();
 
 		// initialize hash function for password parameter
 		hashfunc hf;
-		string inputHash = hf.getHash(password, target.getSalt());
+		string inputHash = hf.getHash(password, target->getSalt());
 
 		// Remove the ******* white space and \n from hash strings
 		dbHash.erase(std::remove(dbHash.begin(), dbHash.end(), ' '), dbHash.end());
