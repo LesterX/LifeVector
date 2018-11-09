@@ -86,6 +86,7 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 	User *target;
 	if (retrieveUser(target, username, deviceID))
 	{
+        cout << "aaa" << endl;
 		// store hash from DB
 		string dbHash = target->getHash();
 

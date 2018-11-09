@@ -38,6 +38,10 @@ int main(){
         cout << "Report: " << endl << *reportFromDB << endl;
     }
     
+    if (uc.compareUserHash(username,devID,password)){
+        cout << "Hash matched" << endl;
+    }else
+        cout << "Hash not matched" << endl;
     
 
 	return 0;

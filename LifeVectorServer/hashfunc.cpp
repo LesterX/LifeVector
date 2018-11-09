@@ -45,6 +45,7 @@ void hashfunc :: hashString(string str){
                salt_plus_string.end());
     salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), '\n'),
                            salt_plus_string.end());
+    cout << salt_plus_string << endl;
     //hash name and salt value together
     hash = md5(salt_plus_string);
 
@@ -61,6 +62,7 @@ string hashfunc :: getHash(string password, string in_salt){
     salt_plus_string.erase(std::remove(salt_plus_string.begin(), salt_plus_string.end(), '\n'),
                            salt_plus_string.end());
 
+    cout << salt_plus_string << endl;
     ret_hash = md5(salt_plus_string);
 
     return ret_hash;

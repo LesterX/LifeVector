@@ -34,12 +34,11 @@ public:
   // Update User Information
   bool updateReport(string username, string deviceID, json newReport);
   bool fetchReport(json* dbReport, string username, string deviceID);
+    // Comparator
+  bool compareUserHash(std::string username, std::string devID, std::string password);
 
 private:
   UserLibrary userLibrary;
-
-  // Comparator
-  bool compareUserHash(std::string username, std::string devID, std::string password);
 };
 
 #endif
