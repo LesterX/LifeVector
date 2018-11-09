@@ -15,5 +15,17 @@
 5. 	in the console run the Makefile as follows:
 	"make test"
 	
-	this will run the program for basic user controller functionality
+	this will run the program to show the basic user controller functionality:
+	- create a user and save to database
+	- delete a user from database
+	- receive credentials of user in database
+	- update/insert json report into user database
+	- save parsed GPS json data to database
+	- show warning messages in case of querying non-existant users 
+
+
+
+
+
+
 
