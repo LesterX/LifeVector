@@ -35,7 +35,7 @@ public:
   // Update User Information
   bool updateReport(string username, string deviceID, json newReport);
   bool fetchReport(json* dbReport, string username, string deviceID);
-  bool SaveRawGPStoDB(std::string deviceID, RawDataRepository rawDataSet);
+  bool saveRawGPStoDB(std::string deviceID, RawDataRepository rawDataSet);
 
 
   // Comparator
