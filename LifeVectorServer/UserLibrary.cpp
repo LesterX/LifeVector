@@ -141,11 +141,21 @@ bool UserLibrary::retrieveUserFromDB(User *user, std::string username, std::stri
         ss << "SELECT reportTime FROM User WHERE deviceID = '" << deviceID << "' AND username = '" << username << "';";
         sql = ss.str();
         long reportTime = atol(db.getSQLResult(sql).c_str());
+        
+        // retrieve hash
+        ss.str("");
+        ss << "SELECT hash FROM User WHERE deviceID = '" << deviceID
+        << "' AND username = '" << username << "';";
+        sql = ss.str();
+        string hash = db.getSQLResult(sql);
+
+        
 
         // insert retrieved information into User object
         (*user).setUsername(username);
         (*user).setDeviceID(deviceID);
         (*user).setSalt(salt);
+        (*user).setHash(hash);
         (*user).setReport(report);
         (*user).setSyncTime(syncTime);
         (*user).setReportTime(reportTime);
