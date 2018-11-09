@@ -11,23 +11,20 @@ int main(){
         {"key1_1","value1_1"},
         {"key1_2","value1_2"}
     };
-    
+	
+	cout << "Attempting to Connect to Database" << endl;    
 	UserController uc("server","LifeVector123");
+	cout << "Connected to Database" << endl;
 
+	cout << "Creating New User: John Smith" << endl;
 	if(uc.createUser(username, devID, password)){
         cout << "User " << username << "created";
 	}
 	else{
         cout << "Unable to create user" << username << endl;
 	}
-    /*
-    if(uc.deleteUser(username, devID)){
-        cout << "User " << username << " deleted" << endl;
-    }
-    else{
-        cout << "Unable to delete user " << username << endl;
-    }
-    */
+    
+cout << "Updating json report structure in database" << endl;
     if (uc.updateReport(username,devID,report)){
         cout << "Report updated for " << username << endl;
     }
@@ -38,14 +35,21 @@ int main(){
         cout << "Report: " << endl << *reportFromDB << endl;
     }
     
+
+cout << "Testing hash function and hash reproducibility" << endl;
     if (uc.compareUserHash(username,devID,password)){
         cout << "Hash matched" << endl;
     }else
         cout << "Hash not matched" << endl;
     
     // test raw data uploader
+
+cout << "Save sample gps data file from file to database" << endl
+<< "File: ./SampleFiles/sample_coordinates.json:" << endl;
     RawDataRepository sampledata("./SampleFiles/sample_coordinates.json", "gps_coordinates_dump");
-    if(uc.saveRawGPStoDB("Nexus5", sampledata))
+sampledata.dumpData();
+    
+	if(uc.saveRawGPStoDB("Nexus5", sampledata))
     {
         cout << "Sample Tracking data from sample_coordinates.json from Nexus5 saved to database"<<endl;
     }
@@ -54,5 +58,13 @@ int main(){
         cout << "GPS Save Failed." << endl;
     }
 
-	return 0;
+cout << "Delete User" << endl;
+if(uc.deleteUser(username, devID)){
+        printf("User deleted\n");
+    }
+    else{
+        printf("Unable to delete user\n");
+    }
+
+return 0;
 }
