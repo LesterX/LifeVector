@@ -13,6 +13,7 @@
 #include "UserLibrary.h"
 #include "user.h"
 #include "hashfunc.h"
+#include "RawDataRepository.h"
 
 #include "json.hpp"
 using json = nlohmann::json;
@@ -34,7 +35,10 @@ public:
   // Update User Information
   bool updateReport(string username, string deviceID, json newReport);
   bool fetchReport(json* dbReport, string username, string deviceID);
-    // Comparator
+  bool saveRawGPStoDB(std::string deviceID, RawDataRepository rawDataSet);
+
+
+  // Comparator
   bool compareUserHash(std::string username, std::string devID, std::string password);
 
 private:
