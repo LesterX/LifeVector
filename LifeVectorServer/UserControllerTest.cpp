@@ -43,6 +43,16 @@ int main(){
     }else
         cout << "Hash not matched" << endl;
     
+    // test raw data uploader
+    RawDataRepository sampledata("./SampleFiles/sample_coordinates.json", "gps_coordinates_dump");
+    if(uc.saveRawGPStoDB("Nexus5", sampledata))
+    {
+        cout << "Sample Tracking data from sample_coordinates.json from Nexus5 saved to database"<<endl;
+    }
+    else 
+    {
+        cout << "GPS Save Failed." << endl;
+    }
 
 	return 0;
 }
