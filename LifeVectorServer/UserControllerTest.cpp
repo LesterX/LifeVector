@@ -12,7 +12,7 @@ int main(){
         {"key1_2","value1_2"}
     };
     
-	UserController uc("root","623062");
+	UserController uc("root","pw123");
 
 	if(uc.createUser(username, devID, password)){
         cout << "User " << username << "created";
