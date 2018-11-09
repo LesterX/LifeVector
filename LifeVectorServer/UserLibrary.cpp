@@ -149,7 +149,7 @@ bool UserLibrary::retrieveUserFromDB(User *user, std::string username, std::stri
         (*user).setReport(report);
         (*user).setSyncTime(syncTime);
         (*user).setReportTime(reportTime);
-
+        
         return true;
     }
     else

@@ -50,7 +50,7 @@ bool UserController::deleteUser(std::string username, std::string devID)
 /* User Information Editors */
 bool UserController::updateReport(string username, string deviceID, json newReport)
 {
-	User *target;
+	User *target = new User(username,deviceID);
 	if (retrieveUser(target, username, deviceID))
 	{
 		return userLibrary.updateReport(*target, newReport);
@@ -61,12 +61,13 @@ bool UserController::updateReport(string username, string deviceID, json newRepo
 
 bool UserController::fetchReport(json *dbReport, string username, string deviceID)
 {
-	User *target;
+	User *target = new User(username,deviceID);
 
 	if (retrieveUser(target, username, deviceID))
 	{
 		*dbReport = (*target).getReport();
 
+        cout << "haahaha" << endl;
 		// Check if report is empty
 		if (dbReport->empty())
 		{
@@ -83,7 +84,7 @@ bool UserController::fetchReport(json *dbReport, string username, string deviceI
 //Get the hash value user's input password and stored salt, and compare it with the stored hash, return true if matches
 bool UserController::compareUserHash(std::string username, std::string deviceID, std::string password)
 {
-	User *target;
+	User *target = new User(username,deviceID);
 	if (retrieveUser(target, username, deviceID))
 	{
         cout << "aaa" << endl;

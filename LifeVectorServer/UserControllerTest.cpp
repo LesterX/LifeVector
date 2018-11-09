@@ -20,19 +20,19 @@ int main(){
 	else{
         cout << "Unable to create user" << username << endl;
 	}
-
+    /*
     if(uc.deleteUser(username, devID)){
         cout << "User " << username << " deleted" << endl;
     }
     else{
         cout << "Unable to delete user " << username << endl;
     }
-    
+    */
     if (uc.updateReport(username,devID,report)){
         cout << "Report updated for " << username << endl;
     }
     
-    nlohmann::json *reportFromDB;
+    nlohmann::json *reportFromDB = new json();
     ;
     if (uc.fetchReport(reportFromDB,username,devID)){
         cout << "Report: " << endl << *reportFromDB << endl;
