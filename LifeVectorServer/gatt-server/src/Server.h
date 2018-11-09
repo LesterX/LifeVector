@@ -43,6 +43,9 @@
 
 #include "../include/Gobbledegook.h"
 #include "DBusObject.h"
+#include "../../UserController.h"
+#include "../../RawDataRepository.h"
+
 
 namespace ggk {
 

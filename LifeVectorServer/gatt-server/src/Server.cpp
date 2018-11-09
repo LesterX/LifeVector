@@ -238,7 +238,7 @@ namespace ggk {
         // Register getter & setter for server data
         dataGetter = getter;
         dataSetter = setter;
-
+	UserController uc("server", "LifeVector123");
         // Adapter configuration flags - set these flags based on how you want the adapter configured
         enableBREDR = false;
         enableSecureConnection = false;
@@ -246,6 +246,7 @@ namespace ggk {
         enableAdvertising = true;
         enableBondable = false;
 
+	UserController uc("server", "LifeVector123");
         //
         // Define the server
         //
@@ -447,8 +448,10 @@ namespace ggk {
                                       {
                                               // Update the text string value
                                               GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
-                                              self.setDataPointer("text/string", Utils::stringFromGVariantByteArray(pAyBuffer).c_str());
-
+					      
+					      std::string ss = str(Utils::stringFromGVariantByteArray(pAyBuffer).c_str());
+					      uc.createUser(ss.substr(0, ss.find(",")), "1111231", ss.substr(1, ss.find(","))); 
+					      
                                               // Since all of these methods (onReadValue, onWriteValue, onUpdateValue) are all part of the same
                                               // Characteristic interface (which just so happens to be the same interface passed into our self
                                               // parameter) we can that parameter to call our own onUpdatedValue method
@@ -460,7 +463,7 @@ namespace ggk {
                         // We can handle updates in any way we wish, but the most common use is to send a change notification.
                 .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
                                         {
-                                                const char *pTextString = self.getDataPointer<const char *>("text/string", "11111");
+                                                const char *pTextString = self.getDataPointer<const char *>("text/string", "Logged in Successfully");
                                                 self.sendChangeNotificationValue(pConnection, pTextString);
                                                 return true;
                                         })
