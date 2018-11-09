@@ -22,7 +22,7 @@ export default class lifeVectorMobile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <BLEPage/>
+        <LoginPage/>
       </View>
     );
   }
