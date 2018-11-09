@@ -1,8 +1,8 @@
 CREATE USER IF NOT EXISTS 'server'@'localhost';
 
-SET PASSWORD FOR 'server'@'localhost' = 'LifeVector123';
+SET PASSWORD FOR 'server'@'localhost' = PASSWORD('LifeVector123');
 
-FLUSHES PRIVILEGES;
+FLUSH PRIVILEGES;
 
 GRANT ALL PRIVILEGES ON * . * TO 'server'@'localhost';
 
