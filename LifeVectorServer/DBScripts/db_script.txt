@@ -1,3 +1,11 @@
+CREATE USER IF NOT EXISTS 'server'@'localhost';
+
+SET PASSWORD FOR 'server'@'localhost' = 'LifeVector123';
+
+FLUSHES PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON * . * TO 'server'@'localhost';
+
 CREATE DATABASE IF NOT EXISTS LifeVector;
 
 USE LifeVector;
@@ -12,8 +20,6 @@ CREATE TABLE IF NOT EXISTS User(
     reportTime INT UNSIGNED,
     PRIMARY KEY (username, deviceID)
 );
-
-DROP TABLE IF EXISTS GPSUnprocessed;
 
 CREATE TABLE IF NOT EXISTS GPSUnprocessed(
   timeStamp INT UNSIGNED NOT NULL PRIMARY KEY,
