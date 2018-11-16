@@ -109,7 +109,18 @@ am__v_AR_1 =
 libggk_a_AR = $(AR) $(ARFLAGS)
 libggk_a_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_libggk_a_OBJECTS = ../../libggk_a-UserController.$(OBJEXT) \
+am_libggk_a_OBJECTS = ../../libggk_a-Database.$(OBJEXT) \
+	../../libggk_a-DataDepositor.$(OBJEXT) \
+	../../libggk_a-GPSPoint.$(OBJEXT) \
+	../../libggk_a-hashfunc.$(OBJEXT) \
+	../../libggk_a-main.$(OBJEXT) ../../libggk_a-md5.$(OBJEXT) \
+	../../libggk_a-RawDataRepository.$(OBJEXT) \
+	../../libggk_a-SystemTimeManager.$(OBJEXT) \
+	../../libggk_a-test_hash.$(OBJEXT) \
+	../../libggk_a-UserController.$(OBJEXT) \
+	../../libggk_a-user.$(OBJEXT) \
+	../../libggk_a-UserLibrary.$(OBJEXT) \
+	../../libggk_a-VisitTime.$(OBJEXT) \
 	libggk_a-DBusInterface.$(OBJEXT) libggk_a-DBusMethod.$(OBJEXT) \
 	libggk_a-DBusObject.$(OBJEXT) \
 	libggk_a-GattCharacteristic.$(OBJEXT) \
@@ -301,9 +312,32 @@ top_srcdir = @top_srcdir@
 
 # Build a static library (libggk.a)
 noinst_LIBRARIES = libggk.a
-libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++11 $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
-libggk_a_SOURCES = ../../UserController.cpp \
-		   ../../UserController.h \
+libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 `mysql_config --cflags --libs`  $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
+libggk_a_SOURCES = ../../Database.cpp \
+		   ../../Database.h \
+		   ../../DataDepositor.cpp \
+	           ../../DataDepositor.h \
+                   ../../GPSPoint.cpp \
+                   ../../GPSPoint.h \
+                   ../../hashfunc.cpp \
+                   ../../hashfunc.h \
+                   ../../json.hpp \
+                   ../../main.cpp \
+                   ../../md5.cpp \
+                   ../../md5.h \
+                   ../../RawDataRepository.cpp \
+                   ../../RawDataRepository.h \
+                   ../../SystemTimeManager.cpp \
+                   ../../SystemTimeManager.h \
+                   ../../test_hash.cpp \
+                   ../../UserController.cpp \
+                   ../../UserController.h \
+                   ../../user.cpp \
+                   ../../user.h \
+                   ../../UserLibrary.cpp \
+                   ../../UserLibrary.h \
+                   ../../VisitTime.cpp \
+                   ../../VisitTime.h \
 		   DBusInterface.cpp \
                    DBusInterface.h \
                    DBusMethod.cpp \
@@ -345,7 +379,7 @@ libggk_a_SOURCES = ../../UserController.cpp \
                    Utils.h
 
 # Build our standalone server (linking statically with libggk.a, linking dynamically with GLib)
-standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++11
+standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -L/usr/include/mysql -lmysqlclient 
 standalone_SOURCES = standalone.cpp
 standalone_LDADD = libggk.a
 standalone_LDLIBS = $(GLIB_LIBS) $(GIO_LIBS) $(GOBJECT_LIBS)
@@ -391,7 +425,31 @@ clean-noinstLIBRARIES:
 ../../$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ../../$(DEPDIR)
 	@: > ../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-Database.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-DataDepositor.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-GPSPoint.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-hashfunc.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-main.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-md5.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-RawDataRepository.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-SystemTimeManager.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-test_hash.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
 ../../libggk_a-UserController.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-user.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-UserLibrary.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-VisitTime.$(OBJEXT): ../../$(am__dirstamp) \
 	../../$(DEPDIR)/$(am__dirstamp)
 
 libggk.a: $(libggk_a_OBJECTS) $(libggk_a_DEPENDENCIES) $(EXTRA_libggk_a_DEPENDENCIES) 
@@ -413,7 +471,19 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-DataDepositor.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-Database.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-GPSPoint.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-RawDataRepository.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-SystemTimeManager.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-UserController.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-UserLibrary.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-VisitTime.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-hashfunc.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-md5.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-test_hash.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-user.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusInterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusMethod.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusObject.Po@am__quote@
@@ -450,6 +520,132 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
+../../libggk_a-Database.o: ../../Database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-Database.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-Database.Tpo -c -o ../../libggk_a-Database.o `test -f '../../Database.cpp' || echo '$(srcdir)/'`../../Database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-Database.Tpo ../../$(DEPDIR)/libggk_a-Database.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../Database.cpp' object='../../libggk_a-Database.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-Database.o `test -f '../../Database.cpp' || echo '$(srcdir)/'`../../Database.cpp
+
+../../libggk_a-Database.obj: ../../Database.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-Database.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-Database.Tpo -c -o ../../libggk_a-Database.obj `if test -f '../../Database.cpp'; then $(CYGPATH_W) '../../Database.cpp'; else $(CYGPATH_W) '$(srcdir)/../../Database.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-Database.Tpo ../../$(DEPDIR)/libggk_a-Database.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../Database.cpp' object='../../libggk_a-Database.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-Database.obj `if test -f '../../Database.cpp'; then $(CYGPATH_W) '../../Database.cpp'; else $(CYGPATH_W) '$(srcdir)/../../Database.cpp'; fi`
+
+../../libggk_a-DataDepositor.o: ../../DataDepositor.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-DataDepositor.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-DataDepositor.Tpo -c -o ../../libggk_a-DataDepositor.o `test -f '../../DataDepositor.cpp' || echo '$(srcdir)/'`../../DataDepositor.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-DataDepositor.Tpo ../../$(DEPDIR)/libggk_a-DataDepositor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../DataDepositor.cpp' object='../../libggk_a-DataDepositor.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-DataDepositor.o `test -f '../../DataDepositor.cpp' || echo '$(srcdir)/'`../../DataDepositor.cpp
+
+../../libggk_a-DataDepositor.obj: ../../DataDepositor.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-DataDepositor.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-DataDepositor.Tpo -c -o ../../libggk_a-DataDepositor.obj `if test -f '../../DataDepositor.cpp'; then $(CYGPATH_W) '../../DataDepositor.cpp'; else $(CYGPATH_W) '$(srcdir)/../../DataDepositor.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-DataDepositor.Tpo ../../$(DEPDIR)/libggk_a-DataDepositor.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../DataDepositor.cpp' object='../../libggk_a-DataDepositor.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-DataDepositor.obj `if test -f '../../DataDepositor.cpp'; then $(CYGPATH_W) '../../DataDepositor.cpp'; else $(CYGPATH_W) '$(srcdir)/../../DataDepositor.cpp'; fi`
+
+../../libggk_a-GPSPoint.o: ../../GPSPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-GPSPoint.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-GPSPoint.Tpo -c -o ../../libggk_a-GPSPoint.o `test -f '../../GPSPoint.cpp' || echo '$(srcdir)/'`../../GPSPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-GPSPoint.Tpo ../../$(DEPDIR)/libggk_a-GPSPoint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../GPSPoint.cpp' object='../../libggk_a-GPSPoint.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-GPSPoint.o `test -f '../../GPSPoint.cpp' || echo '$(srcdir)/'`../../GPSPoint.cpp
+
+../../libggk_a-GPSPoint.obj: ../../GPSPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-GPSPoint.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-GPSPoint.Tpo -c -o ../../libggk_a-GPSPoint.obj `if test -f '../../GPSPoint.cpp'; then $(CYGPATH_W) '../../GPSPoint.cpp'; else $(CYGPATH_W) '$(srcdir)/../../GPSPoint.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-GPSPoint.Tpo ../../$(DEPDIR)/libggk_a-GPSPoint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../GPSPoint.cpp' object='../../libggk_a-GPSPoint.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-GPSPoint.obj `if test -f '../../GPSPoint.cpp'; then $(CYGPATH_W) '../../GPSPoint.cpp'; else $(CYGPATH_W) '$(srcdir)/../../GPSPoint.cpp'; fi`
+
+../../libggk_a-hashfunc.o: ../../hashfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-hashfunc.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-hashfunc.Tpo -c -o ../../libggk_a-hashfunc.o `test -f '../../hashfunc.cpp' || echo '$(srcdir)/'`../../hashfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-hashfunc.Tpo ../../$(DEPDIR)/libggk_a-hashfunc.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../hashfunc.cpp' object='../../libggk_a-hashfunc.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-hashfunc.o `test -f '../../hashfunc.cpp' || echo '$(srcdir)/'`../../hashfunc.cpp
+
+../../libggk_a-hashfunc.obj: ../../hashfunc.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-hashfunc.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-hashfunc.Tpo -c -o ../../libggk_a-hashfunc.obj `if test -f '../../hashfunc.cpp'; then $(CYGPATH_W) '../../hashfunc.cpp'; else $(CYGPATH_W) '$(srcdir)/../../hashfunc.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-hashfunc.Tpo ../../$(DEPDIR)/libggk_a-hashfunc.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../hashfunc.cpp' object='../../libggk_a-hashfunc.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-hashfunc.obj `if test -f '../../hashfunc.cpp'; then $(CYGPATH_W) '../../hashfunc.cpp'; else $(CYGPATH_W) '$(srcdir)/../../hashfunc.cpp'; fi`
+
+../../libggk_a-main.o: ../../main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-main.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-main.Tpo -c -o ../../libggk_a-main.o `test -f '../../main.cpp' || echo '$(srcdir)/'`../../main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-main.Tpo ../../$(DEPDIR)/libggk_a-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../main.cpp' object='../../libggk_a-main.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-main.o `test -f '../../main.cpp' || echo '$(srcdir)/'`../../main.cpp
+
+../../libggk_a-main.obj: ../../main.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-main.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-main.Tpo -c -o ../../libggk_a-main.obj `if test -f '../../main.cpp'; then $(CYGPATH_W) '../../main.cpp'; else $(CYGPATH_W) '$(srcdir)/../../main.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-main.Tpo ../../$(DEPDIR)/libggk_a-main.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../main.cpp' object='../../libggk_a-main.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-main.obj `if test -f '../../main.cpp'; then $(CYGPATH_W) '../../main.cpp'; else $(CYGPATH_W) '$(srcdir)/../../main.cpp'; fi`
+
+../../libggk_a-md5.o: ../../md5.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-md5.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-md5.Tpo -c -o ../../libggk_a-md5.o `test -f '../../md5.cpp' || echo '$(srcdir)/'`../../md5.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-md5.Tpo ../../$(DEPDIR)/libggk_a-md5.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../md5.cpp' object='../../libggk_a-md5.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-md5.o `test -f '../../md5.cpp' || echo '$(srcdir)/'`../../md5.cpp
+
+../../libggk_a-md5.obj: ../../md5.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-md5.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-md5.Tpo -c -o ../../libggk_a-md5.obj `if test -f '../../md5.cpp'; then $(CYGPATH_W) '../../md5.cpp'; else $(CYGPATH_W) '$(srcdir)/../../md5.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-md5.Tpo ../../$(DEPDIR)/libggk_a-md5.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../md5.cpp' object='../../libggk_a-md5.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-md5.obj `if test -f '../../md5.cpp'; then $(CYGPATH_W) '../../md5.cpp'; else $(CYGPATH_W) '$(srcdir)/../../md5.cpp'; fi`
+
+../../libggk_a-RawDataRepository.o: ../../RawDataRepository.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-RawDataRepository.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-RawDataRepository.Tpo -c -o ../../libggk_a-RawDataRepository.o `test -f '../../RawDataRepository.cpp' || echo '$(srcdir)/'`../../RawDataRepository.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-RawDataRepository.Tpo ../../$(DEPDIR)/libggk_a-RawDataRepository.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../RawDataRepository.cpp' object='../../libggk_a-RawDataRepository.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-RawDataRepository.o `test -f '../../RawDataRepository.cpp' || echo '$(srcdir)/'`../../RawDataRepository.cpp
+
+../../libggk_a-RawDataRepository.obj: ../../RawDataRepository.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-RawDataRepository.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-RawDataRepository.Tpo -c -o ../../libggk_a-RawDataRepository.obj `if test -f '../../RawDataRepository.cpp'; then $(CYGPATH_W) '../../RawDataRepository.cpp'; else $(CYGPATH_W) '$(srcdir)/../../RawDataRepository.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-RawDataRepository.Tpo ../../$(DEPDIR)/libggk_a-RawDataRepository.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../RawDataRepository.cpp' object='../../libggk_a-RawDataRepository.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-RawDataRepository.obj `if test -f '../../RawDataRepository.cpp'; then $(CYGPATH_W) '../../RawDataRepository.cpp'; else $(CYGPATH_W) '$(srcdir)/../../RawDataRepository.cpp'; fi`
+
+../../libggk_a-SystemTimeManager.o: ../../SystemTimeManager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-SystemTimeManager.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-SystemTimeManager.Tpo -c -o ../../libggk_a-SystemTimeManager.o `test -f '../../SystemTimeManager.cpp' || echo '$(srcdir)/'`../../SystemTimeManager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-SystemTimeManager.Tpo ../../$(DEPDIR)/libggk_a-SystemTimeManager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../SystemTimeManager.cpp' object='../../libggk_a-SystemTimeManager.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-SystemTimeManager.o `test -f '../../SystemTimeManager.cpp' || echo '$(srcdir)/'`../../SystemTimeManager.cpp
+
+../../libggk_a-SystemTimeManager.obj: ../../SystemTimeManager.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-SystemTimeManager.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-SystemTimeManager.Tpo -c -o ../../libggk_a-SystemTimeManager.obj `if test -f '../../SystemTimeManager.cpp'; then $(CYGPATH_W) '../../SystemTimeManager.cpp'; else $(CYGPATH_W) '$(srcdir)/../../SystemTimeManager.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-SystemTimeManager.Tpo ../../$(DEPDIR)/libggk_a-SystemTimeManager.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../SystemTimeManager.cpp' object='../../libggk_a-SystemTimeManager.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-SystemTimeManager.obj `if test -f '../../SystemTimeManager.cpp'; then $(CYGPATH_W) '../../SystemTimeManager.cpp'; else $(CYGPATH_W) '$(srcdir)/../../SystemTimeManager.cpp'; fi`
+
+../../libggk_a-test_hash.o: ../../test_hash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-test_hash.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-test_hash.Tpo -c -o ../../libggk_a-test_hash.o `test -f '../../test_hash.cpp' || echo '$(srcdir)/'`../../test_hash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-test_hash.Tpo ../../$(DEPDIR)/libggk_a-test_hash.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../test_hash.cpp' object='../../libggk_a-test_hash.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-test_hash.o `test -f '../../test_hash.cpp' || echo '$(srcdir)/'`../../test_hash.cpp
+
+../../libggk_a-test_hash.obj: ../../test_hash.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-test_hash.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-test_hash.Tpo -c -o ../../libggk_a-test_hash.obj `if test -f '../../test_hash.cpp'; then $(CYGPATH_W) '../../test_hash.cpp'; else $(CYGPATH_W) '$(srcdir)/../../test_hash.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-test_hash.Tpo ../../$(DEPDIR)/libggk_a-test_hash.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../test_hash.cpp' object='../../libggk_a-test_hash.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-test_hash.obj `if test -f '../../test_hash.cpp'; then $(CYGPATH_W) '../../test_hash.cpp'; else $(CYGPATH_W) '$(srcdir)/../../test_hash.cpp'; fi`
+
 ../../libggk_a-UserController.o: ../../UserController.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-UserController.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-UserController.Tpo -c -o ../../libggk_a-UserController.o `test -f '../../UserController.cpp' || echo '$(srcdir)/'`../../UserController.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-UserController.Tpo ../../$(DEPDIR)/libggk_a-UserController.Po
@@ -463,6 +659,48 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../UserController.cpp' object='../../libggk_a-UserController.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-UserController.obj `if test -f '../../UserController.cpp'; then $(CYGPATH_W) '../../UserController.cpp'; else $(CYGPATH_W) '$(srcdir)/../../UserController.cpp'; fi`
+
+../../libggk_a-user.o: ../../user.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-user.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-user.Tpo -c -o ../../libggk_a-user.o `test -f '../../user.cpp' || echo '$(srcdir)/'`../../user.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-user.Tpo ../../$(DEPDIR)/libggk_a-user.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../user.cpp' object='../../libggk_a-user.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-user.o `test -f '../../user.cpp' || echo '$(srcdir)/'`../../user.cpp
+
+../../libggk_a-user.obj: ../../user.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-user.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-user.Tpo -c -o ../../libggk_a-user.obj `if test -f '../../user.cpp'; then $(CYGPATH_W) '../../user.cpp'; else $(CYGPATH_W) '$(srcdir)/../../user.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-user.Tpo ../../$(DEPDIR)/libggk_a-user.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../user.cpp' object='../../libggk_a-user.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-user.obj `if test -f '../../user.cpp'; then $(CYGPATH_W) '../../user.cpp'; else $(CYGPATH_W) '$(srcdir)/../../user.cpp'; fi`
+
+../../libggk_a-UserLibrary.o: ../../UserLibrary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-UserLibrary.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-UserLibrary.Tpo -c -o ../../libggk_a-UserLibrary.o `test -f '../../UserLibrary.cpp' || echo '$(srcdir)/'`../../UserLibrary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-UserLibrary.Tpo ../../$(DEPDIR)/libggk_a-UserLibrary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../UserLibrary.cpp' object='../../libggk_a-UserLibrary.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-UserLibrary.o `test -f '../../UserLibrary.cpp' || echo '$(srcdir)/'`../../UserLibrary.cpp
+
+../../libggk_a-UserLibrary.obj: ../../UserLibrary.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-UserLibrary.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-UserLibrary.Tpo -c -o ../../libggk_a-UserLibrary.obj `if test -f '../../UserLibrary.cpp'; then $(CYGPATH_W) '../../UserLibrary.cpp'; else $(CYGPATH_W) '$(srcdir)/../../UserLibrary.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-UserLibrary.Tpo ../../$(DEPDIR)/libggk_a-UserLibrary.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../UserLibrary.cpp' object='../../libggk_a-UserLibrary.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-UserLibrary.obj `if test -f '../../UserLibrary.cpp'; then $(CYGPATH_W) '../../UserLibrary.cpp'; else $(CYGPATH_W) '$(srcdir)/../../UserLibrary.cpp'; fi`
+
+../../libggk_a-VisitTime.o: ../../VisitTime.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-VisitTime.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-VisitTime.Tpo -c -o ../../libggk_a-VisitTime.o `test -f '../../VisitTime.cpp' || echo '$(srcdir)/'`../../VisitTime.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-VisitTime.Tpo ../../$(DEPDIR)/libggk_a-VisitTime.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../VisitTime.cpp' object='../../libggk_a-VisitTime.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-VisitTime.o `test -f '../../VisitTime.cpp' || echo '$(srcdir)/'`../../VisitTime.cpp
+
+../../libggk_a-VisitTime.obj: ../../VisitTime.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-VisitTime.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-VisitTime.Tpo -c -o ../../libggk_a-VisitTime.obj `if test -f '../../VisitTime.cpp'; then $(CYGPATH_W) '../../VisitTime.cpp'; else $(CYGPATH_W) '$(srcdir)/../../VisitTime.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-VisitTime.Tpo ../../$(DEPDIR)/libggk_a-VisitTime.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../VisitTime.cpp' object='../../libggk_a-VisitTime.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-VisitTime.obj `if test -f '../../VisitTime.cpp'; then $(CYGPATH_W) '../../VisitTime.cpp'; else $(CYGPATH_W) '$(srcdir)/../../VisitTime.cpp'; fi`
 
 libggk_a-DBusInterface.o: DBusInterface.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT libggk_a-DBusInterface.o -MD -MP -MF $(DEPDIR)/libggk_a-DBusInterface.Tpo -c -o libggk_a-DBusInterface.o `test -f 'DBusInterface.cpp' || echo '$(srcdir)/'`DBusInterface.cpp
