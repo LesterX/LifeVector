@@ -5754,7 +5754,6 @@ esac
 
 
 
-
 if pkg-config --atleast-version=2.00 glib-2.0; then
    GLIB_CFLAGS=`pkg-config --cflags glib-2.0`
 else

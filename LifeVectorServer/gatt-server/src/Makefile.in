@@ -108,8 +108,10 @@ am__v_AR_0 = @echo "  AR      " $@;
 am__v_AR_1 = 
 libggk_a_AR = $(AR) $(ARFLAGS)
 libggk_a_LIBADD =
-am_libggk_a_OBJECTS = libggk_a-DBusInterface.$(OBJEXT) \
-	libggk_a-DBusMethod.$(OBJEXT) libggk_a-DBusObject.$(OBJEXT) \
+am__dirstamp = $(am__leading_dot)dirstamp
+am_libggk_a_OBJECTS = ../../libggk_a-UserController.$(OBJEXT) \
+	libggk_a-DBusInterface.$(OBJEXT) libggk_a-DBusMethod.$(OBJEXT) \
+	libggk_a-DBusObject.$(OBJEXT) \
 	libggk_a-GattCharacteristic.$(OBJEXT) \
 	libggk_a-GattDescriptor.$(OBJEXT) \
 	libggk_a-GattInterface.$(OBJEXT) \
@@ -300,7 +302,9 @@ top_srcdir = @top_srcdir@
 # Build a static library (libggk.a)
 noinst_LIBRARIES = libggk.a
 libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++11 $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
-libggk_a_SOURCES = DBusInterface.cpp \
+libggk_a_SOURCES = ../../UserController.cpp \
+		   ../../UserController.h \
+		   DBusInterface.cpp \
                    DBusInterface.h \
                    DBusMethod.cpp \
                    DBusMethod.h \
@@ -381,6 +385,14 @@ $(am__aclocal_m4_deps):
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
+../../$(am__dirstamp):
+	@$(MKDIR_P) ../..
+	@: > ../../$(am__dirstamp)
+../../$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) ../../$(DEPDIR)
+	@: > ../../$(DEPDIR)/$(am__dirstamp)
+../../libggk_a-UserController.$(OBJEXT): ../../$(am__dirstamp) \
+	../../$(DEPDIR)/$(am__dirstamp)
 
 libggk.a: $(libggk_a_OBJECTS) $(libggk_a_DEPENDENCIES) $(EXTRA_libggk_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libggk.a
@@ -396,10 +408,12 @@ standalone$(EXEEXT): $(standalone_OBJECTS) $(standalone_DEPENDENCIES) $(EXTRA_st
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f ../../*.$(OBJEXT)
 
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@../../$(DEPDIR)/libggk_a-UserController.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusInterface.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusMethod.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libggk_a-DBusObject.Po@am__quote@
@@ -421,18 +435,34 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/standalone-standalone.Po@am__quote@
 
 .cpp.o:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ $< &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ $<
 
 .cpp.obj:
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.obj$$||'`;\
+@am__fastdepCXX_TRUE@	$(CXXCOMPILE) -MT $@ -MD -MP -MF $$depbase.Tpo -c -o $@ `$(CYGPATH_W) '$<'` &&\
+@am__fastdepCXX_TRUE@	$(am__mv) $$depbase.Tpo $$depbase.Po
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+../../libggk_a-UserController.o: ../../UserController.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-UserController.o -MD -MP -MF ../../$(DEPDIR)/libggk_a-UserController.Tpo -c -o ../../libggk_a-UserController.o `test -f '../../UserController.cpp' || echo '$(srcdir)/'`../../UserController.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-UserController.Tpo ../../$(DEPDIR)/libggk_a-UserController.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../UserController.cpp' object='../../libggk_a-UserController.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-UserController.o `test -f '../../UserController.cpp' || echo '$(srcdir)/'`../../UserController.cpp
+
+../../libggk_a-UserController.obj: ../../UserController.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT ../../libggk_a-UserController.obj -MD -MP -MF ../../$(DEPDIR)/libggk_a-UserController.Tpo -c -o ../../libggk_a-UserController.obj `if test -f '../../UserController.cpp'; then $(CYGPATH_W) '../../UserController.cpp'; else $(CYGPATH_W) '$(srcdir)/../../UserController.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ../../$(DEPDIR)/libggk_a-UserController.Tpo ../../$(DEPDIR)/libggk_a-UserController.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='../../UserController.cpp' object='../../libggk_a-UserController.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -c -o ../../libggk_a-UserController.obj `if test -f '../../UserController.cpp'; then $(CYGPATH_W) '../../UserController.cpp'; else $(CYGPATH_W) '$(srcdir)/../../UserController.cpp'; fi`
 
 libggk_a-DBusInterface.o: DBusInterface.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libggk_a_CXXFLAGS) $(CXXFLAGS) -MT libggk_a-DBusInterface.o -MD -MP -MF $(DEPDIR)/libggk_a-DBusInterface.Tpo -c -o libggk_a-DBusInterface.o `test -f 'DBusInterface.cpp' || echo '$(srcdir)/'`DBusInterface.cpp
@@ -812,6 +842,8 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f ../../$(DEPDIR)/$(am__dirstamp)
+	-rm -f ../../$(am__dirstamp)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -822,7 +854,7 @@ clean-am: clean-generic clean-noinstLIBRARIES clean-noinstPROGRAMS \
 	mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../../$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -868,7 +900,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
+	-rm -rf ../../$(DEPDIR) ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -1,7 +1,9 @@
 # Build a static library (libggk.a)
 noinst_LIBRARIES = libggk.a
 libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++11 $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
-libggk_a_SOURCES = DBusInterface.cpp \
+libggk_a_SOURCES = ../../UserController.cpp \
+		   ../../UserController.h \
+		   DBusInterface.cpp \
                    DBusInterface.h \
                    DBusMethod.cpp \
                    DBusMethod.h \

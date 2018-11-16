@@ -1,7 +1,7 @@
 AC_INIT([ggk], [1.0])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
 AC_CHECK_LIB([pthread], pthread_create, [], [AC_MSG_ERROR([pthread library not found])])
 AC_CHECK_LIB([glib-2.0], g_variant_new, [], [AC_MSG_ERROR([glib-2.0 library not found])])
 AC_CHECK_LIB([gio-2.0], g_dbus_method_invocation_return_dbus_error, [], [AC_MSG_ERROR([gio-2.0 library not found])])
@@ -14,7 +14,6 @@ AM_PROG_AR
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GIO_CFLAGS)
 AC_SUBST(GOBJECT_CFLAGS)
-
 if pkg-config --atleast-version=2.00 glib-2.0; then
    GLIB_CFLAGS=`pkg-config --cflags glib-2.0`
 else

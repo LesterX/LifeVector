@@ -238,7 +238,6 @@ namespace ggk {
         // Register getter & setter for server data
         dataGetter = getter;
         dataSetter = setter;
-	UserController uc("server", "LifeVector123");
         // Adapter configuration flags - set these flags based on how you want the adapter configured
         enableBREDR = false;
         enableSecureConnection = false;
@@ -246,7 +245,6 @@ namespace ggk {
         enableAdvertising = true;
         enableBondable = false;
 
-	UserController uc("server", "LifeVector123");
         //
         // Define the server
         //
@@ -447,9 +445,10 @@ namespace ggk {
                 .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
                                       {
                                               // Update the text string value
+					      UserController uc("server", "LifeVector123");
                                               GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
 					      
-					      std::string ss = str(Utils::stringFromGVariantByteArray(pAyBuffer).c_str());
+					      std::string ss(Utils::stringFromGVariantByteArray(pAyBuffer).c_str());
 					      uc.createUser(ss.substr(0, ss.find(",")), "1111231", ss.substr(1, ss.find(","))); 
 					      
                                               // Since all of these methods (onReadValue, onWriteValue, onUpdateValue) are all part of the same
