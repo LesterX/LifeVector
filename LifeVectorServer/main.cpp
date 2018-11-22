@@ -94,11 +94,11 @@ int main(int argc, char** argv) {
 
 	o << doc << endl;
 
-	cout << doc.at("results")[0] << endl;
+	cout << doc.at("results")[0].at("formatted_address") << endl;
 
-	cout << "------------------------------" << endl;
+//	cout << "------------------------------" << endl;
 
-	std:: cout << x << endl;
+//	std:: cout << x << endl;
 
 	return 0;
 }
