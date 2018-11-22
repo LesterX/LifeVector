@@ -3,8 +3,14 @@
 VisitTime::VisitTime(long startTime)
 {
     initialTimeStamp = startTime;
-    duration = 0; // this can be manually updated
+    duration = DEFAULT_INTERVAL; // this can be manually updated
                   // consider a default duration for 1 instance
+}
+
+VisitTime::VisitTime(long startTime, int initDuration)
+{
+    initialTimeStamp = startTime;
+    duration = initDuration;
 }
 
 /*
@@ -22,6 +28,11 @@ void VisitTime::setDuration(int durationTime)
 void VisitTime::extendDuration(int moreTime)
 {
     duration += moreTime;
+}
+
+void VisitTime::extendDuration()
+{
+    duration += DEFAULT_INTERVAL;
 }
 
 long VisitTime::getTimestamp()

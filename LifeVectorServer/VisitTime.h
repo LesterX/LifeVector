@@ -7,11 +7,14 @@
 #ifndef VISITTIME_H
 #define VISITTIME_H
 
+#define DEFAULT_INTERVAL 5
+
 class VisitTime
 {
 public:
   // constructor
   VisitTime(long startTime);
+  VisitTime(long startTime, int initDuration);
 
   // destructor
   ~VisitTime();
@@ -19,6 +22,7 @@ public:
   // Setters
   void setDuration(int durationTime);
   void extendDuration(int moreTime);
+  void extendDuration();
 
   // Getters
   long getTimestamp();
