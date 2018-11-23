@@ -19,7 +19,7 @@
 #include <cstring>
 
 #define KEY_LENGTH       2048
-#define PUBLIC_EXPONENT  59     //Public exponent should be a prime number.
+#define PUBLIC_EXPONENT  65537     //Public exponent should be a prime number.
 #define PUBLIC_KEY_PEM   1
 #define PRIVATE_KEY_PEM  0
 
@@ -102,7 +102,7 @@ class EncryptionModule
         int envelope_seal(EVP_PKEY **pub_key, unsigned char *plaintext, int plaintext_len, unsigned char **encrypted_key, int *encrypted_key_len, unsigned char *iv, unsigned char *ciphertext);
         int envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len, unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv, unsigned char *plaintext);
         void handleErrors(void);
-        RSA * create_RSA(RSA * keypair, int pem_type, char *file_name);
+        void getKeyFromString(std::string key, int pem_type, RSA * cipher);
         int public_encrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding);
         int private_decrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding);
         void create_encrypted_file(char* encrypted, RSA* key_pair);
