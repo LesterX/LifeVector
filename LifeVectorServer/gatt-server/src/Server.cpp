@@ -399,6 +399,7 @@ namespace ggk {
                                               // Since all of these methods (onReadValue, onWriteValue, onUpdateValue) are all part of the same
                                               // Characteristic interface (which just so happens to be the same interface passed into our self
                                               // parameter) we can that parameter to call our own onUpdatedValue method
+                                              std::string  send = "1133333";
                                               self.callOnUpdatedValue(pConnection, pUserData);
                                       })
                         // Here we use the onUpdatedValue to set a callback that isn't exposed to BlueZ, but rather allows us to manage
@@ -407,10 +408,10 @@ namespace ggk {
                         // We can handle updates in any way we wish, but the most common use is to send a change notification.
                 .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
                                         {
-                                                const char *pTextString = self.getDataPointer<const char *>("text/string", "1133333");
-                                                self.sendChangeNotificationValue(pConnection, pTextString);
-                                                return true;
-                                        })
+                                            std::string send = "11333333";
+				            self.sendChangeNotificationValue(pConnection, send);
+				            return true;		
+					})
 
                         // GATT Descriptor: Characteristic User Description (0x2901)
                         //
