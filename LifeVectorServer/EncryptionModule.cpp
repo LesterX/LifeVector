@@ -144,35 +144,15 @@ int EncryptionModule::envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertex
     return plaintext_len;
 }
 
-RSA * EncryptionModule::create_RSA(RSA * keypair, int pem_type, char *file_name) {
-
-    RSA   *rsa = NULL;
-    FILE  *fp  = NULL;
-
-    if(pem_type == PUBLIC_KEY_PEM) {
-
-        fp = fopen(file_name, "w");
-        PEM_write_RSAPublicKey(fp, keypair);
-        fclose(fp);
-
-        fp = fopen(file_name, "rb");
-        PEM_read_RSAPublicKey(fp, &rsa, NULL, NULL);
-        fclose(fp);
-
+void EncryptionModule::getKeyFromString(std::string key, int pem_type, RSA * cipher) {
+    BIO *mem= BIO_new(BIO_s_mem());
+    BIO_write(mem, key.c_str(), key.length());
+    if (pem_type == PUBLIC_KEY_PEM){
+	PEM_read_bio_RSA_PUBKEY(mem, &cipher, 0, 0);
+    } else if (pem_type == PRIVATE_KEY_PEM){
+	PEM_read_bio_RSAPrivateKey(mem, &cipher, 0, 0);
     }
-    else if(pem_type == PRIVATE_KEY_PEM) {
-
-        fp = fopen(file_name, "w");
-        PEM_write_RSAPrivateKey(fp, keypair, NULL, NULL, NULL, NULL, NULL);
-        fclose(fp);
-
-        fp = fopen(file_name, "rb");
-        PEM_read_RSAPrivateKey(fp, &rsa, NULL, NULL);
-        fclose(fp);
-
-    }
-
-    return rsa;
+    BIO_free(mem);
 }
 
 int EncryptionModule::public_encrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding) {
