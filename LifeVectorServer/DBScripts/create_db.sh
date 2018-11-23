@@ -1,2 +1,2 @@
-sudo apt-get install mysql-server libmysqlcppconn-dev
-sudo mysql --verbose -ppw123 < db_script.txt
+# sudo apt-get install default-libmysqlclient-dev
+sudo mysql --verbose < database_init

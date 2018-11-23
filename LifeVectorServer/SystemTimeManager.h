@@ -1,5 +1,3 @@
-// This header is NOT generated.
-
 #ifndef SYSTEM_TIME_MANAGER
 #define SYSTEM_TIME_MANAGER
 

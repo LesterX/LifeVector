@@ -2,21 +2,19 @@
 #define ARCHIVED_LOCATION_H
 
 #include <string>
-// #include <vector>
 #include <map>
 
 #include "VisitationInformation.h"
-#include "VisitTime.h"
 
 class ArchivedLocation
 {
   private:
-    double latitudeRef, longitudeRef;                    // reference coordinate point
-    double northBound, southBound, westBound, eastBound; // MinMax ranges for the gps points
-    std::string locationName, description, address;      // qualitative identifiers
     int locationID;                                      // shorthand location identifier
+    double latitudeRef, longitudeRef;                    // reference coordinate point
+    double northBound, southBound, westBound, eastBound; // MinMax ranges (bounds) for the location
+    std::string locationName, description, address;      // qualitative identifiers
 
-    VisitationInformation visitations;
+    VisitationInformation visitations; // Information on user visits to this location
 
     void init(); //initializer
 
@@ -34,9 +32,11 @@ class ArchivedLocation
     void setName(std::string name);
     void setAddress(std::string locAddress);
     void setDescription(std::string location_description);
+
+    void setBounds(double north, double south, double east, double west);
     void setReferencePoint(double latitude, double longitude);
-    void setLatitudeBounds(double min, double max);
-    void setLongitudeBounds(double min, double max);
+    void setLatitudeBounds(double min, double max);  // min = south, max = north
+    void setLongitudeBounds(double min, double max); // min = west, max = east
 
     // Visitation Manipulation
     void newVisitInstance(long timestamp, int duration);

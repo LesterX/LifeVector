@@ -44,13 +44,31 @@ ArchivedLocation::ArchivedLocation(std::string locName, double latMin, double la
 ArchivedLocation::~ArchivedLocation() {}
 
 /* Setters: */
-void ArchivedLocation::setID(int id) { locationID = id; }
+void ArchivedLocation::setID(int id)
+{
+    locationID = id;
+}
 
-void ArchivedLocation::setName(std::string name) { locationName = name; }
+void ArchivedLocation::setName(std::string name)
+{
+    locationName = name;
+}
 
-void ArchivedLocation::setAddress(std::string locAddress) { address = locAddress; }
+void ArchivedLocation::setAddress(std::string locAddress)
+{
+    address = locAddress;
+}
 
-void ArchivedLocation::setDescription(std::string location_description) { description = location_description; }
+void ArchivedLocation::setDescription(std::string location_description)
+{
+    description = location_description;
+}
+
+void ArchivedLocation::setBounds(double north, double south, double east, double west)
+{
+    setLatitudeBounds(south, north);
+    setLongitudeBounds(west, east);
+}
 
 void ArchivedLocation::setReferencePoint(double latitude, double longitude)
 {
@@ -116,7 +134,6 @@ double *ArchivedLocation::getReferencePoint()
     double gps[2] = {latitudeRef, longitudeRef};
     return gps;
 }
-
 
 /* Visitation Manipulation */
 void ArchivedLocation::newVisitInstance(long timestamp, int duration)

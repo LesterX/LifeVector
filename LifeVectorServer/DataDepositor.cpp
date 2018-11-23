@@ -21,7 +21,7 @@ bool DataDepositor::depositRaw(std::string deviceID, RawDataRepository dataset)
         double gpsXY[2];
         long timeUNIX = *i;
         dataset.getCoordinates(gpsXY, timeUNIX);
-        std::string insertCommand = concatRawQuery(timeUNIX, gpsXY[0], gpsXY[2], deviceID);
+        std::string insertCommand = concatRawQuery(timeUNIX, gpsXY[0], gpsXY[1], deviceID);
 
         // insert into database
         if ((*db_link).exeSQL(insertCommand))
