@@ -169,9 +169,11 @@ int EncryptionModule::private_decrypt(int flen, unsigned char* from, unsigned ch
 
 void EncryptionModule::create_encrypted_file(char* encrypted, RSA* key_pair) {
 
+    std::cout << "ENCRYPTEDDDDD: " << encrypted << std::endl;
     FILE* encrypted_file = fopen("encrypted_file.bin", "w");
     fwrite(encrypted, sizeof(*encrypted), RSA_size(key_pair), encrypted_file);
     fclose(encrypted_file);
 }
+
 
 
