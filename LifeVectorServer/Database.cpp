@@ -88,7 +88,7 @@ std::string Database::getSQLResult(string sql)
 			// mysql_num_fields return number of columns
 			for (int j = 0; j < mysql_num_fields(result); ++j)
 			{
-				ss << row[j] << " ";
+				ss << row[j] << "\t";
 			}
 			ss << endl;
 		}

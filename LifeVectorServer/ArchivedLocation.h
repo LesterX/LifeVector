@@ -2,62 +2,44 @@
 #define ARCHIVED_LOCATION_H
 
 #include <string>
-#include <map>
+#include <iostream>
 
-#include "VisitationInformation.h"
+#include "LocationInformation.h"
+#include "CoordinateInformation.h"
 
 class ArchivedLocation
 {
-  private:
-    int locationID;                                      // shorthand location identifier
-    double latitudeRef, longitudeRef;                    // reference coordinate point
-    double northBound, southBound, westBound, eastBound; // MinMax ranges (bounds) for the location
-    std::string locationName, description, address;      // qualitative identifiers
+private:
+  // Attributes:
+  LocationInformation details;
+  CoordinateInformation coordinates;
+  
+  void init(); //initializer
 
-    VisitationInformation visitations; // Information on user visits to this location
+public:
+  // Constructors:
+  ArchivedLocation(int locationID, double locationLatitude, double locationLongitude, double northPoint, double southPoint, double eastPoint, double westPoint);
+  ArchivedLocation(int locationID, double locationLatitude, double locationLongitude);
 
-    void init(); //initializer
+  // Destructor
+  ~ArchivedLocation();
 
-  public:
-    // Constructors:
-    ArchivedLocation(std::string lName, double locationLatitude, double locationLongitude);
-    ArchivedLocation(int locID, double locationLatitude, double locationLongitude);
-    ArchivedLocation(std::string locName, double latMin, double latMax, double longMin, double longMax);
+  // Setters & Updaters:
+  void setLocationInformation(std::string name, std::string locationAddress, std::string locationDescription);
+  void setBoundaries(double north, double south, double east, double west);
 
-    // Destructor
-    ~ArchivedLocation();
+  void updateName(std::string name);
+  void updateAddress(std::string address);
+  void updateDescription(std::string description);
 
-    // Setters:
-    void setID(int id);
-    void setName(std::string name);
-    void setAddress(std::string locAddress);
-    void setDescription(std::string location_description);
+  //Location Info Getters:
+  LocationInformation getLocationDetails();
+  int getID();
+  CoordinateInformation getCoordinateData();
+  double *getLocationReference();
 
-    void setBounds(double north, double south, double east, double west);
-    void setReferencePoint(double latitude, double longitude);
-    void setLatitudeBounds(double min, double max);  // min = south, max = north
-    void setLongitudeBounds(double min, double max); // min = west, max = east
-
-    // Visitation Manipulation
-    void newVisitInstance(long timestamp, int duration);
-    VisitTime getFirstVisitTime();
-    VisitTime getLastVisitTime();
-    std::map<long, int> getTimesFrom(long start, long fin);
-    std::map<long, int> getAllVisitations();
-    long getTotalVisitTime();
-    long getTimeSpent(long start, long fin);
-    int getVisitFrequency();
-
-    //Location Info Getters:
-    double getNorthBound();
-    double getSouthBound();
-    double getWestBound();
-    double getEastBound();
-    double *getReferencePoint();
-    int getID();
-    std::string getName();
-    std::string getAddress();
-    std::string getDescription();
+  // Printer
+  void printInformation();
 };
 
 #endif

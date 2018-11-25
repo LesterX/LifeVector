@@ -47,6 +47,8 @@ CREATE TABLE IF NOT EXISTS ArchivedLocations(
     eastBound DECIMAL(11, 8) NOT NULL,
     westBound DECIMAL(11, 8) NOT NULL,
     description VARCHAR(256),
+    visitCount INT,
+    durationAtLocation INT,
     PRIMARY KEY (locationID)
 );
 

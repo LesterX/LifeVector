@@ -1,187 +1,82 @@
 #include "ArchivedLocation.h"
 
-/*
- * Initializer. 
- * Initializes all attributes and sets all values to 0 and 
- * all string to an empty string and creates empty 
- * VisitationInformation object
- */
-void ArchivedLocation::init()
+// Constructors:
+ArchivedLocation::ArchivedLocation(int locationID, double locationLatitude, double locationLongitude, double northPoint, double southPoint, double eastPoint, double westPoint) : details(locationID), coordinates(locationLatitude, locationLongitude)
 {
-    locationName = description = address = "";
-    northBound = southBound = westBound = eastBound = 0.0;
-    longitudeRef = latitudeRef = 0;
-    locationID = 0;
-    visitations = VisitationInformation();
+    coordinates.setLimits(northPoint, southPoint, eastPoint, westPoint);
 }
 
-/* Constructors */
-ArchivedLocation::ArchivedLocation(std::string lName, double locationLatitude, double locationLongitude)
-{
-    init();
-    setName(lName);
-    setReferencePoint(locationLatitude, locationLongitude);
-}
+ArchivedLocation::ArchivedLocation(int locationID, double locationLatitude, double locationLongitude) : details(locationID), coordinates(locationLatitude, locationLongitude) {}
 
-ArchivedLocation::ArchivedLocation(int locID, double locationLatitude, double locationLongitude)
-{
-    init();
-    setID(locID);
-    setReferencePoint(locationLatitude, locationLongitude);
-}
-
-ArchivedLocation::ArchivedLocation(std::string locName, double latMin, double latMax, double longMin, double longMax)
-{
-    init();
-    setName(locName);
-    northBound = latMax;
-    southBound = latMin;
-    westBound = longMin;
-    eastBound = longMax;
-}
-
-/* Destructor */
+// Destructor
 ArchivedLocation::~ArchivedLocation() {}
 
-/* Setters: */
-void ArchivedLocation::setID(int id)
+// Setters & Updaters:
+void ArchivedLocation::setLocationInformation(std::string name, std::string locationAddress, std::string locationDescription)
 {
-    locationID = id;
+    details.setName(name);
+    details.setAddress(locationAddress);
+    details.setDescription(locationDescription);
 }
 
-void ArchivedLocation::setName(std::string name)
+void ArchivedLocation::setBoundaries(double north, double south, double east, double west)
 {
-    locationName = name;
+    coordinates.setLimits(north, south, east, west);
 }
 
-void ArchivedLocation::setAddress(std::string locAddress)
+void ArchivedLocation::updateName(std::string name)
 {
-    address = locAddress;
+    details.setName(name);
+}
+void ArchivedLocation::updateAddress(std::string address)
+{
+    details.setAddress(address);
 }
 
-void ArchivedLocation::setDescription(std::string location_description)
+void ArchivedLocation::updateDescription(std::string description)
 {
-    description = location_description;
+    details.setDescription(description);
 }
 
-void ArchivedLocation::setBounds(double north, double south, double east, double west)
-{
-    setLatitudeBounds(south, north);
-    setLongitudeBounds(west, east);
-}
-
-void ArchivedLocation::setReferencePoint(double latitude, double longitude)
-{
-    latitudeRef = latitude;
-    longitudeRef = longitude;
-}
-
-void ArchivedLocation::setLatitudeBounds(double min, double max)
-{
-    northBound = max;
-    southBound = min;
-}
-
-void ArchivedLocation::setLongitudeBounds(double min, double max)
-{
-    eastBound = max;
-    westBound = min;
-}
-
-/* Getters: */
-double ArchivedLocation::getNorthBound()
-{
-    return northBound;
-}
-
-double ArchivedLocation::getSouthBound()
-{
-    return southBound;
-}
-
-double ArchivedLocation::getWestBound()
-{
-    return westBound;
-}
-
-double ArchivedLocation::getEastBound()
-{
-    return eastBound;
-}
-
+//Location Info Getters:
 int ArchivedLocation::getID()
 {
-    return locationID;
+    return details.getID();
 }
 
-std::string ArchivedLocation::getName()
+LocationInformation ArchivedLocation::getLocationDetails()
 {
-    return locationName;
+    return details;
 }
 
-std::string ArchivedLocation::getAddress()
+double *ArchivedLocation::getLocationReference()
 {
-    return address;
-}
+    double *gps;
+    *gps = coordinates.getLatitude();
+    *(gps+1) = coordinates.getLongitude();
 
-std::string ArchivedLocation::getDescription()
-{
-    return description;
-}
-
-double *ArchivedLocation::getReferencePoint()
-{
-    double gps[2] = {latitudeRef, longitudeRef};
     return gps;
 }
 
-/* Visitation Manipulation */
-void ArchivedLocation::newVisitInstance(long timestamp, int duration)
+CoordinateInformation ArchivedLocation::getCoordinateData()
 {
-    VisitTime newInstance(timestamp, duration);
-    visitations.addInstance(newInstance);
+    return coordinates;
 }
 
-VisitTime ArchivedLocation::getFirstVisitTime()
+// Printer
+void ArchivedLocation::printInformation()
 {
-    return visitations.getFirst();
-}
-
-VisitTime ArchivedLocation::getLastVisitTime()
-{
-    return visitations.getMostRecent();
-}
-
-std::map<long, int> ArchivedLocation::getTimesFrom(long start, long fin)
-{
-    return visitations.getVisitsFrom(start, fin);
-}
-
-std::map<long, int> ArchivedLocation::getAllVisitations()
-{
-    return visitations.getFullVisitList();
-}
-
-long ArchivedLocation::getTotalVisitTime()
-{
-    return visitations.getTotalTime();
-}
-
-int ArchivedLocation::getVisitFrequency()
-{
-    return visitations.getFrequency();
-}
-
-long ArchivedLocation::getTimeSpent(long start, long fin)
-{
-    std::map<long, int> queryRange = getTimesFrom(start, fin);
-    long time_period = 0;
-    std::map<long, int>::const_iterator it;
-
-    for (it = queryRange.begin(); it != queryRange.end(); ++it)
-    {
-        time_period += it->second;
-    }
-
-    return time_period;
+    std::cout << std::endl
+              << "~~: Archived Location Information :~~" << std::endl
+              << "Location ID: " << details.getID() << std::endl
+              << "Location Name: " << details.getName() << std::endl
+              << "Location Address: " << details.getAddress() << std::endl
+              << "Location Description: " << details.getDescription() << std::endl
+              << "Reference Coordinate: ( " << coordinates.getLatitude() << ", " << coordinates.getLongitude() << " )" << std::endl
+              << "Boundary Limits:" << std::endl
+              << "\tNorth: " << coordinates.getNorthLimit() << std::endl
+              << "\tEast: " << coordinates.getEastLimit() << std::endl
+              << "\tSouth: " << coordinates.getSouthLimit() << std::endl
+              << "\tWest: " << coordinates.getWestLimit() << std::endl 
+              << std::endl;
 }
