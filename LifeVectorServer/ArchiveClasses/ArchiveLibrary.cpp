@@ -12,6 +12,17 @@ std::map<int, CoordinateInformation> ArchiveLibrary::locationIndex = std::map<in
 /* Destructor: */
 ArchiveLibrary::~ArchiveLibrary() {}
 
+/* Helpers: */
+std::string ArchiveLibrary::composeID(std::string username, std::string deviceID)
+{
+    std::string combinationSymbol = "/", userID;
+    userID.append(username);
+    userID.append(combinationSymbol);
+    userID.append(deviceID);
+
+    return userID;
+}
+
 /* Location Functions: */
 ArchivedLocation ArchiveLibrary::constructLocation(int id, std::string name, std::string address, std::string description, double latitude, double longitude, double northBound, double southBound, double eastBound, double westBound)
 {
@@ -61,7 +72,6 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
 {
     if (isKnown(id))
     {
-        // "SELECT field FROM ArchivedLocations WHERE locationID = " << id << ";"
         std::stringstream query;
         std::string result;
 
@@ -147,18 +157,102 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
     }
 }
 
-bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, int locationID, std::string user, std::string device)
+bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device)
 {
-    
+    userLog = new std::map<int, UserVisitInfo>();
+
+    if (!isRegistered(user, device))
+    {
+        return false;
+    }
+
+    std::stringstream query;
+    query << "SELECT * FROM VisitLog WHERE username = '"
+          << user << "'AND deviceID = '" << device << "';";
+
+    std::string results = connected_db->getSQLResult(query.str());
+
+    std::vector<std::string> entries, fields;
+
+    // separate each entry to interate through
+    split(results, entries, '\n');
+    std::vector<std::string>::iterator row = entries.begin();
+    for (row; row != entries.end(); ++row)
+    {
+        // split entry to individual fields
+        split(*row, fields, '\t');
+
+        // check if location is in userLog already
+        std::map<int, UserVisitInfo>::iterator target;
+        target = userLog->find(atoi(fields[1].c_str()));
+
+        if (target != userLog->end()) // location already in userLog
+        {
+            UserVisitInfo *visits = &(target->second);
+            visits->addSingleLog(atof(fields[0].c_str()), atoi(fields[2].c_str()));
+        }
+        else // create new UserVisitInfo for entry and add to userLog
+        {
+            UserVisitInfo newVisits;
+            newVisits.addSingleLog(atof(fields[0].c_str()), atoi(fields[2].c_str()));
+
+            userLog->emplace(atoi(fields[1].c_str()), newVisits);
+        }
+    }
+
+    return true;
 }
 
-bool ArchiveLibrary::getLocationRecordFromDatabase(VisitLog *record, int locationID) {}
+bool ArchiveLibrary::getLocationRecordFromDatabase(VisitLog *record, int locationID)
+{
+    // Variable Declaration
+    std::stringstream query;
+    std::vector<std::string> entries, fields;
+
+    // VisitLog initialization
+    record = new VisitLog();
+
+    if (!isKnown(locationID))
+    {
+        return false;
+    }
+
+    // Query database for entires related to locations
+    query << "SELECT * FROM VisitLog WHERE locationID = " << locationID << ";";
+    std::string results = connected_db->getSQLResult(query.str());
+
+    // Split into entries (rows)
+    split(results, entries, '\n');
+    std::vector<std::string>::iterator row = entries.begin();
+
+    for (row; row != entries.end(); ++row)
+    {
+        // Split into indiviual fields
+        split(*row, fields, '\t');
+        std::string uID = composeID(fields[3], fields[4]);
+
+        // check for user in record
+        if (record->userFound(uID))
+        {
+            // add entry
+            record->addSingleEntry(uID, atof(fields[0].c_str()), atoi(fields[2].c_str()));
+        }
+        else
+        {
+            // insert new user and log into record
+            record->addNewUser(uID);
+            record->addSingleEntry(uID, atof(fields[0].c_str()), atoi(fields[2].c_str()));
+        }
+    }
+
+    return true;
+}
 
 /* Checks & Helpers */
 bool ArchiveLibrary::isKnown(int locationID)
 {
     std::stringstream query;
-    query << "SELECT locationID FROM ArchivedLocations WHERE locationID = '" << locationID << ";";
+    query << "SELECT locationID FROM ArchivedLocations WHERE locationID = " << locationID << ";";
     std::string result = connected_db->getSQLResult(query.str());
 
     //Check if location exists
@@ -170,6 +264,26 @@ bool ArchiveLibrary::isKnown(int locationID)
     else
     {
         std::cout << "Location is Known in Database" << std::endl;
+        return true;
+    }
+}
+
+bool ArchiveLibrary::isRegistered(std::string user, std::string device)
+{
+    std::stringstream query;
+    query << "SELECT locationID FROM ArchivedLocations WHERE username = '" << user
+          << "' AND deviceID = '" << device << "';";
+    std::string result = connected_db->getSQLResult(query.str());
+
+    //Check if location exists
+    if (result.length() < 2)
+    {
+        std::cout << "User is not in Database" << std::endl;
+        return false;
+    }
+    else
+    {
+        std::cout << "User is in Database" << std::endl;
         return true;
     }
 }

@@ -51,11 +51,12 @@ bool VisitLog::addNewUser(std::string userID)
     {
         UserVisitInfo blank_entry; // empty log to insert
         userVisitRecord.emplace(userID, blank_entry);
+        userLog.insert(userID);
         return true;
     }
 }
 
-bool VisitLog::addNewLog(std::string userID, UserVisitInfo log)
+bool VisitLog::addFullLog(std::string userID, UserVisitInfo log)
 {
     std::map<std::string, UserVisitInfo>::iterator target = getUserVisitInformation(userID);
 
@@ -65,7 +66,6 @@ bool VisitLog::addNewLog(std::string userID, UserVisitInfo log)
     }
 
     UserVisitInfo *entry = &(target->second);
-
     bool is_updated = entry->updateLog(log);
 
     if (is_updated)
@@ -74,6 +74,20 @@ bool VisitLog::addNewLog(std::string userID, UserVisitInfo log)
     }
 
     return is_updated;
+}
+
+bool VisitLog::addSingleEntry(std::string userID, long time, int duration)
+{
+    std::map<std::string, UserVisitInfo>::iterator target = getUserVisitInformation(userID);
+
+    if (target == userVisitRecord.end())
+    {
+        return false;
+    }
+
+    UserVisitInfo *entry = &(target->second);
+    entry->addSingleLog(time, duration);
+    return true;
 }
 
 // Checkers:

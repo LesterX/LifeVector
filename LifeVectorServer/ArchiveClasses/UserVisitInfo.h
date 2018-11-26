@@ -8,14 +8,15 @@
 
 class UserVisitInfo
 {
-private:
+  private:
     int visitFrequency;
     long totalVisitDuration;
     std::map<long, int> timeLog;
-public:
+
+  public:
     // Constructor:
     UserVisitInfo();
-    
+
     // Destructor:
     ~UserVisitInfo();
 

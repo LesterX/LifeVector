@@ -8,7 +8,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "Database.h"
+#include "../Database.h"
 #include "ArchivedLocation.h"
 #include "VisitLog.h"
 #include "UserVisitInfo.h"
@@ -19,36 +19,36 @@
 
 class ArchiveLibrary
 {
-  private:
-    Database *connected_db;
-    static std::map<int, CoordinateInformation> locationIndex;
+private:
+  Database *connected_db;
+  static std::map<int, CoordinateInformation> locationIndex;
 
-  public:
-    /* Constructor */
-    ArchiveLibrary(Database *db_pointer);
+  std::string composeID(std::string username, std::string deviceID);
 
-    /* Destructor */
-    ~ArchiveLibrary();
+public:
+  /* Constructor */
+  ArchiveLibrary(Database *db_pointer);
 
-    /* Location Functions: */
-    ArchivedLocation constructLocation(int id, std::string name, std::string address, std::string description, double latitude, double longitude, double northBound, double southBound, double eastBound, double westBound);
+  /* Destructor */
+  ~ArchiveLibrary();
 
-    bool getLocationFromDatabase(ArchivedLocation *location, int id);
-    bool queryForLocation(ArchivedLocation *location, std::string queryAddress);
-    bool queryForLocation(ArchivedLocation *location, double *queryCoordinates);
-    bool saveLocationToDatabase(ArchivedLocation location);
+  /* Location Functions: */
+  ArchivedLocation constructLocation(int id, std::string name, std::string address, std::string description, double latitude, double longitude, double northBound, double southBound, double eastBound, double westBound);
 
-    /* Location Visit Records Functions: */
-    bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);
-    bool getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, int locationID, std::string user, std::string device);
-    bool getLocationRecordFromDatabase(VisitLog *record, int locationID);
+  bool getLocationFromDatabase(ArchivedLocation *location, int id);
+  bool queryForLocation(ArchivedLocation *location, std::string queryAddress);
+  bool queryForLocation(ArchivedLocation *location, double *queryCoordinates);
+  bool saveLocationToDatabase(ArchivedLocation location);
 
+  /* Location Visit Records Functions: */
+  bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);
+  bool getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device);
+  bool getLocationRecordFromDatabase(VisitLog *record, int locationID);
 
-    /* Checks & Helpers */
-    bool isKnown(int locationID);
-    // bool
+  /* Checks & Helpers */
+  bool isKnown(int locationID);
+  bool isRegistered(std::string user, std::string device);
+  // bool
 };
-
-
 
 #endif

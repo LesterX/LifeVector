@@ -28,7 +28,8 @@ class VisitLog
 
   // Setters & Adders:
   bool addNewUser(std::string userID);
-  bool addNewLog(std::string userID, UserVisitInfo log);
+  bool addFullLog(std::string userID, UserVisitInfo log);
+  bool addSingleEntry(std::string userID, long time, int duration);
 
   // Getters:
   std::map<std::string, UserVisitInfo>::iterator getUserVisitInformation(std::string usernID);
