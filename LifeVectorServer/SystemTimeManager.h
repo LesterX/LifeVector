@@ -18,6 +18,8 @@ class SystemTimeManager
     std::string UNIXtoEST(); // converts the stored time in Eastern Time Zone into a readable format
     std::string UNIXtoUTC(); // converts the stored time in Coordinated Universal Time into a readable format
     long getTime();          // fetch the time in UNIX integer format
+
+    static std::string format(int duration);
 };
 
 #endif

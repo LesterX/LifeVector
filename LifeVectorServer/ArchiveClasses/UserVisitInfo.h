@@ -4,6 +4,8 @@
 #include <map>
 #include <iostream>
 
+#include "../SystemTimeManager.h"
+
 class UserVisitInfo
 {
 private:
@@ -25,6 +27,8 @@ public:
     std::map<long, int> getTimeLog();
     int getVisitFrequency();
     int getTotalTimeSpent();
+
+    void printLog();
 };
 
 #endif

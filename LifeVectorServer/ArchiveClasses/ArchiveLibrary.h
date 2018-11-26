@@ -21,7 +21,7 @@ class ArchiveLibrary
 {
   private:
     Database *connected_db;
-    static std::set<int> locationIndex;
+    static std::map<int, CoordinateInformation> locationIndex;
 
   public:
     /* Constructor */
@@ -34,10 +34,14 @@ class ArchiveLibrary
     ArchivedLocation constructLocation(int id, std::string name, std::string address, std::string description, double latitude, double longitude, double northBound, double southBound, double eastBound, double westBound);
 
     bool getLocationFromDatabase(ArchivedLocation *location, int id);
+    bool queryForLocation(ArchivedLocation *location, std::string queryAddress);
+    bool queryForLocation(ArchivedLocation *location, double *queryCoordinates);
     bool saveLocationToDatabase(ArchivedLocation location);
 
     /* Location Visit Records Functions: */
-    
+    bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);
+    bool getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, int locationID, std::string user, std::string device);
+    bool getLocationRecordFromDatabase(VisitLog *record, int locationID);
 
 
     /* Checks & Helpers */

@@ -14,8 +14,6 @@ private:
   LocationInformation details;
   CoordinateInformation coordinates;
   
-  void init(); //initializer
-
 public:
   // Constructors:
   ArchivedLocation(int locationID, double locationLatitude, double locationLongitude, double northPoint, double southPoint, double eastPoint, double westPoint);

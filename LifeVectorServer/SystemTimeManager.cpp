@@ -46,3 +46,17 @@ long SystemTimeManager::getTime()
     long t = static_cast<long>(intTime);
     return t;
 }
+
+std::string SystemTimeManager::format(int duration)
+{
+    time_t t = duration;
+    struct tm *form = gmtime(&t);
+
+    char buffer[10];
+
+    strftime(buffer, 10, "%R", form);
+
+    std::string formattedTime(buffer);
+
+    return formattedTime;
+}

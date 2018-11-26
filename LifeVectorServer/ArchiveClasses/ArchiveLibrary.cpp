@@ -7,7 +7,7 @@ ArchiveLibrary::ArchiveLibrary(Database *db_pointer)
 }
 
 // Static set declaration
-std::set<int> ArchiveLibrary::locationIndex = std::set<int>();
+std::map<int, CoordinateInformation> ArchiveLibrary::locationIndex = std::map<int, CoordinateInformation>();
 
 /* Destructor: */
 ArchiveLibrary::~ArchiveLibrary() {}
@@ -52,7 +52,7 @@ bool ArchiveLibrary::saveLocationToDatabase(ArchivedLocation location)
     }
     else
     {
-        std::cout << "Location Save Error: Could not save to Database" << std::endl;
+        std::cout << "Location could not save to Database" << std::endl;
         return false;
     }
 }
@@ -73,7 +73,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
         std::vector<std::string> fields;
         split(result, fields, '\t');
 
-        /* Field Legend
+        /* Field Legend : 
          * 0. locationID, 
          * 1. locationName, 
          * 2. address, 
@@ -101,6 +101,60 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
     }
 }
 
+/* Location Visit Records Functions: */
+bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog)
+{
+    // check for presence of location
+    if (!isKnown(locationID))
+    {
+        std::cout << "Could not archive user log: Location not known" << std::endl;
+        return false;
+    }
+
+    // extract iterator of user's time log
+    std::map<long, int>::iterator record_iter;
+
+    // iterate through log and enter each entry into DB
+    for (record_iter = userVisitLog.getTimeLog().begin(); record_iter != userVisitLog.getTimeLog().end(); ++record_iter)
+    {
+        /* Fields Legend : VisitLog
+        `visitTime` bigint(20) NOT NULL,
+        `locationID` int(11) NOT NULL,
+        `duration` int(11) NOT NULL,
+        `username` varchar(10) NOT NULL,
+        `deviceID` varchar(10) NOT NULL,
+        */
+
+        std::stringstream entry;
+        entry << "INSERT INTO VisitLog"
+              << "(visitTime, locationID, duration, username, deviceID) VALUES ("
+              << record_iter->first << ", "
+              << locationID << ", "
+              << record_iter->second << ", '"
+              << user << "', '"
+              << device << "');";
+
+        if (connected_db->exeSQL(entry.str()))
+        {
+            std::cout << "User Record at LocID, " << locationID << ", has been added to Database" << std::endl;
+            return true;
+        }
+        else
+        {
+            std::cout << "User Record could not save to Database" << std::endl;
+            return false;
+        }
+    }
+}
+
+bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, int locationID, std::string user, std::string device)
+{
+    
+}
+
+bool ArchiveLibrary::getLocationRecordFromDatabase(VisitLog *record, int locationID) {}
+
+/* Checks & Helpers */
 bool ArchiveLibrary::isKnown(int locationID)
 {
     std::stringstream query;

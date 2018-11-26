@@ -51,7 +51,7 @@ LocationInformation ArchivedLocation::getLocationDetails()
 
 double *ArchivedLocation::getLocationReference()
 {
-    double *gps;
+    double gps[2];
     *gps = coordinates.getLatitude();
     *(gps+1) = coordinates.getLongitude();
 
