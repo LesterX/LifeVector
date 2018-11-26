@@ -3,201 +3,201 @@
 
     <item
         is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-base/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-base-1.0.1_a636320456199199d922bfa9868b7e35c6434711.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="6975da39a7040257bd51d21a231b76c915872d38">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/javax.inject-1_b595f1271deca44f9568b0e42754d9d73400691e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-1.0.1_abba48213cb7d9b96d4a60522675d7d2cfffd543.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fresco/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="cf836a435a496eb22ff2aa69aa1e619462549f81">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fresco-1.0.1_7fb9b11ec7066f86413d785cb287fb629f099775.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.facebook.fbui.textlayoutbuilder/staticlayout-proxy/1.0/f162442a19fff13995fbd51ba414d9ee05579080/staticlayout-proxy-1.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/staticlayout-proxy-1.0_134a47ee32d4665df19914d0c31236e57336188a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/fbcore/1.0.1/jars/classes.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\1.0.1\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="2668e49e4e31c7d451b76a36009b902bf44e0d70">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-fbcore-1.0.1_093caa91e8c6cd467bf4b943292319640ca9854d.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-fbcore-1.0.1_377324f81a7a6174c467fef9fc99ed4e758df530.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="c5526d30278eb171f4a1325bd6b927c9057c91f4">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.react-react-native-0.46.0_e1c5da8590253b06452221d95ca0a9bace56626c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1_54b4c60af2cb720e1eea0a6f1c39f9f0cf5c1491.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/okio-1.13.0_473ee1385aea91322ac84fc2c92cdea824867af8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/drawee/1.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="5a61f17cd72e20aa4323cbf5f909b7c609619275">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-drawee-1.0.1_6ed0130ca278a15bb4bb038d035a9a1dd57c5771.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1_cecab1086667f72da68a752277a971632d1b1e04.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1_ad5f4f78f76fad956cb591a01b179a239e818013.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.6.0/69edde9fc4b01c9fd51d25b83428837478c27254/okhttp-3.6.0.jar"
+        jar="C:\Users\ASUS\AppData\Local\Android\Sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
-        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/okhttp-3.6.0_630c1fdec03a9ea72c5585a69d3e825112d71e1a.jar" />
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1_56eb2b7006a3776dbacbb74e8f78a413b9b46496.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\1.0.1\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
-        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_c109c10c1d53be0a7dcb9349de68b5de0c373663.jar" />
+        sha1="5a61f17cd72e20aa4323cbf5f909b7c609619275">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-drawee-1.0.1_da4194de0a66acb2b4f5ed9acb1eda02186f4f4b.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-urlconnection/3.6.0/3f9b16b774f2c36cfd86dd2053d0b3059531dacc/okhttp-urlconnection-3.6.0.jar"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.6.0\3f9b16b774f2c36cfd86dd2053d0b3059531dacc\okhttp-urlconnection-3.6.0.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/okhttp-urlconnection-3.6.0_511b9b00f527fddb68a16dce22c754ca49656177.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.6.0_768e7330b5472ddaa2e07f902d64ebc348daa04f.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.46.0/jars/libs/infer-annotations-4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/infer-annotations-4.0_3b5ae66b40fd567d42664081ceeed77abc6b6d42.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fresco/imagepipeline-okhttp3/1.0.1/jars/classes.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\1.0.1\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="ba9b39366b723ccff6359d1117332968e98a4aca">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fresco-imagepipeline-okhttp3-1.0.1_fa1c368156a662a0f5af6aa47289755ac172afe9.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-okhttp3-1.0.1_f37d628d8b451d373d22de23f56732563fa32ca4.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.0/5871fb60dc68d67da54a663c3fd636a10a532948/jsr305-3.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/jsr305-3.0.0_22ed1acf37e87f569034b84e22ea0f01278b6f18.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.soloader/soloader/0.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.soloader-soloader-0.1.0_9f7d0cad502a1d406f77627cfa2946980f8f5c82.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.0.1_8eadbc32e5aaf8ae28a1ed8a4b4c0c3e8b195360.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/lifeVectorMobile/react-native-ble-manager/unspecified/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="22.0.1"
-        sha1="bf8c66f570d1716fd06119e4e71b88c93df0ad0e">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/lifeVectorMobile-react-native-ble-manager-unspecified_0955ed777c3f2262d8441715bc93a67c5fa03ebf.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.facebook.fbui.textlayoutbuilder/textlayoutbuilder/1.0.0/jars/classes.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fbui.textlayoutbuilder\textlayoutbuilder\1.0.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="f90b593491e4044903f0bbf68dc3fa2790b151b9">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_653a818349f69a2b9797171c0f8398567b5f41e5.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fbui.textlayoutbuilder-textlayoutbuilder-1.0.0_6c915b903c0d97c05d14253196207e4e5dabac00.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.soloader-soloader-0.1.0_c9ae12c701a88b3a9089fe63fed4927368ee7a9a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="d9c4402c3057225d80cbbbec52154e7a25b0ebdf">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-1.0.1_2cf730c1f1e6286f0f9e326d45b53941ac145407.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\okio-1.13.0_3fd97c60ad08e018805a5034bf4d15cebded625e.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="cf836a435a496eb22ff2aa69aa1e619462549f81">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-fresco-1.0.1_e064abce67bc030bd96583129c01fb65e54f417b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.facebook.fbui.textlayoutbuilder\staticlayout-proxy\1.0\f162442a19fff13995fbd51ba414d9ee05579080\staticlayout-proxy-1.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="f162442a19fff13995fbd51ba414d9ee05579080">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\staticlayout-proxy-1.0_9e4dc41b50ab7b2b331f5fc0b24c2398f4223d8c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.6.0\69edde9fc4b01c9fd51d25b83428837478c27254\okhttp-3.6.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="69edde9fc4b01c9fd51d25b83428837478c27254">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\okhttp-3.6.0_e3aa1509f173aac5993ef7cc7c56a57a4c7d8210.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\lifeVectorMobile\react-native-ble-manager\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="12356abc66f30ada0a60c6bd650a761f280c9b6a">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\lifeVectorMobile-react-native-ble-manager-unspecified_6bc40e551ce9a36ca3cb0009af01565b0ba37db3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="050f688115ea65a0292d8483a6ffe6bcdab1e2ef">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.fresco-imagepipeline-base-1.0.1_19e960a472be0a90bb4b03247c7bde7eccc6a60b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0_6d9650028ab827b81fc76ea8c92ba05f6193a950.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.46.0\jars\libs\infer-annotations-4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="9809e90be788acdb479b2b44e2112f3295a03068">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\infer-annotations-4.0_1ff67047e13b8567a603a58587ee496a6de545c4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\javax.inject-1_965dbd9d6e46c865a9ffe75d828bb80d3982f897.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="22.0.1"
         sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
-        <dex dex="/Users/macbook/Desktop/LifeVector/group3/LifeVectorMobile/android/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.0.1_f33c5cb8774616db0698885337c9daeec34d1169.jar" />
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.0.1_adc3d05b881c879bdb2c51e96843619dbf5c0df3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0_4e735c50c994884fec093d13872b99f12f8d09d8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.0.1_f634e88b6ed3abb1d6538920de4818033178d1ce.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.46.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="22.0.1"
+        sha1="c5526d30278eb171f4a1325bd6b927c9057c91f4">
+        <dex dex="C:\Users\ASUS\Documents\group3\LifeVectorMobile\android\app\build\intermediates\pre-dexed\debug\com.facebook.react-react-native-0.46.0_b1fbcff3d571f69b92221f5616e76d07c1aefbb3.jar" />
     </item>
 
 </items>

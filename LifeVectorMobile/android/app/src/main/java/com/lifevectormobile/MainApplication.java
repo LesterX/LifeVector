@@ -1,8 +1,14 @@
-package com.lifeVectorMobile;
+package com.lifevectormobile;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNRSA.RNRSAPackage;
+import it.innove.BleManagerPackage;
+import com.react.rnspinkit.RNSpinkitPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.ocetnik.timer.BackgroundTimerPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -10,7 +16,7 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
-import it.innove.BleManagerPackage; // <--- import
+import com.polidea.reactnativeble.BlePackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -24,8 +30,19 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new BleManagerPackage() // <------ add the package
+            new RNRSAPackage(),
+            new BleManagerPackage(),
+            new RNSpinkitPackage(),
+            new RNDeviceInfo(),
+            new BackgroundTimerPackage(),
+          new ReactNativePushNotificationPackage(),
+          new BlePackage()
       );
+    }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
     }
   };
 

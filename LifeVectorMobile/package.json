@@ -8,18 +8,24 @@
     "android-linux": "react-native bundle --platform android --dev false --entry-file index.android.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android"
   },
   "dependencies": {
+    "async": "^2.6.1",
     "bytes-counter": "^1.0.0",
     "convert-string": "^0.1.0",
     "pusher-js": "^4.1.0",
     "random-id": "0.0.2",
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.46.0",
-    "react-native-ble-manager": "^6.5.1",
+    "react": "16.5.0",
+    "react-native": "0.57.0",
+    "react-native-background-timer": "^2.1.1",
+    "react-native-ble-manager": "^6.5.2",
+    "react-native-ble-plx": "^1.0.0",
     "react-native-button": "^2.3.0",
     "react-native-cli": "^2.0.1",
     "react-native-device-info": "^0.24.3",
     "react-native-prompt": "^1.0.0",
-    "react-native-spinkit": "^1.1.1"
+    "react-native-push-notification": "^3.1.2",
+    "react-native-rsa-native": "^1.0.24",
+    "react-native-spinkit": "^1.1.1",
+    "react-native-unique-id": "^1.0.4"
   },
   "devDependencies": {
     "babel-jest": "21.0.2",

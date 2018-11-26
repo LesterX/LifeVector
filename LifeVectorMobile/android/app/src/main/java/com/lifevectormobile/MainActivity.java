@@ -1,4 +1,4 @@
-package com.lifeVectorMobile;
+package com.lifevectormobile;
 
 import com.facebook.react.ReactActivity;
 
