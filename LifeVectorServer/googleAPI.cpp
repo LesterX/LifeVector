@@ -42,8 +42,6 @@ using namespace std;
        // cout << "from json: " << result << endl;
         splitstr(result, c, ',');
 
-
-
         if (!isdigit((c[0].c_str())[0])){
             string n = c[0];
             //cout << "assignToNAME: " << c[0] << ", " << n << endl;
@@ -54,12 +52,11 @@ using namespace std;
                // cout << c[i] << endl;
                 result = result + c[i];
             }
-
-            return result;
         }
-
-        return result;
-
+        
+        location = result;
+        
+        return location;
     }
 
     string googleAPI :: getNorthEastLat(){
