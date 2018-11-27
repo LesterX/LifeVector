@@ -28,7 +28,6 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import Spinner from 'react-native-spinkit';
 import { BleManager } from 'react-native-ble-plx';
-import DeviceInfo from 'react-native-device-info';
 import {RSA, RSAKeychain} from 'react-native-rsa-native';
 
 
@@ -52,8 +51,9 @@ export default class BLEPage extends Component {
         this.private_key = null;
         this.background = null;
         this.bkgdID = null;
-        this.timeoutID = null;
         this.dev_id = null;
+        this.AES_iv = null;
+        this.AES_key = null;
 
         this.peripherals = [];
 
@@ -106,45 +106,91 @@ export default class BLEPage extends Component {
             }
           }
         });
-      RSA.generateKeys(4096) // set key size
-        .then(keys => {
-          AsyncStorage.setItem('public_key', keys.public, () => {
-            console.log("Successfully saved public key");
-          });
-          AsyncStorage.setItem('private_key', keys.private, () => {
-            console.log("Successfully saved private key");
-          });
+
+      AsyncStorage.getItem('public_key', (err, result) => {
+        AsyncStorage.getItem('private_key', (err1, result1) => {
+          if (err || err1){
+            RSA.generateKeys(2048) // set key size
+              .then(keys => {
+                AsyncStorage.setItem('public_key', keys.public, () => {
+                  console.log("Successfully saved public key");
+                });
+                AsyncStorage.setItem('private_key', keys.private, () => {
+                  console.log("Successfully saved private key");
+                });
+              });
+          } else {
+            this.public_key = result;
+            this.private_key = result1;
+            console.log(result);
+            console.log(result1);
+          }
         });
+      });
+
       uniqueId()
         .then(id => {
           this.dev_id = id;
         })
         .catch(error => console.error(error))
     }
+    string_format =  function(str, id) {
+      console.log(str);
+      var actualReturn = "";
+      var returnString = id + ':[START]' + str;
+      var firstPart = returnString.slice(0, 512);
+      var secondPart = returnString.slice(512);
+      actualReturn += firstPart;
+      if (secondPart != "") {
+        var fragments = this.string_chop(secondPart, 475);
+        for (var i = 0; i < fragments.length; i++) {
+          actualReturn += id;
+          actualReturn += ":";
+          actualReturn += fragments[i];
+        }
+      }
+      actualReturn += "[END]";
+      return actualReturn;
+    };
+    string_chop =  function(str, size){
+      if (str == null) return [];
+      str = String(str);
+      size = ~~size;
+      return size > 0 ? str.match(new RegExp('(.|[\\r\\n]){1,' + size + '}', 'g')) : [str];
+    };
+
+    convertPKCS1toPKCS8(input_key){
+      var no_newlines = input_key.replace(/(\r\n\t|\n|\r\t)/gm,"");
+      var remove_header_footer = no_newlines.replace(/-----.{3,5} RSA PUBLIC KEY-----/g, "");
+      remove_header_footer = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A" + remove_header_footer;
+      var new_string = "";
+      while (remove_header_footer.length > 0){
+        new_string += remove_header_footer.substring(0,64) + '\n';
+        remove_header_footer = remove_header_footer.substring(64);
+      }
+      new_string = '-----BEGIN PUBLIC KEY-----\n' + new_string + '-----END PUBLIC KEY-----\n';
+      return new_string
+    }
 
     componentDidUpdate(prevProps, prevState){
       if (this.state.is_connected !== prevState.is_connected){
         if (this.state.is_connected == true){
-          this.manager2.requestMTU(this.state.connected_peripheral, 1000)
-            .then ((mtu) => {
-              console.log("MTU: " + mtu);
-            })
-            .catch((error) => {
-              console.log("MTU Error: " + error);
-            });
           AsyncStorage.getItem('public_key', (err, result) => {
-            var sendData = this.dev_id + ":::" + result;
-            console.log(sendData);
+            var sendData = this.convertPKCS1toPKCS8(result);
+            console.log(this.string_format(sendData, this.dev_id));
             // To enable BleManagerDidUpdateValueForCharacteristic listener
             this.manager2.startNotification(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000003-1E3C-FAD4-74E2-97A033F1BFAA')
               .then(() => {
-                this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000003-1E3C-FAD4-74E2-97A033F1BFAA', stringToBytes(sendData), 511)
+                this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000003-1E3C-FAD4-74E2-97A033F1BFAA', stringToBytes(this.string_format(sendData, this.dev_id)), 512)
                   .then((value) => {
                     console.log(String.fromCharCode.apply(null, value));
                   })
-
+                  .catch((error) => {
+                    console.log(error);
+                  })
               });
           });
+
         }
       }
     }
@@ -339,7 +385,30 @@ export default class BLEPage extends Component {
       ({ value, peripheral, characteristic, service }) => {
         // Convert bytes array to string
         const data = bytesToString(value);
-        console.log(`Recieved ${data} for characteristic ${characteristic}`);
+        console.log(data);
+        if (data == "already logged in"){
+          AsyncStorage.getItem('AES_key', (err, result) => {
+            AsyncStorage.getItem('AES_iv', (err1, result1) => {
+              this.AES_key = result;
+              this.AES_iv = result1;
+            });
+          });
+        } else {
+          RSA.decrypt(data, this.private_key)
+            .then((encodedMessage) => {
+              var AES_key = encodedMessage.match("\\[key:\\](.*)\\[iv:\\]")[1];
+              var AES_iv = encodedMessage.match("\\[iv:\\](.*)")[1];
+              AsyncStorage.setItem('AES_key', AES_key, () => {
+                console.log("Successfully saved public key");
+              });
+              AsyncStorage.setItem('AES_iv', AES_iv, () => {
+                console.log("Successfully saved private key");
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+        }
       }
     );
     this.checkForScanning();

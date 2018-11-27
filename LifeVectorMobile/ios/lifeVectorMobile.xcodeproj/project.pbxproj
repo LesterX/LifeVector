@@ -43,7 +43,7 @@
 		BD9F3C9A6ED14878A7E31C01 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 770862AE662F4CE584F723F3 /* libRNDeviceInfo.a */; };
 		050B03D2A6AB499D92F61FB6 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 614B924CE33C49499C1E9620 /* libRNDeviceInfo-tvOS.a */; };
 		1CFD3898EF4F4A29B61E4C86 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B61C82F1AA4546A6936214B5 /* libRNSpinkit.a */; };
-		7B49DFA200CA49628926C3F7 /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 67713BF35BFF42AFB9BF4184 /* libRNRSA.a */; };
+		335DEEFAF4384ED084E315DE /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAE9951D6AF417889BAD5D0 /* libRNRSA.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -360,8 +360,8 @@
 		614B924CE33C49499C1E9620 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		FAA711EE23A84D29A244CA93 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; name = "RNSpinkit.xcodeproj"; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		B61C82F1AA4546A6936214B5 /* libRNSpinkit.a */ = {isa = PBXFileReference; name = "libRNSpinkit.a"; path = "libRNSpinkit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		E6C11C6C478D4213BBA1729F /* RNRSA.xcodeproj */ = {isa = PBXFileReference; name = "RNRSA.xcodeproj"; path = "../node_modules/react-native-rsa-native/ios/RNRSA.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		67713BF35BFF42AFB9BF4184 /* libRNRSA.a */ = {isa = PBXFileReference; name = "libRNRSA.a"; path = "libRNRSA.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		4B66700E1CA84DDD835B0455 /* RNRSA.xcodeproj */ = {isa = PBXFileReference; name = "RNRSA.xcodeproj"; path = "../node_modules/react-native-rsa-native/ios/RNRSA.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		3FAE9951D6AF417889BAD5D0 /* libRNRSA.a */ = {isa = PBXFileReference; name = "libRNRSA.a"; path = "libRNRSA.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -394,7 +394,7 @@
 				D75033E89A9446BABDF9A805 /* libBleClient.a in Frameworks */,
 				BD9F3C9A6ED14878A7E31C01 /* libRNDeviceInfo.a in Frameworks */,
 				1CFD3898EF4F4A29B61E4C86 /* libRNSpinkit.a in Frameworks */,
-				7B49DFA200CA49628926C3F7 /* libRNRSA.a in Frameworks */,
+				335DEEFAF4384ED084E315DE /* libRNRSA.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -587,7 +587,7 @@
 				D873703DFAA846E2BB0E4B9A /* BleClient.xcodeproj */,
 				BB4A7161E43344EAA2A10E39 /* RNDeviceInfo.xcodeproj */,
 				FAA711EE23A84D29A244CA93 /* RNSpinkit.xcodeproj */,
-				E6C11C6C478D4213BBA1729F /* RNRSA.xcodeproj */,
+				4B66700E1CA84DDD835B0455 /* RNRSA.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1216,12 +1216,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1252,12 +1246,6 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/lifeVectorMobile.app/lifeVectorMobile";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -1353,12 +1341,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1398,12 +1380,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1442,12 +1418,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1485,12 +1455,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
