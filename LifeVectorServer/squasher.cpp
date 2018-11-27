@@ -1,8 +1,9 @@
-#include "squasher.h"
+#include "squasher.h" 
 #include <vector>
 #include "./ArchiveClasses/CoordinateInformation.h"
 #include "./ArchiveClasses/ArchivedLocation.h"
 #include "googleAPI.h"
+#include "UserVisitInfo.h"
 
 /* Squash raw data from RawDataRespository
  * Check if in the library first
@@ -12,6 +13,7 @@ void squasher::squash() {
 	std::vector<long> timeStamps = rawData.getTimeStamps();
 	std::map<long,int> log;
 	std::std::vector<long>::iterator itr = timeStamps.begin();
+	UserVisitInfo uvi();
 
 	for (itr; itr != timeStamps.end(); ++itr) {
 		double *coord;
@@ -41,9 +43,37 @@ void squasher::squash() {
 			//Create new archived location
 			ArchivedLocation al = constructLocation(id,address,description,
 			lat,lng,northbound,southbound,eastbound,westbound);
+			library.saveLocationToDatabase(al);
 			log.emplace(*itr,locationID);
 		}
 	}
 
-	
+	//Another loop to squash the points
+	double lastTime = 0;
+	double timeSpent = 0;
+	int lastID = 0;
+	itr = timeStamps.begin();
+	for (itr; itr != timeStamps.end(); ++itr) {
+		int locID = log.find(*itr);
+		//Setting up for the first location
+		if (itr == timeStamps.begin()) {
+			lastTime = *itr;
+			lastID = locID;
+		}else {
+			//If found a different location, add it to the user visit location
+			if (locID != lastID) {
+				uvi.addSingleLog(lastTime, (int) timeSpent);
+				lastTime = *itr;
+				lastID = locID;
+				timeSpent = 0;
+			}else {
+				//If found a same location, increment spent time and update lastTime
+				timeSpent = timeSpent + (*itr - lastTime);
+				lastTime = *itr;
+			}
+		}
+	}
+
+	//Raw data is now squashed into the user visit info object
+	uvi.printLog();
 }
