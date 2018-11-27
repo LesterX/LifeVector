@@ -165,7 +165,7 @@ GattCharacteristic &GattCharacteristic::onUpdatedValue(UpdatedValueCallback call
 //          // Call the onUpdateValue method that was set in the same Characteristic
 //          self.callOnUpdatedValue(pConnection, pUserData);
 //      })
-bool GattCharacteristic::callOnUpdatedValue(GDBusConnection *pConnection, void *pUserData) const
+bool GattCharacteristic::callOnUpdatedValue(GDBusConnection *pConnection, void *pUserData, string id) const
 {
 	if (nullptr == pOnUpdatedValueFunc)
 	{
@@ -173,7 +173,7 @@ bool GattCharacteristic::callOnUpdatedValue(GDBusConnection *pConnection, void *
 	}
 
 	Logger::debug(SSTR << "Calling OnUpdatedValue function for interface at path '" << getPath() << "'");
-	return pOnUpdatedValueFunc(*this, pConnection, pUserData);
+	return pOnUpdatedValueFunc(*this, pConnection, pUserData, id);
 }
 
 // Convenience functions to add a GATT descriptor to the hierarchy

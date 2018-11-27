@@ -45,6 +45,7 @@
 #include "DBusObject.h"
 #include "../../UserController.h"
 #include "../../RawDataRepository.h"
+#include "../../EncryptionModule.h"
 
 
 namespace ggk {

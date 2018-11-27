@@ -185,6 +185,11 @@ namespace ggk {
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
+std::map< std::string, std::map<std::string, std::string> > bufferStorage;
+EncryptionModule em;
+
+
+
 // ---------------------------------------------------------------------------------------------------------------------------------
 // Globals
 // ---------------------------------------------------------------------------------------------------------------------------------
@@ -244,6 +249,7 @@ namespace ggk {
         enableConnectable = true;
         enableAdvertising = true;
         enableBondable = false;
+
 
         //
         // Define the server
@@ -394,13 +400,42 @@ namespace ggk {
                                       {
                                               // Update the text string value
                                               GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
-                                              self.setDataPointer("text/string", Utils::stringFromGVariantByteArray(pAyBuffer).c_str());
+                                              std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
+                                              std::string public_key_fragment;
+                                              printf("OVERALL: %s\n",writeValue.c_str());
+                                              std::string dev_id = writeValue.substr (0,36);
+                                              if ( bufferStorage.find(dev_id) == bufferStorage.end() && bufferStorage[dev_id].find("status") == bufferStorage[dev_id].end() && bufferStorage[dev_id]['status'] == "not authenticated") {
+                                                  public_key_fragment = writeValue.substr(37);
+                                                  if ( bufferStorage.find(dev_id) == bufferStorage.end() && bufferStorage[dev_id].find("pub_key") == bufferStorage[dev_id].end()) {
+                                                    bufferStorage[dev_id]["pub_key"] = "";
+                                                  }
 
-                                              // Since all of these methods (onReadValue, onWriteValue, onUpdateValue) are all part of the same
-                                              // Characteristic interface (which just so happens to be the same interface passed into our self
-                                              // parameter) we can that parameter to call our own onUpdatedValue method
-                                              std::string  send = "1133333";
-                                              self.callOnUpdatedValue(pConnection, pUserData);
+                                                  if (writeValue.find("[START]") != std::string::npos) {
+                                                    bufferStorage[dev_id]["pub_key"] = "";
+                                                  }
+                                                  bufferStorage[dev_id]["pub_key"] += public_key_fragment;
+                                                  if (writeValue.find("[END]") != std::string::npos) {
+                                                      //Create encryption module and generate the key and cipher for AES
+                                                      // Load the necessary cipher
+                                                      EVP_add_cipher(EVP_aes_256_cbc());
+
+                                                      byte key[KEY_SIZE], iv[BLOCK_SIZE];
+
+                                                      em.gen_params(key, iv);
+                                                      std::string charAESKey(reinterpret_cast<char*>(key));
+                                                      bufferStorage[dev_id]["key"] = charAESKey;
+                                                      std::string charAESiv(reinterpret_cast<char*>(iv));
+                                                      bufferStorage[dev_id]["iv"] = charAESiv;
+
+                                                      OPENSSL_cleanse(key, KEY_SIZE);
+                                                      OPENSSL_cleanse(iv, BLOCK_SIZE);
+
+                                                      self.callOnUpdatedValue(pConnection, pUserData, dev_id);
+                                                  }
+                                              } else {
+                                                self.callOnUpdatedValue(pConnection, pUserData, "already logged in");
+                                              }
+
                                       })
                         // Here we use the onUpdatedValue to set a callback that isn't exposed to BlueZ, but rather allows us to manage
                         // updates to our value. These updates may have come from our own server or some other source.
@@ -408,9 +443,62 @@ namespace ggk {
                         // We can handle updates in any way we wish, but the most common use is to send a change notification.
                 .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
                                         {
-                                            std::string send = "11333333";
-				            self.sendChangeNotificationValue(pConnection, send);
-				            return true;		
+                                                if (id != "already logged in"){
+                                            byte key[KEY_SIZE], iv[BLOCK_SIZE];
+                                            memcpy(key, bufferStorage[id]["key"].data(), bufferStorage[id]["key"].length());
+                                            memcpy(iv, bufferStorage[id]["iv"].data(), bufferStorage[id]["iv"].length());
+
+                                            char * key_char = em.base64((unsigned char*)key, KEY_SIZE);
+                                            char * iv_char = em.base64((unsigned char*)key, BLOCK_SIZE);
+
+                                            std::string charAESKey(key_char);
+                                            std::string charAESiv(iv_char);
+                                            std::string msg;
+                                            msg = "[key:]";
+                                            msg += charAESKey;
+                                            msg += "[iv:]";
+                                            msg += charAESiv;
+
+                                            char* first_message = const_cast<char*>(msg.c_str());
+                                            string startDEL = "[START]";
+                                            string endDEL = "[END]";
+                                            unsigned first = bufferStorage[id]["pub_key"].find(startDEL);
+                                            unsigned last = bufferStorage[id]["pub_key"].find(endDEL);
+                                            string pub_key_str = bufferStorage[id]["pub_key"].substr(first+startDEL.size(),last-endDEL.size()-2);
+
+
+                                            int key_length = pub_key_str.length();
+                                            char key1[key_length];
+                                            strcpy(key1, pub_key_str.c_str());
+                                            BIO* mem = BIO_new_mem_buf(key1, (int)sizeof(key1));
+                                            EVP_PKEY* pkey = PEM_read_bio_PUBKEY(mem, NULL, NULL, NULL);
+                                            RSA * public_key = EVP_PKEY_get1_RSA(pkey);
+                                            char *encrypt = NULL;
+                                            encrypt = (char*)malloc(RSA_size(public_key));
+                                            int encrypt_length = em.public_encrypt(strlen(first_message), (unsigned char*)first_message, (unsigned char*)encrypt, public_key, RSA_PKCS1_PADDING);
+                                            if(encrypt_length == -1) {
+                                                printf("An error occurred in public_encrypt() method");
+                                            }
+                                            printf("Data has been encrypted.");
+                                            char * base64 = em.base64((unsigned char*)encrypt, RSA_size(public_key));
+                                            printf("Base64 version created");
+                                            printf("OpenSSL_RSA has been finished.");
+                                            std::string send(base64);
+                                            self.sendChangeNotificationValue(pConnection, send);
+                                            free(base64);
+                                            BIO_free_all(mem);
+                                            EVP_PKEY_free(pkey);
+                                            RSA_free(public_key);
+                                            free(encrypt);
+                                            OPENSSL_cleanse(key, KEY_SIZE);
+                                            OPENSSL_cleanse(iv, BLOCK_SIZE);
+
+                                        } else {
+                                            std::string send(id);
+                                            self.sendChangeNotificationValue(pConnection, send);
+                                                }
+                                                return true
+
 					})
 
                         // GATT Descriptor: Characteristic User Description (0x2901)

@@ -102,6 +102,7 @@ class EncryptionModule
         int envelope_seal(EVP_PKEY **pub_key, unsigned char *plaintext, int plaintext_len, unsigned char **encrypted_key, int *encrypted_key_len, unsigned char *iv, unsigned char *ciphertext);
         int envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len, unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv, unsigned char *plaintext);
         void handleErrors(void);
+        char * base64(const unsigned char* input, int length);
         void getKeyFromString(std::string key, int pem_type, RSA * cipher);
         int public_encrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding);
         int private_decrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding);
