@@ -181,13 +181,13 @@ int main()
 
     if (vl.userFound(uID))
     {
-        check = vl.addNewLog(uID, uvi);
+        check = vl.addFullLog(uID, uvi);
     }
     else
     {
         if(vl.addNewUser(uID))
         {
-            check = vl.addNewLog(uID, uvi);
+            check = vl.addFullLog(uID, uvi);
         }
     }
 

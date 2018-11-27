@@ -34,6 +34,7 @@ class VisitLog
   // Getters:
   std::map<std::string, UserVisitInfo>::iterator getUserVisitInformation(std::string usernID);
   std::set<std::string>::iterator findUser(std::string userID);
+  std::set<std::string> getVisitUsers();
   int getTotalTimesVisited();
   int getTotalTimeSpent();
 

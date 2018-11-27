@@ -18,6 +18,15 @@ void VisitLog::updateCounters(UserVisitInfo log_entry)
     durationSpent += log_entry.getTotalTimeSpent();
 }
 
+// Checkers:
+bool VisitLog::userFound(std::string userID)
+{
+    std::set<std::string>::iterator target = findUser(userID);
+
+    // if iterator not pointing to end, then a user was found;
+    return (target != userLog.end());
+}
+
 // Getters:
 std::set<std::string>::iterator VisitLog::findUser(std::string userID)
 {
@@ -37,6 +46,11 @@ int VisitLog::getTotalTimesVisited()
 int VisitLog::getTotalTimeSpent()
 {
     return durationSpent;
+}
+
+std::set<std::string> VisitLog::getVisitUsers()
+{
+    return userLog;
 }
 
 // Setters & Adders:
@@ -67,6 +81,7 @@ bool VisitLog::addFullLog(std::string userID, UserVisitInfo log)
 
     UserVisitInfo *entry = &(target->second);
     bool is_updated = entry->updateLog(log);
+    std::cout << "here" << std::endl;
 
     if (is_updated)
     {
@@ -90,11 +105,3 @@ bool VisitLog::addSingleEntry(std::string userID, long time, int duration)
     return true;
 }
 
-// Checkers:
-bool VisitLog::userFound(std::string userID)
-{
-    std::set<std::string>::iterator target = findUser(userID);
-
-    // if iterator not pointing to end, then a user was found;
-    return (target != userLog.end());
-}
