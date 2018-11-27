@@ -29,16 +29,14 @@ class googleAPI{
 	    nlohmann::json doc;
 	    std::string name;
         std::string location;
-        long time;
     
 	public:
 
-		googleAPI(std::string latitude, std::string longitude, long t){
+		googleAPI(std::string latitude, std::string longitude){
 			//constructor
 			
 			lat = latitude;
         	lng = longitude;
-            time = t;
 
 			CURLplusplus client;
 	    
@@ -70,7 +68,6 @@ class googleAPI{
 	    std::string getSouthWestLng();
 	    std::string getTypes();
 	    std::string getName();
-        long getTime();
 	    void splitstr(const std::string& str, std::vector<std::string>& container, char delim);
 
 
