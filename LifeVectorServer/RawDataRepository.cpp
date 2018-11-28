@@ -8,6 +8,9 @@ RawDataRepository::RawDataRepository(std::string sourceFile, std::string fileSpe
     RawDataRepository::buildRepository(fileSpecification);
 }
 
+//Testing constructor
+RawDataRepository::RawDataRepository() {}
+
 RawDataRepository::~RawDataRepository()
 {
     //dtor
@@ -86,4 +89,14 @@ void RawDataRepository::getCoordinates(double *coordinates, long timestamp)
 
     *coordinates = entry.latitude;
     *(coordinates + 1) = entry.longitude;
+}
+
+void RawDataRepository::addTestData(long t, double lat, double lng)
+{
+	gpsLog log;
+	log.latitude = lat;
+	log.longitude = lng;
+	log.time = t;
+	rawData[t] = log;
+	logTimes.push_back(t);
 }

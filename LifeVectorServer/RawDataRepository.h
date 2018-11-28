@@ -41,12 +41,16 @@ private:
 public:
   // Constructor & Destructor
   RawDataRepository(std::string sourceFile, std::string fileSpecification);
+  RawDataRepository(); //Alternative constructor only for testing purpose
   ~RawDataRepository();
 
   // Fetching coordinates
   std::vector<long> getTimeStamps();
   void getCoordinates(double *coordinates, long timestamp);
   void dumpData();
+
+  //Testing method to add single point
+  void addTestData(long t, double lat, double lng);
 };
 
 #endif
