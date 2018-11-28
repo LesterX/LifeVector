@@ -21,13 +21,13 @@ import BLEAndLocation from './BLEAndLocation';
 import newBLE from 'react-native-ble-manager';
 import { AsyncStorage } from "react-native";
 import { bytesToString, stringToBytes } from 'convert-string';
+import {RSA, RSAKeychain} from 'react-native-rsa-native';
 const uniqueId = require('react-native-unique-id');
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 
 import Spinner from 'react-native-spinkit';
 import { BleManager } from 'react-native-ble-plx';
-import {RSA, RSAKeychain} from 'react-native-rsa-native';
 var aesjs = require('aes-js');
 const GLOBAL = require('./libraries/globals');
 
@@ -51,7 +51,6 @@ export default class BLEPage extends Component {
         this.background = null;
         this.bkgdID = null;
         this.dev_id = null;
-        this.AES_iv = null;
         this.AES_key = null;
 
         this.peripherals = [];
@@ -109,7 +108,7 @@ export default class BLEPage extends Component {
       AsyncStorage.getItem('public_key', (err, result) => {
         AsyncStorage.getItem('private_key', (err1, result1) => {
           if (!result || !result1){
-            RSA.generateKeys(2048) // set key size
+            RSA.generate(2048)
               .then(keys => {
                 AsyncStorage.setItem('public_key', keys.public, () => {
                   console.log("Successfully saved public key");
@@ -126,12 +125,9 @@ export default class BLEPage extends Component {
       });
 
       AsyncStorage.getItem('AES_key', (err, result) => {
-        AsyncStorage.getItem('AES_iv', (err1, result1) => {
-          if (!(err || err1 || !result || !result1)){
+          if (!(err || !result)){
             this.AES_key = result;
-            this.AES_iv = result1;
           }
-        });
       });
 
 
@@ -140,15 +136,7 @@ export default class BLEPage extends Component {
           this.dev_id = id;
         })
         .catch(error => console.error(error))
-      navigator.geolocation.watchPosition(
-        position => {
-          const location = JSON.stringify(position);
 
-          console.log(location);
-        },
-        error => Alert.alert(error.message),
-        { 'enableHighAccuracy': true, 'maximumAge': 10000 }
-      );
     }
     string_format =  function(str, id) {
       var actualReturn = "";
@@ -413,44 +401,23 @@ export default class BLEPage extends Component {
           const data = bytesToString(value);
           if (data == "already logged in") {
             AsyncStorage.getItem('AES_key', (err, result) => {
-              AsyncStorage.getItem('AES_iv', (err1, result1) => {
                 this.AES_key = result;
-                this.AES_iv = result1;
-              });
             });
           } else {
             setTimeout(() => {
-              console.log('here');
+              console.log('here: ' + this.private_key);
               RSA.decrypt(data, this.private_key)
                 .then((encodedMessage) => {
                   console.log("Encoded: " + encodedMessage);
-                  var AES_key = encodedMessage.match("\\[key:\\](.*)\\[iv:\\]")[1];
-                  var AES_iv = encodedMessage.match("\\[iv:\\](.*)")[1];
+                  var AES_key = encodedMessage.match("\\[key:\\](.*)");
+                  console.log("THE KEY IS: " + AES_key);
                   this.AES_key = AES_key;
-                  this.AES_iv = AES_iv;
                   AsyncStorage.setItem('AES_key', AES_key, () => {
-                    console.log("Successfully saved public key");
+                    console.log("Successfully saved aes key");
                   });
-                  AsyncStorage.setItem('AES_iv', AES_iv, () => {
-                    console.log("Successfully saved private key");
-                  });
+
                   // An example 128-bit key
-
-                  var key = Uint8Array.from(atob(AES_key), c => c.charCodeAt(0));
-                  // The initialization vector (must be 16 bytes)
-                  var iv = Uint8Array.from(atob(AES_iv), c => c.charCodeAt(0));
-                  // Convert text to bytes (text must be a multiple of 16 bytes)
-                  var text = 'Pass back';
-                  var textBytes = aesjs.utils.utf8.toBytes(text);
-
-                  var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
-                  var encryptedBytes = aesCbc.encrypt(aesjs.padding.pkcs7.pad(textBytes));
-
-                  // To print or store the binary data, you may convert it to hex
-                  var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-                  console.log(encryptedHex);
-                  //Convert to Base64 String
-                  var base64Encrypted = this.hexToBase64(encryptedHex);
+                  var base64Encrypted = this.encrypt("Pass back",this.AES_key);
                   var that = this;
                   setTimeout(()=>{
                     that.manager2.startNotification(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST)
@@ -464,6 +431,7 @@ export default class BLEPage extends Component {
                               console.log(error);
                             })
                         },10000);
+
                       });
                   }, 5000);
                 })
@@ -504,6 +472,35 @@ export default class BLEPage extends Component {
         //   }
         //
         // });
+    }
+
+    encrypt(key, text){
+        var key = Uint8Array.from(atob(key), c => c.charCodeAt(0));
+        // The initialization vector (must be 16 bytes)
+        // Convert text to bytes (text must be a multiple of 16 bytes)
+        var textBytes = aesjs.utils.utf8.toBytes(text);
+
+        var aesCtr = new aesjs.ModeOfOperation.ctr(key);
+        var encryptedBytes = aesCtr.encrypt(textBytes);
+
+        // To print or store the binary data, you may convert it to hex
+        var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+        console.log(encryptedHex);
+        //Convert to Base64 String
+        return this.hexToBase64(encryptedHex);
+    }
+    decrypt(key, cipher){
+        var key = Uint8Array.from(atob(key), c => c.charCodeAt(0));
+        // The initialization vector (must be 16 bytes)
+        // Convert text to bytes (text must be a multiple of 16 bytes)
+        var cipherBytes = aesjs.utils.utf8.toBytes(cipher);
+
+        var aesCtr = new aesjs.ModeOfOperation.ctr(key);
+        var decryptedBytes = aesCtr.decrypt(cipherBytes);
+
+        // To print or store the binary data, you may convert it to hex
+        return aesjs.utils.utf8.fromBytes(decryptedBytes);
+
     }
     writeKeyTest(param){
       this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000004-1E3C-FAD4-74E2-97A033F1BFAA', param, 512)
