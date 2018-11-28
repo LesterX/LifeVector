@@ -1,3 +1,6 @@
+/** 
+ * @brief creates a database runny mysql and gives methods for insertion and queries
+ */
 #include <iostream>
 #include <cstdlib>
 #include "Database.h"
@@ -5,6 +8,9 @@
 #include <sstream>
 using namespace std;
 
+/** 
+ * @brief constructor for database class
+ */
 Database::Database()
 {
 	connection = mysql_init(NULL);
@@ -14,7 +20,9 @@ Database::Database()
 		exit(1);
 	}
 }
-
+/** 
+ * @brief destructor for database class
+ */
 Database::~Database()
 {
 	if (connection != NULL)
@@ -22,7 +30,11 @@ Database::~Database()
 		mysql_close(connection);
 	}
 }
-
+/** 
+ * @brief connects to the databse
+ * @param host name, user name, password, database name
+ * @return returns true if a connection can be made otherwise return error message and exit
+ */
 bool Database::initDB(string host, string user, string pwd, string db_name)
 {
 	// Build a connection with database
@@ -35,7 +47,11 @@ bool Database::initDB(string host, string user, string pwd, string db_name)
 	}
 	return true;
 }
-
+/** 
+ * @brief queries the database
+ * @param a string representing an sql query
+ * @return returns true if a query is successful otherwise print an error message and exit
+ */
 bool Database::exeSQL(string sql)
 {
 	if (mysql_query(connection, sql.c_str()))
@@ -65,7 +81,11 @@ bool Database::exeSQL(string sql)
 	}
 	return true;
 }
-
+/** 
+ * @brief gets a result from the database
+ * @param a string representing an sql query
+ * @return returns the result of the query if it's successful otherwise print and error and exit
+ */
 std::string Database::getSQLResult(string sql)
 {
 	stringstream ss;
@@ -97,3 +117,4 @@ std::string Database::getSQLResult(string sql)
 	}
 	return ss.str();
 }
+
