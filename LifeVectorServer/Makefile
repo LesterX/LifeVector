@@ -2,11 +2,13 @@ CC=g++
 CFLAGS=-c
 CMATH=-lm
 PFLAG=-lmysqlclient
+PFLAG2=-L/usr/include/curl/lib -lcurl
+PFLAG3=-lcrypto
 
 all: clean main 
 
-main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
-	$(CC) -o $@ $^ $(CMATH) $(PFLAG)
+main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
+	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 UserControllerTest.o: UserControllerTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
@@ -35,9 +37,21 @@ md5.o: md5.cpp
 RawDataRepository.o: RawDataRepository.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
+googleAPI.cpp.o: googleAPI.cpp
+	$(CC) $(CFLAGS) -o $@ $< 	
+
+CURLplusplus.o: CURLplusplus.cpp
+	$(CC) $(CFLAGS) -o $@ $< 	
+
+EncryptionModule.o: EncryptionModule.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+SystemTimeManager.o: SystemTimeManager.cpp
+	$(CC) $(CFLAGS) -o $@ $<
 
 test: clean main #cleans and runs main with the test file
 	sudo ./main
 
 clean:
 	rm -f *.o main
+
