@@ -15,6 +15,7 @@ void EncryptionModule::gen_params(byte key[KEY_SIZE], byte iv[BLOCK_SIZE])
 void EncryptionModule::aes_encrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], const secure_string& ptext, secure_string& ctext)
 {
     EVP_CIPHER_CTX_free_ptr ctx(EVP_CIPHER_CTX_new(), ::EVP_CIPHER_CTX_free);
+    EVP_CIPHER_CTX_set_padding(ctx.get(), 7);
     int rc = EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_cbc(), NULL, key, iv);
     if (rc != 1)
         throw std::runtime_error("EVP_EncryptInit_ex failed");
@@ -46,6 +47,7 @@ void EncryptionModule::handleErrors(void)
 void EncryptionModule::aes_decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], const secure_string& ctext, secure_string& rtext)
 {
     EVP_CIPHER_CTX_free_ptr ctx(EVP_CIPHER_CTX_new(), ::EVP_CIPHER_CTX_free);
+    EVP_CIPHER_CTX_set_padding(ctx.get(), 7);
     int rc = EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_cbc(), NULL, key, iv);
     if (rc != 1)
         throw std::runtime_error("EVP_DecryptInit_ex failed");
@@ -62,6 +64,7 @@ void EncryptionModule::aes_decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK
     rc = EVP_DecryptFinal_ex(ctx.get(), (byte*)&rtext[0]+out_len1, &out_len2);
     if (rc != 1)
         throw std::runtime_error("EVP_DecryptFinal_ex failed");
+    free(ctx.get());
 
     // Set recovered text size now that we know it
     rtext.resize(out_len1 + out_len2);
@@ -183,6 +186,57 @@ char * EncryptionModule::base64(const unsigned char* input, int length)
 
     return buff;
 }
+
+
+
+static const std::string base64_chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz"
+        "0123456789+/";
+
+
+static inline bool is_base64(unsigned char c) {
+    return (isalnum(c) || (c == '+') || (c == '/'));
+}
+
+
+std::string EncryptionModule::base64_decode(std::string const& encoded_string) {
+    int in_len = encoded_string.size();
+    int i = 0;
+    int j = 0;
+    int in_ = 0;
+    unsigned char char_array_4[4], char_array_3[3];
+    std::string ret;
+
+    while (in_len-- && ( encoded_string[in_] != '=') && is_base64(encoded_string[in_])) {
+        char_array_4[i++] = encoded_string[in_]; in_++;
+        if (i ==4) {
+            for (i = 0; i <4; i++)
+                char_array_4[i] = base64_chars.find(char_array_4[i]);
+
+            char_array_3[0] = ( char_array_4[0] << 2       ) + ((char_array_4[1] & 0x30) >> 4);
+            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) +   char_array_4[3];
+
+            for (i = 0; (i < 3); i++)
+                ret += char_array_3[i];
+            i = 0;
+        }
+    }
+
+    if (i) {
+        for (j = 0; j < i; j++)
+            char_array_4[j] = base64_chars.find(char_array_4[j]);
+
+        char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
+        char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
+
+        for (j = 0; (j < i - 1); j++) ret += char_array_3[j];
+    }
+
+    return ret;
+}
+
 int EncryptionModule::private_decrypt(int flen, unsigned char* from, unsigned char* to, RSA* key, int padding) {
 
     int result = RSA_private_decrypt(flen, from, to, key, padding);

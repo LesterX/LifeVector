@@ -52,6 +52,7 @@ struct ServerUtils
 	// If this routine fails, it will respond with something reasonable, if not _entirely_ accurate.
 	static std::string getCpuInfo(int16_t &cpuCount);
 
+	
 	// Build a variant that meets the standard for the Current Time (0x2A2B) Bluetooth Characteristic standard
 	//
 	// See: https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.characteristic.current_time.xml

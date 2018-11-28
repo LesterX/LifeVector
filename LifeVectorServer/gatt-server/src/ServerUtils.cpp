@@ -189,6 +189,7 @@ static void addManagedObjectsNode(const DBusObject &object, const DBusObjectPath
 	}
 }
 
+
 // Builds the response to the method call `GetManagedObjects` from the D-Bus interface `org.freedesktop.DBus.ObjectManager`
 void ServerUtils::getManagedObjects(GDBusMethodInvocation *pInvocation)
 {

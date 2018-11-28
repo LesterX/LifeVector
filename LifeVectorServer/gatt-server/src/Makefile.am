@@ -1,13 +1,7 @@
 # Build a static library (libggk.a)
 noinst_LIBRARIES = libggk.a
 libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lcrypto -lmysqlclient  $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
-libggk_a_SOURCES = ../../ArchivedLocation.cpp \
-		   ../../ArchivedLocation.h \
-		   ../../ArchiveLibrary.cpp \
-		   ../../ArchiveLibrary.h \
-                   ../../CoordinateInformation.cpp \
-                   ../../CoordinateInformation.h \
-                   ../../Database.cpp \
+libggk_a_SOURCES = ../../Database.cpp \
                    ../../Database.h \
                    ../../DataDepositor.cpp \
                    ../../DataDepositor.h \
@@ -17,13 +11,10 @@ libggk_a_SOURCES = ../../ArchivedLocation.cpp \
                    ../../hashfunc.cpp \
                    ../../hashfunc.h \
                    ../../json.hpp \
-                   ../../LocationInformation.cpp \
-                   ../../LocationInformation.h \
                    ../../md5.cpp \
                    ../../md5.h \
                    ../../RawDataRepository.cpp \
                    ../../RawDataRepository.h \
-                   ../../StringParser.h \
                    ../../SystemTimeManager.cpp \
                    ../../SystemTimeManager.h \
                    ../../UserController.cpp \
@@ -32,8 +23,6 @@ libggk_a_SOURCES = ../../ArchivedLocation.cpp \
                    ../../user.h \
                    ../../UserLibrary.cpp \
                    ../../UserLibrary.h \
-                   ../../UserVisitInfo.cpp \
-                   ../../UserVisitInfo.h \
 		   DBusInterface.cpp \
                    DBusInterface.h \
                    DBusMethod.cpp \

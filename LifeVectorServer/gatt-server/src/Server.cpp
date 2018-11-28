@@ -196,6 +196,15 @@ EncryptionModule em;
 
 // Our one and only server. It's global.
     std::shared_ptr <Server> TheServer = nullptr;
+//Used to remove the [START] and [END] substrings from received messages
+std::string removeStartAndEnd(std::string start_end_string){
+    string startDEL = "[START]";
+    string endDEL = "[END]";
+    unsigned first = start_end_string.find(startDEL);
+    unsigned last = start_end_string.find(endDEL);
+    string pub_key_str = start_end_string.substr(first+startDEL.size(),last-endDEL.size()-2);
+    return pub_key_str;
+}
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 // Object implementation
@@ -373,27 +382,9 @@ EncryptionModule em;
                         // that the value has been updated and provide the new text from that point forward.
                 .gattServiceBegin("non_secure", "00000001-1E3C-FAD4-74E2-97A033F1BFAA")
 
-                        // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)
-                .gattCharacteristicBegin("remove_secure_state", "00000002-1E3C-FAD4-74E2-97A033F1BFAA", {"read"})
-
-                        // Standard characteristic "ReadValue" method call
-                .onReadValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
-                                     {
-                                             std::string  send = "Hello Samar";
-                                             self.methodReturnValue(pInvocation, send, true);
-                                     })
-
-                .gattCharacteristicEnd()
 
                         // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)
-                .gattCharacteristicBegin("key_transfer", "00000003-1E3C-FAD4-74E2-97A033F1BFAA", {"read", "write", "notify"})
-
-                        // Standard characteristic "ReadValue" method call
-                .onReadValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
-                                     {
-                                             const char *pTextString = self.getDataPointer<const char *>("text/string", "Hello Abha");
-                                             self.methodReturnValue(pInvocation, pTextString, true);
-                                     })
+                .gattCharacteristicBegin("key_transfer", "00000003-1E3C-FAD4-74E2-97A033F1BFAA", {"write", "notify"})
 
                         // Standard characteristic "WriteValue" method call
                 .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
@@ -402,39 +393,47 @@ EncryptionModule em;
                                               GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
                                               std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
                                               std::string public_key_fragment;
-                                              printf("OVERALL: %s\n",writeValue.c_str());
-                                              std::string dev_id = writeValue.substr (0,36);
-                                              if ( bufferStorage.find(dev_id) == bufferStorage.end() && bufferStorage[dev_id].find("status") == bufferStorage[dev_id].end() && bufferStorage[dev_id]['status'] == "not authenticated") {
-                                                  public_key_fragment = writeValue.substr(37);
-                                                  if ( bufferStorage.find(dev_id) == bufferStorage.end() && bufferStorage[dev_id].find("pub_key") == bufferStorage[dev_id].end()) {
-                                                    bufferStorage[dev_id]["pub_key"] = "";
+                                              if (writeValue.substr(36, 1) == ":" && writeValue.substr(8,1) == "-" && writeValue.substr(13,1) == "-" && writeValue.substr(18,1) == "-"){
+                                                  printf("OVERALL: %s\n",writeValue.c_str());
+                                                  std::string dev_id = writeValue.substr (0,36);
+                                                  if ( bufferStorage.find(dev_id) == bufferStorage.end() || bufferStorage[dev_id].find("status") == bufferStorage[dev_id].end() || bufferStorage[dev_id]["status"] == "not authenticated") {
+                                                      if (writeValue.substr(37, 7) != "[START]"){
+                                                          if (bufferStorage.find(dev_id) != bufferStorage.end() && bufferStorage[dev_id].find("pub_key") != bufferStorage[dev_id].end() && bufferStorage[dev_id]["pub_key"].find("[END]") != std::string::npos){
+                                                              return;
+                                                          }
+                                                      }
+                                                      public_key_fragment = writeValue.substr(37);
+                                                      if ( bufferStorage.find(dev_id) == bufferStorage.end() && bufferStorage[dev_id].find("pub_key") == bufferStorage[dev_id].end()) {
+                                                          bufferStorage[dev_id]["pub_key"] = "";
+                                                      }
+
+                                                      if (writeValue.find("[START]") != std::string::npos) {
+                                                          bufferStorage[dev_id]["pub_key"] = "";
+                                                      }
+                                                      bufferStorage[dev_id]["pub_key"] += public_key_fragment;
+                                                      if (writeValue.find("[END]") != std::string::npos) {
+                                                          //Create encryption module and generate the key and cipher for AES
+                                                          // Load the necessary cipher
+                                                          EVP_add_cipher(EVP_aes_256_cbc());
+
+                                                          byte key[KEY_SIZE], iv[BLOCK_SIZE];
+
+                                                          em.gen_params(key, iv);
+                                                          std::string charAESKey(reinterpret_cast<char*>(key));
+                                                          bufferStorage[dev_id]["key"] = charAESKey;
+                                                          std::string charAESiv(reinterpret_cast<char*>(iv));
+                                                          bufferStorage[dev_id]["iv"] = charAESiv;
+
+                                                          OPENSSL_cleanse(key, KEY_SIZE);
+                                                          OPENSSL_cleanse(iv, BLOCK_SIZE);
+
+                                                          self.callOnUpdatedValue(pConnection, pUserData, dev_id);
+                                                      }
+                                                  } else {
+                                                      self.callOnUpdatedValue(pConnection, pUserData, "already logged in");
                                                   }
-
-                                                  if (writeValue.find("[START]") != std::string::npos) {
-                                                    bufferStorage[dev_id]["pub_key"] = "";
-                                                  }
-                                                  bufferStorage[dev_id]["pub_key"] += public_key_fragment;
-                                                  if (writeValue.find("[END]") != std::string::npos) {
-                                                      //Create encryption module and generate the key and cipher for AES
-                                                      // Load the necessary cipher
-                                                      EVP_add_cipher(EVP_aes_256_cbc());
-
-                                                      byte key[KEY_SIZE], iv[BLOCK_SIZE];
-
-                                                      em.gen_params(key, iv);
-                                                      std::string charAESKey(reinterpret_cast<char*>(key));
-                                                      bufferStorage[dev_id]["key"] = charAESKey;
-                                                      std::string charAESiv(reinterpret_cast<char*>(iv));
-                                                      bufferStorage[dev_id]["iv"] = charAESiv;
-
-                                                      OPENSSL_cleanse(key, KEY_SIZE);
-                                                      OPENSSL_cleanse(iv, BLOCK_SIZE);
-
-                                                      self.callOnUpdatedValue(pConnection, pUserData, dev_id);
-                                                  }
-                                              } else {
-                                                self.callOnUpdatedValue(pConnection, pUserData, "already logged in");
                                               }
+
 
                                       })
                         // Here we use the onUpdatedValue to set a callback that isn't exposed to BlueZ, but rather allows us to manage
@@ -449,7 +448,7 @@ EncryptionModule em;
                                             memcpy(iv, bufferStorage[id]["iv"].data(), bufferStorage[id]["iv"].length());
 
                                             char * key_char = em.base64((unsigned char*)key, KEY_SIZE);
-                                            char * iv_char = em.base64((unsigned char*)key, BLOCK_SIZE);
+                                            char * iv_char = em.base64((unsigned char*)iv, BLOCK_SIZE);
 
                                             std::string charAESKey(key_char);
                                             std::string charAESiv(iv_char);
@@ -460,11 +459,7 @@ EncryptionModule em;
                                             msg += charAESiv;
 
                                             char* first_message = const_cast<char*>(msg.c_str());
-                                            string startDEL = "[START]";
-                                            string endDEL = "[END]";
-                                            unsigned first = bufferStorage[id]["pub_key"].find(startDEL);
-                                            unsigned last = bufferStorage[id]["pub_key"].find(endDEL);
-                                            string pub_key_str = bufferStorage[id]["pub_key"].substr(first+startDEL.size(),last-endDEL.size()-2);
+                                            string pub_key_str = removeStartAndEnd(bufferStorage[id]["pub_key"]);
 
 
                                             int key_length = pub_key_str.length();
@@ -494,12 +489,87 @@ EncryptionModule em;
                                             OPENSSL_cleanse(iv, BLOCK_SIZE);
 
                                         } else {
-                                            std::string send(id);
-                                            self.sendChangeNotificationValue(pConnection, send);
+                                            self.sendChangeNotificationValue(pConnection, id);
                                                 }
-                                                return true
+                                                return true;
 
 					})
+
+                        // GATT Descriptor: Characteristic User Description (0x2901)
+                        //
+                        // See: https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.descriptor.gatt.characteristic_user_description.xml
+                .gattDescriptorBegin("description", "2901", {"read"})
+
+                        // Standard descriptor "ReadValue" method call
+                .onReadValue(DESCRIPTOR_METHOD_CALLBACK_LAMBDA
+                                     {
+                                             const char *pDescription = "A mutable text string used for testing. Read and write to me, it tickles!";
+                                             self.methodReturnValue(pInvocation, pDescription, true);
+                                     })
+
+                .gattDescriptorEnd()
+
+                .gattCharacteristicEnd()
+                        // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)
+                .gattCharacteristicBegin("test_key", "00000004-1E3C-FAD4-74E2-97A033F1BFAA", {"write", "notify"})
+
+                        // Standard characteristic "WriteValue" method call
+                .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
+                                      {
+                                              // Update the text string value
+                                              GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
+                                              std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
+                                              std::string public_key_fragment;
+                                              if (writeValue.substr(36, 1) == ":" && writeValue.substr(8,1) == "-" && writeValue.substr(13,1) == "-" && writeValue.substr(18,1) == "-" && writeValue.find("[START]") != std::string::npos && writeValue.find("[END]") != std::string::npos){
+                                          printf("OVERALL: %s\n",writeValue.c_str());
+                                          std::string dev_id = writeValue.substr (0,36);
+                                          if ( bufferStorage.find(dev_id) != bufferStorage.end() && bufferStorage[dev_id].find("key") != bufferStorage[dev_id].end() && bufferStorage[dev_id].find("iv") != bufferStorage[dev_id].end()) {
+                                              std::string startAndEnd = writeValue.substr(37);
+                                              std::string withoutStartAndEnd = removeStartAndEnd(startAndEnd);
+                                              std::cout << withoutStartAndEnd << std::endl;
+
+                                              //Create encryption module and generate the key and cipher for AES
+                                              // Load the necessary cipher
+                                              EVP_add_cipher(EVP_aes_256_cbc());
+
+                                              byte key[KEY_SIZE], iv[BLOCK_SIZE];
+                                              memcpy(key, bufferStorage[dev_id]["key"].data(), bufferStorage[dev_id]["key"].length());
+                                              memcpy(iv, bufferStorage[dev_id]["iv"].data(), bufferStorage[dev_id]["iv"].length());
+
+                                              std::string result = em.base64_decode(withoutStartAndEnd);
+                                              std::cout << "Decoded: " << result << std::endl;
+                                              secure_string ctext = result.c_str();
+                                              secure_string rtext;
+
+                                              em.aes_decrypt(key, iv, ctext, rtext);
+                                              printf("Return text: %s\n", rtext.c_str());
+
+                                              OPENSSL_cleanse(key, KEY_SIZE);
+                                              OPENSSL_cleanse(iv, BLOCK_SIZE);
+                                              if (rtext.find("Pass back") != std::string::npos){
+                                                  self.callOnUpdatedValue(pConnection, pUserData, "Pass back");
+                                              } else {
+                                                  self.callOnUpdatedValue(pConnection, pUserData, "Symmetric key failed.");
+                                              }
+
+
+                                          } else {
+                                              self.callOnUpdatedValue(pConnection, pUserData, "Need to key transfer first.");
+                                          }
+                                      }
+
+
+                                      })
+                        // Here we use the onUpdatedValue to set a callback that isn't exposed to BlueZ, but rather allows us to manage
+                        // updates to our value. These updates may have come from our own server or some other source.
+                        //
+                        // We can handle updates in any way we wish, but the most common use is to send a change notification.
+                .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
+                                        {
+                                                self.sendChangeNotificationValue(pConnection, id);
+                                                return true;
+
+                                        })
 
                         // GATT Descriptor: Characteristic User Description (0x2901)
                         //
