@@ -20,7 +20,7 @@
 
 
 
-class googleAPI{
+class placesAPI{
 
 	private:
 
@@ -32,7 +32,7 @@ class googleAPI{
 
 	public:
 
-		googleAPI(std::string place_id){
+		placesAPI(std::string place_id){
 			//constructor
 
 			placeid = place_id;
@@ -56,16 +56,9 @@ class googleAPI{
 			//destructor
 		}
 
-	    void setlatlng(std::string latitude, std::string longitude);
 
-	    std::string getFormattedLocation();
+	    std::string getLocationName();
 
-	    std::string getNorthEastLat();
-	    std::string getNorthEastLng();
-	    std::string getSouthWestLat();
-	    std::string getSouthWestLng();
-	    std::string getTypes();
-	    std::string getName();
 	    void splitstr(const std::string& str, std::vector<std::string>& container, char delim);
 
 

@@ -17,8 +17,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
-
-
+#include "placesAPI.h"
 
 class googleAPI{
 
@@ -71,7 +70,6 @@ class googleAPI{
 	    std::string getSouthWestLat();
 	    std::string getSouthWestLng();
 	    std::string getTypes(int j);
-	    std::vector<std::string> getTypesArray(int j);
 	    std::string getPlaceID(int j);
 	    std::string getValidPlace();
 	    bool checkTypes(int j);
