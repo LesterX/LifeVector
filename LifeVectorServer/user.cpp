@@ -1,6 +1,5 @@
 /** 
  * @brief creates a user or sets values for existing users. Has getters and setters to accomplish this
- * @param username, deviceID, hash, salt, syncTime
  */
 #include "user.h"
 
