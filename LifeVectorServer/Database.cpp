@@ -32,8 +32,11 @@ Database::~Database()
 }
 /** 
  * @brief connects to the databse
- * @param host name, user name, password, database name
- * @return returns true if a connection can be made otherwise return error message and exit
+ * @param host the name of the host
+ * @param user the name of the user
+ * @param pwd the password for that user
+ * @param db_name the name of the database
+ * @return true if a connection can be made otherwise return error message and exit
  */
 bool Database::initDB(string host, string user, string pwd, string db_name)
 {
