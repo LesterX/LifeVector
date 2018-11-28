@@ -37,6 +37,10 @@ long CURLplusplus :: GetHttpCode(){
 }
 /** 
  * @brief writes data to the buffer
+ * @param buffer a buffer to store information
+ * @param size the size of the buffer
+ * @param nmemb a number representing the member
+ * @param userp a pointer to the user
  * @return the data we need
  */
 size_t CURLplusplus :: write_data(void *buffer, size_t size, size_t nmemb, void *userp){
@@ -45,6 +49,9 @@ size_t CURLplusplus :: write_data(void *buffer, size_t size, size_t nmemb, void 
 }
 /** 
  * @brief writes data to the buffer
+ * @param buffer a buffer to store information
+ * @param size the size of the buffer
+ * @param nmemb a number representing the member
  * @return the data we need
  */
 size_t CURLplusplus :: Write(void *buffer, size_t size, size_t nmemb){
