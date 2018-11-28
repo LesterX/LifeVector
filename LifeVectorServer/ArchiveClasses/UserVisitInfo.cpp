@@ -63,21 +63,25 @@ std::map<long, int> UserVisitInfo::getTimeLog()
     return timeLog;
 }
 
-void UserVisitInfo::printLog()
+std::string UserVisitInfo::beautify()
 {
     std::map<long, int>::iterator it;
+    std::stringstream output;
 
-    std::cout << std::endl
-              << "Time Log: " << std::endl;
+    output << "Time Log:\n";
 
     for (it = timeLog.begin(); it != timeLog.end(); ++it)
     {
         SystemTimeManager t_stamp(it->first);
-        std::cout << t_stamp.UNIXtoEST() << "\t Duration: " << SystemTimeManager::format(it->second) << std::endl;
+
+        output << t_stamp.UNIXtoEST() << "\t Duration: " << SystemTimeManager::format(it->second) << "\n";
     }
 
-    std::cout << std::endl
-              << "Visit Count: " << visitFrequency << std::endl
-              << "Total Time Spent: " << SystemTimeManager::format(totalVisitDuration) << std::endl
-              << std::endl;
+    output << "Visit Count: " << visitFrequency
+              << "\nTotal Time Spent: " << SystemTimeManager::format(totalVisitDuration) << "\n";
+}
+
+void UserVisitInfo::printLog()
+{
+    std::cout << beautify() << std::endl;
 }

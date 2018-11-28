@@ -2,7 +2,9 @@
 #define USER_VISIT_INFO_H
 
 #include <map>
+#include <string>
 #include <iostream>
+#include <sstream>
 
 #include "../SystemTimeManager.h"
 
@@ -29,6 +31,7 @@ class UserVisitInfo
     int getVisitFrequency();
     int getTotalTimeSpent();
 
+    std::string beautify();
     void printLog();
 };
 
