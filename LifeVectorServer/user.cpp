@@ -6,7 +6,10 @@
 using namespace std;
 
 /** constructor for new user so no report or report time
- * @param username, deviceID, hash, salt, syncTime
+ * @param username the name of the user
+ * @param deviceID the name of the device
+ * @param hash the hash value generated and associated to the user
+ * @param salt the salt value generated and associated to the userc
  */
 User::User(std::string username, std::string deviceID, std::string hash, std::string salt)
 {
@@ -21,7 +24,12 @@ User::User(std::string username, std::string deviceID, std::string hash, std::st
 
 /** 
  * @brief full constructor
- * @param username, deviceID, hash, salt, report, syncTime, reportTime
+ * @param username the name of the user
+ * @param deviceID the name of the device
+ * @param hash the hash value generated and associated to the user
+ * @param salt the salt value generated and associated to the user
+ * @param syncTime the time it takes to sync
+ * @param report the json report
  */
 User::User(std::string username, std::string deviceID, std::string hash, std::string salt, json report, int syncTime, int reportTime)
 {
@@ -36,7 +44,8 @@ User::User(std::string username, std::string deviceID, std::string hash, std::st
 
 /** 
  * @brief barebones constructor
- * @param username, deviceID
+ * @param username the name of the user
+ * @param deviceID the name of the device
  */
 User::User(string username, string deviceID)
 {

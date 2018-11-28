@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 
     cout << "South West Longitude: " << g.getSouthWestLng() << endl;
 
-    cout << "Types: " << g.getTypes(example) << endl;
+    cout << "Types: " << g.getTypes(0) << endl;
 
 
 	return 0;
