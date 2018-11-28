@@ -51,9 +51,9 @@ LocationInformation ArchivedLocation::getLocationDetails()
 
 double *ArchivedLocation::getLocationReference()
 {
-    double gps[2];
+    double *gps = (double *)malloc(sizeof(double *) * 2);
     *gps = coordinates.getLatitude();
-    *(gps+1) = coordinates.getLongitude();
+    *(gps + 1) = coordinates.getLongitude();
 
     return gps;
 }
@@ -77,6 +77,6 @@ void ArchivedLocation::printInformation()
               << "\tNorth: " << coordinates.getNorthLimit() << std::endl
               << "\tEast: " << coordinates.getEastLimit() << std::endl
               << "\tSouth: " << coordinates.getSouthLimit() << std::endl
-              << "\tWest: " << coordinates.getWestLimit() << std::endl 
+              << "\tWest: " << coordinates.getWestLimit() << std::endl
               << std::endl;
 }
