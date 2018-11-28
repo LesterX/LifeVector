@@ -59,6 +59,31 @@ using namespace std;
         return location;
     }
 
+    string googleAPI :: getLat(){
+
+        string result;
+        // Create an output string stream
+        std::ostringstream streamObj;
+        //Add double to stream
+        streamObj << doc.at("results")[0].at("geometry").at("location").at("lat");
+        // Get string from output string stream
+        std::string strObj = streamObj.str();
+
+        return strObj;
+    }
+    string googleAPI :: getLng(){
+
+            string result;
+            // Create an output string stream
+            std::ostringstream streamObj;
+            //Add double to stream
+            streamObj << doc.at("results")[0].at("geometry").at("location").at("lng");
+            // Get string from output string stream
+            std::string strObj = streamObj.str();
+
+            return strObj;
+        }
+
     string googleAPI :: getNorthEastLat(){
 
         string result;
@@ -147,16 +172,16 @@ using namespace std;
 
     }
 
-    /*string googleAPI :: getValidPlace(){
+    string googleAPI :: getValidPlace(){
 
-        string types;
-        string placeid;
         for(int i = 0; i < doc.at("results").size(); i++){
-            types = getTypes(i);
-            placeid = getPlaceID(j);
+            if(checkTypes(i)){
+                return getPlaceID(i);
+                break;
+            }
 
         }
-    }*/
+    }
 
     string googleAPI :: getPlaceID(int j){
 
@@ -175,12 +200,15 @@ using namespace std;
         bool flag = false;
         vector<string> types = getTypesArray(j);
         for(int i=0; i < types.size(); i++){
-            cout << types[i] << endl;
             if (unwantedTypes.find(types[i]) == std::string::npos) {
                 flag = true;
+                break;
             }
         }
 
         return flag;
 
     }
+
+
+

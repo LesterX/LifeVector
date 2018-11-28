@@ -18,6 +18,10 @@ int main(int argc, char** argv) {
 
     cout << "Name: " << g.getName() << endl;
 
+    cout << "Latitude: " << g.getLat() << endl;
+
+    cout << "Longitude: " << g.getLng() << endl;
+
     cout << "North East Latitude: " << g.getNorthEastLat() << endl;
 
     cout << "North East Longitude: " << g.getNorthEastLng() << endl;
@@ -26,13 +30,15 @@ int main(int argc, char** argv) {
 
     cout << "South West Longitude: " << g.getSouthWestLng() << endl;
 
-    cout << "Types: " << container[0] << endl;
+    cout << "Types: " << g.getTypes(example) << endl;
 
     if(g.checkTypes(example)){
-        cout << "TRUEEE" << endl;
+        cout << "TRUE" << endl;
     }else {
         cout << "FALSE" << endl;
     }
+
+    cout << "Valid place: " << g.getValidPlace() << endl;
 
 
 

@@ -62,15 +62,18 @@ class googleAPI{
 	    void setlatlng(std::string latitude, std::string longitude);
 
 	    std::string getFormattedLocation();
+	    std::string getName();
 
+        std::string getLat();
+        std::string getLng();
 	    std::string getNorthEastLat();
 	    std::string getNorthEastLng();
 	    std::string getSouthWestLat();
 	    std::string getSouthWestLng();
 	    std::string getTypes(int j);
 	    std::vector<std::string> getTypesArray(int j);
-	    std::string getName();
 	    std::string getPlaceID(int j);
+	    std::string getValidPlace();
 	    bool checkTypes(int j);
 	    void splitstr(const std::string& str, std::vector<std::string>& container, char delim);
 
