@@ -43,8 +43,8 @@ public:
   bool saveLocationToDatabase(ArchivedLocation location);
   // bool deleteLocationFromDatabase(int locationID);
 
-  bool getAdjacentLocations(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude);
-  int matchNearestLocation(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude);
+  bool getAdjacentLocations(std::map<int, CoordinateInformation> &matchedLocations, double latitude, double longitude);
+  int matchNearestLocation(std::map<int, CoordinateInformation> &matchedLocations, double latitude, double longitude);
 
   /* Location Visit Records Functions: */
   bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);

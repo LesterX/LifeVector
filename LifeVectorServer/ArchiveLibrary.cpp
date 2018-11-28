@@ -168,7 +168,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
     }
 }
 
-bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude)
+bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> &matchedLocations, double latitude, double longitude)
 {
     std::stringstream query;
     std::string results;
@@ -193,10 +193,10 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
         CoordinateInformation match(atof(coordinates[1].c_str()), atof(coordinates[2].c_str()));
         match.setLimits(atof(coordinates[3].c_str()), atof(coordinates[4].c_str()), atof(coordinates[5].c_str()), atof(coordinates[6].c_str()));
 
-        matchedLocations->emplace(atoi(coordinates[0].c_str()), match);
+        matchedLocations.emplace(atoi(coordinates[0].c_str()), match);
     }
 
-    if (matchedLocations->size() < 1)
+    if (matchedLocations.size() < 1)
     {
         return false;
     }
@@ -206,24 +206,24 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
     }
 }
 
-int ArchiveLibrary::matchNearestLocation(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude)
+int ArchiveLibrary::matchNearestLocation(std::map<int, CoordinateInformation> &matchedLocations, double latitude, double longitude)
 {
-    if (matchedLocations->size() < 1)
+    if (matchedLocations.size() < 1)
     {
         getAdjacentLocations(matchedLocations, latitude, longitude);
     }
 
     int closestMatch = 0;
     double proximity = 1000.00;
-    std::map<int, CoordinateInformation>::iterator matches = matchedLocations->begin();
+    std::map<int, CoordinateInformation>::iterator matches = matchedLocations.begin();
 
-    if (matchedLocations->size() < 2)
+    if (matchedLocations.size() < 2)
     {
         closestMatch = matches->first;
         return closestMatch;
     }
 
-    for (matches; matches != matchedLocations->end(); ++matches)
+    for (matches; matches != matchedLocations.end(); ++matches)
     {
         double x_diff, y_diff, current_prox;
 

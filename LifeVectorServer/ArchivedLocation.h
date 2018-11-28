@@ -16,6 +16,7 @@ private:
   
 public:
   // Constructors:
+  ArchivedLocation();
   ArchivedLocation(int locationID, double locationLatitude, double locationLongitude, double northPoint, double southPoint, double eastPoint, double westPoint);
   ArchivedLocation(int locationID, double locationLatitude, double locationLongitude);
 
@@ -23,6 +24,7 @@ public:
   ~ArchivedLocation();
 
   // Setters & Updaters:
+  void setBasicInformation(int locationID, double locationLatitude, double locationLongitude);
   void setLocationInformation(std::string name, std::string locationAddress, std::string locationDescription);
   void setBoundaries(double north, double south, double east, double west);
 

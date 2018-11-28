@@ -1,6 +1,8 @@
 #include "ArchivedLocation.h"
 
 // Constructors:
+ArchivedLocation::ArchivedLocation() : details(0), coordinates(0.0, 0.0) {}
+
 ArchivedLocation::ArchivedLocation(int locationID, double locationLatitude, double locationLongitude, double northPoint, double southPoint, double eastPoint, double westPoint) : details(locationID), coordinates(locationLatitude, locationLongitude)
 {
     coordinates.setLimits(northPoint, southPoint, eastPoint, westPoint);
@@ -12,6 +14,12 @@ ArchivedLocation::ArchivedLocation(int locationID, double locationLatitude, doub
 ArchivedLocation::~ArchivedLocation() {}
 
 // Setters & Updaters:
+void ArchivedLocation::setBasicInformation(int locationID, double locationLatitude, double locationLongitude)
+{
+    details = LocationInformation(locationID);
+    coordinates = CoordinateInformation(locationLatitude, locationLongitude);
+}
+
 void ArchivedLocation::setLocationInformation(std::string name, std::string locationAddress, std::string locationDescription)
 {
     details.setName(name);
