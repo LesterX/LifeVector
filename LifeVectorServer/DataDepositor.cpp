@@ -5,7 +5,7 @@ DataDepositor::DataDepositor(Database *db_pointer)
     db_link = db_pointer;
 }
 
-bool DataDepositor::depositRaw(std::string deviceID, RawDataRepository dataset)
+bool DataDepositor::depositRaw(std::string username, std::string deviceID, RawDataRepository dataset)
 {
     // fetch time log of all the GPS points
     std::vector<long> timeLog = dataset.getTimeStamps();
@@ -21,7 +21,7 @@ bool DataDepositor::depositRaw(std::string deviceID, RawDataRepository dataset)
         double gpsXY[2];
         long timeUNIX = *i;
         dataset.getCoordinates(gpsXY, timeUNIX);
-        std::string insertCommand = concatRawQuery(timeUNIX, gpsXY[0], gpsXY[1], deviceID);
+        std::string insertCommand = concatRawQuery(timeUNIX, gpsXY[0], gpsXY[1], username, deviceID);
 
         // insert into database
         if ((*db_link).exeSQL(insertCommand))
@@ -44,17 +44,19 @@ bool DataDepositor::depositRaw(std::string deviceID, RawDataRepository dataset)
     return isUploaded;
 }
 
-std::string DataDepositor::concatRawQuery(long timestamp, double latitude, double longitude, std::string device)
+std::string DataDepositor::concatRawQuery(long timestamp, double latitude, double longitude, std::string user, std::string device)
 {
-    std::string output, tValue, xValue, yValue;
+    std::stringstream output;
+    std::string tValue, xValue, yValue;
     tValue = std::to_string(timestamp);
     xValue = std::to_string(latitude);
     yValue = std::to_string(longitude);
 
-    output = "INSERT INTO GPSUnprocessed (timeStamp, latitude, longitude, devID) VALUES (" +
-             tValue + ", " + xValue + ", " + yValue + ", '" + device + "');";
+    output << "INSERT INTO GPSUnprocessed (timeStamp, latitude, longitude, username, deviceID) VALUES (" << tValue << ", "
+           << xValue << ", " << yValue << ", '"
+           << user << "', '" << device + "');";
 
-    return output;
+    return output.str();
 }
 
 DataDepositor::~DataDepositor()

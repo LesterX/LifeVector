@@ -35,11 +35,14 @@ public:
   // Update User Information
   bool updateReport(string username, string deviceID, json newReport);
   bool fetchReport(json* dbReport, string username, string deviceID);
-  bool saveRawGPStoDB(std::string deviceID, RawDataRepository rawDataSet);
+  bool saveRawGPStoDB(std::string username, std::string deviceID, RawDataRepository rawDataSet);
 
 
   // Comparator
   bool compareUserHash(std::string username, std::string devID, std::string password);
+
+  // Database
+  Database *getDBConnection();
 
 private:
   UserLibrary userLibrary;

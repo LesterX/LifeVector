@@ -222,7 +222,7 @@ bool UserLibrary::updateReport(User user, json report)
         return false;
 }
 
-bool UserLibrary::uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet)
+bool UserLibrary::uploadRawGPSData(std::string username, std::string deviceID, RawDataRepository rawDataSet)
 {
     DataDepositor uploader = DataDepositor(&db);
 
@@ -232,7 +232,7 @@ bool UserLibrary::uploadRawGPSData(std::string deviceID, RawDataRepository rawDa
         return false;
     }
 
-    return uploader.depositRaw(deviceID, rawDataSet);
+    return uploader.depositRaw(username, deviceID, rawDataSet);
 }
 
 bool UserLibrary::isPresent(std::string deviceID)
@@ -276,4 +276,9 @@ bool UserLibrary::isRegistered(std::string username, std::string deviceID)
         cout << "User found in Database" << endl;
         return true;
     }
+}
+
+Database *UserLibrary::getDBConnection()
+{
+    return &db;
 }
