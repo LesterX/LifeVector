@@ -79,6 +79,8 @@ std::string UserVisitInfo::beautify()
 
     output << "Visit Count: " << visitFrequency
               << "\nTotal Time Spent: " << SystemTimeManager::format(totalVisitDuration) << "\n";
+    
+    return output.str();
 }
 
 void UserVisitInfo::printLog()

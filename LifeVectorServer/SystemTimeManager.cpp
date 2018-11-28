@@ -52,9 +52,9 @@ std::string SystemTimeManager::format(int duration)
     time_t t = duration;
     struct tm *form = gmtime(&t);
 
-    char buffer[10];
+    char buffer[80];
 
-    strftime(buffer, 10, "%R", form);
+    strftime(buffer, 80, "%R", form);
 
     std::string formattedTime(buffer);
 

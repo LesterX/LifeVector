@@ -25,13 +25,13 @@ void ArchiveLibrary::userLogDBtoObj(std::map<int, UserVisitInfo> *userLog, std::
     std::vector<std::string> entries, fields;
 
     // separate each entry to interate through
-    split(results, entries, '\n');
+    StringParser::StringParser::custom_parse(results, entries, '\n');
     std::vector<std::string>::iterator row = entries.begin();
 
     for (row; row != entries.end(); ++row)
     {
         // split entry to individual fields
-        split(*row, fields, '\t');
+        StringParser::StringParser::custom_parse(*row, fields, '\t');
 
         // check if location is in userLog already
         std::map<int, UserVisitInfo>::iterator target;
@@ -56,13 +56,13 @@ void ArchiveLibrary::locationLogDBtoOBJ(VisitLog *record, std::string results)
 {
     // Split into entries (rows)
     std::vector<std::string> entries, fields;
-    split(results, entries, '\n');
+    StringParser::StringParser::custom_parse(results, entries, '\n');
     std::vector<std::string>::iterator row = entries.begin();
 
     for (row; row != entries.end(); ++row)
     {
         // Split into indiviual fields
-        split(*row, fields, '\t');
+        StringParser::StringParser::custom_parse(*row, fields, '\t');
         std::string uID = composeID(fields[3], fields[4]);
 
         // check for user in record
@@ -138,7 +138,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
 
         // Parse result into vector
         std::vector<std::string> fields;
-        split(result, fields, '\t');
+        StringParser::StringParser::custom_parse(result, fields, '\t');
 
         /* Field Legend : 
          * 0. locationID, 
@@ -178,7 +178,7 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
     query << "SELECT locationID, latitudePosition, longitudePosition, northBound, southBound, eastBound, westBound FROM ArchivedLocations WHERE northBound >= " << latitude << " AND southBound <= " << latitude << " AND eastBound >= " << longitude << " AND westBound <= " << longitude << ";";
     results = connected_db->getSQLResult(query.str());
 
-    split(results, locations, '\n');
+    StringParser::StringParser::custom_parse(results, locations, '\n');
 
     if (locations.size() < 1)
     {
@@ -188,7 +188,7 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
     row = locations.begin();
     for (row; row != locations.end(); ++row)
     {
-        split(*row, coordinates, '\t');
+        StringParser::StringParser::custom_parse(*row, coordinates, '\t');
 
         CoordinateInformation match(atof(coordinates[1].c_str()), atof(coordinates[2].c_str()));
         match.setLimits(atof(coordinates[3].c_str()), atof(coordinates[4].c_str()), atof(coordinates[5].c_str()), atof(coordinates[6].c_str()));
@@ -255,6 +255,8 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
     // extract iterator of user's time log
     std::map<long, int>::iterator record_iter;
 
+    bool check = false;
+
     // iterate through log and enter each entry into DB
     for (record_iter = userVisitLog.getTimeLog().begin(); record_iter != userVisitLog.getTimeLog().end(); ++record_iter)
     {
@@ -278,14 +280,16 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         if (connected_db->exeSQL(entry.str()))
         {
             std::cout << "User Record at LocID, " << locationID << ", has been added to Database" << std::endl;
-            return true;
+            check = true;
         }
         else
         {
             std::cout << "User Record could not save to Database" << std::endl;
-            return false;
+            check = false;
         }
     }
+
+    return check;
 }
 
 bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device)
@@ -410,6 +414,8 @@ int ArchiveLibrary::getCountBetween(int locationID, std::string user, std::strin
           << " AND username = '" << user << "' AND deviceID = '" << device
           << "' AND visitTime BETWEEN " << start << " AND " << fin << ";";
     std::string results = connected_db->getSQLResult(query.str());
+
+    return atoi(results.c_str());
 }
 
 //sum(duration)
@@ -449,6 +455,8 @@ int ArchiveLibrary::getDurationBetween(int locationID, std::string user, std::st
           << " AND username = '" << user << "' AND deviceID = '" << device
           << "' AND visitTime BETWEEN " << start << " AND " << fin << ";";
     std::string results = connected_db->getSQLResult(query.str());
+
+    return atoi(results.c_str());
 }
 
 /* Checks */

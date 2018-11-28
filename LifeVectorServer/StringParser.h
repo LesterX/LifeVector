@@ -6,14 +6,19 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
- 
-void split(const std::string& str, std::vector<std::string>& container, char delim)
+
+class StringParser
 {
-    std::stringstream ss(str);
-    std::string token;
-    while (std::getline(ss, token, delim)) {
-        container.push_back(token);
+  public:
+    static void custom_parse(const std::string &str, std::vector<std::string> &container, char delim)
+    {
+        std::stringstream ss(str);
+        std::string token;
+        while (std::getline(ss, token, delim))
+        {
+            container.push_back(token);
+        }
     }
-}
+};
 
 #endif

@@ -1,7 +1,7 @@
 #include "StringParser.h"
 
-#include "../Database.h"
-// #include "../UserController.h"
+#include "Database.h"
+#include "UserController.h"
 
 // All Archive Classes
 #include "UserVisitInfo.h"
@@ -11,7 +11,7 @@
 #include "ArchivedLocation.h"
 #include "ArchiveLibrary.h"
 
-#include "../googleAPI.h"
+#include "googleAPI.h"
 
 #include <string>
 #include <iostream>
@@ -19,13 +19,14 @@
 #include <vector>
 #include <utility>
 
-/* void add_user()
+void add_user()
 {
     // add user
     UserController uc("server", "LifeVector123");
     uc.createUser("usr1", "nx5", "LV123");
+    uc.createUser("main_usr", "nx5", "archve");
     uc.~UserController();
-} */
+}
 
 Database add_database_entries()
 {
@@ -58,7 +59,7 @@ Database add_database_entries()
 
     std::vector<std::string> splitted = std::vector<std::string>();
 
-    split(result, splitted, '\t');
+    StringParser::custom_parse(result, splitted, '\t');
 
     std::cout << "Location Split Print:" << std::endl;
 
@@ -114,7 +115,7 @@ void log_output_test(Database db)
               << result << "\n---------" << std::endl;
 
     splitted = std::vector<std::string>();
-    split(result, splitted, '\n');
+    StringParser::custom_parse(result, splitted, '\n');
 
     std::cout << "VisitLog Split Print:" << std::endl;
     std::vector<std::string>::iterator it;
@@ -138,7 +139,7 @@ std::string composeID(std::string username, std::string deviceID)
 
 void ArchClassTests()
 {
-    using namespace std;
+    // using namespace std;
 
     // Location Archiver Tests
 
@@ -206,12 +207,14 @@ int main()
 {
     using namespace std;
 
+    add_user();
     ArchClassTests();
 
-    // Archive Library Test
-    Database db = add_database_entries();
-    ArchiveLibrary ArLib(&db);
-
+    /* // Archive Library Test
+    Database db;
+    db = add_database_entries();
+    cout << "here" << endl;
+    ArchiveLibrary TestLibrary(&db);
     // Add a location
     string loc_name, address, desc;
     int loc_id = 200;
@@ -231,10 +234,13 @@ int main()
     for (map<string, string>::iterator i = loc_coord.begin(); i != loc_coord.end(); ++i)
     {
         // get info from google API
-        googleAPI google(i->first, i->second);
+        string lat = i->first;
+        string lng = i->second;
+        googleAPI google(lat, lng);
         loc_name = google.getName();
         address = google.getFormattedLocation();
-        desc = google.getTypes(0);
+        int azero = 0;
+        desc = google.getTypes(azero);
 
         x_ref = atof(google.getLat().c_str());
         y_ref = atof(google.getLng().c_str());
@@ -245,13 +251,13 @@ int main()
         w_border = atof(google.getSouthWestLng().c_str());
 
         // create ArchiveLocation
-        ArchivedLocation loca_loca = ArLib.constructLocation(loc_id, loc_name, address, desc, x_ref, y_ref, n_border, s_border, e_border, w_border);
+        ArchivedLocation loca_loca = TestLibrary.constructLocation(loc_id, loc_name, address, desc, x_ref, y_ref, n_border, s_border, e_border, w_border);
 
         // print whats found
         loca_loca.printInformation();
 
         // save to database
-        ArLib.saveLocationToDatabase(loca_loca);
+        TestLibrary.saveLocationToDatabase(loca_loca);
 
         cout << "new location added to DB" << endl;
 
@@ -287,7 +293,7 @@ int main()
     {
         void *found = (ArchivedLocation *)malloc(sizeof(ArchivedLocation));
 
-        if (ArLib.getLocationFromDatabase(((ArchivedLocation *)found), temp))
+        if (TestLibrary.getLocationFromDatabase(((ArchivedLocation *)found), temp))
         {
             ((ArchivedLocation *)found)->printInformation();
             id[cnt++] = ((ArchivedLocation *)found)->getID();
@@ -298,23 +304,23 @@ int main()
 
     // add the logs to the 4 locations
     temp = 0;
-    ArLib.archiveUserLog(id[temp++], "main_usr", "nx5", u1);
-    ArLib.archiveUserLog(id[temp++], "main_usr", "nx5", u2);
-    ArLib.archiveUserLog(id[temp++], "main_usr", "nx5", u3);
-    ArLib.archiveUserLog(id[temp], "main_usr", "nx5", u4);
+    TestLibrary.archiveUserLog(id[temp++], "main_usr", "nx5", u1);
+    TestLibrary.archiveUserLog(id[temp++], "main_usr", "nx5", u2);
+    TestLibrary.archiveUserLog(id[temp++], "main_usr", "nx5", u3);
+    TestLibrary.archiveUserLog(id[temp], "main_usr", "nx5", u4);
 
     // get and print log information for each location
     for (temp = 0; temp < 4; temp++)
     {
         void *found = (ArchivedLocation *)malloc(sizeof(ArchivedLocation));
 
-        if (ArLib.getLocationFromDatabase(((ArchivedLocation *)found), id[temp]))
+        if (TestLibrary.getLocationFromDatabase(((ArchivedLocation *)found), id[temp]))
         {
             ((ArchivedLocation *)found)->printInformation();
 
             // User Log
             std::map<int, UserVisitInfo> *u_log = new std::map<int, UserVisitInfo>();
-            ArLib.getUserLogFromDatabase(u_log, "main_usr", "nx5");
+            TestLibrary.getUserLogFromDatabase(u_log, "main_usr", "nx5");
             map<int, UserVisitInfo>::iterator uit = u_log->begin();
 
             for (uit; uit != u_log->end(); ++uit)
@@ -326,13 +332,13 @@ int main()
 
             // Location Log
             void *vlog = (VisitLog *)malloc(sizeof(VisitLog));
-            ArLib.getLocationRecordFromDatabase((VisitLog *)vlog, ((ArchivedLocation*) found)->getID());
+            TestLibrary.getLocationRecordFromDatabase((VisitLog *)vlog, ((ArchivedLocation*) found)->getID());
             ((VisitLog *)vlog)->printLog();
             free(vlog);
 
             // Visit count function test
-            int l_count = ArLib.getVisitCount(((ArchivedLocation *)found)->getID());
-            int lu_count = ArLib.getVisitCount(((ArchivedLocation *)found)->getID(), "main_usr", "nx5");
+            int l_count = TestLibrary.getVisitCount(((ArchivedLocation *)found)->getID());
+            int lu_count = TestLibrary.getVisitCount(((ArchivedLocation *)found)->getID(), "main_usr", "nx5");
 
             if (l_count == lu_count)
             {
@@ -340,8 +346,8 @@ int main()
             }
 
             // Duration function test
-            int dur = ArLib.getDurationAtLocation(((ArchivedLocation *)found)->getID());
-            int udur = ArLib.getDurationAtLocation(((ArchivedLocation *)found)->getID(), "main_usr", "nx5");
+            int dur = TestLibrary.getDurationAtLocation(((ArchivedLocation *)found)->getID());
+            int udur = TestLibrary.getDurationAtLocation(((ArchivedLocation *)found)->getID(), "main_usr", "nx5");
 
             if (dur == udur)
             {
@@ -352,5 +358,5 @@ int main()
         free(found);
     }
 
-    cout << "end of test" << endl;
+    cout << "end of test" << endl; */
 }

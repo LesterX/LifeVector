@@ -9,10 +9,7 @@
 #include <sstream>
 
 #include "UserVisitInfo.h"
-
-#ifndef STRING_PARSER_H
 #include "StringParser.h"
-#endif
 
 class VisitLog
 {

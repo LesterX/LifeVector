@@ -114,7 +114,7 @@ std::string VisitLog::beautify()
     for (it; it != userVisitRecord.end(); ++it)
     {
         std::vector<std::string> userID;
-        split(it->first, userID, '/');
+        StringParser::custom_parse(it->first, userID, '/');
 
         output << "User : " << userID[0] << ", DeviceID : " << userID[1] << "\n";
         it->second.beautify();
