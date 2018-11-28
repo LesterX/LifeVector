@@ -11,8 +11,8 @@ CREATE DATABASE IF NOT EXISTS LifeVector;
 USE LifeVector;
 
 CREATE TABLE IF NOT EXISTS User(
-    username VARCHAR(10) NOT NULL,
-    deviceID VARCHAR(10) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    deviceID VARCHAR(25) NOT NULL,
     hash VARCHAR(128),
     salt CHAR(128),
     report LONGTEXT,
@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS GPSUnprocessed(
     timeStamp BIGINT NOT NULL,
     latitude DECIMAL(9, 7) NOT NULL,
     longitude DECIMAL(10, 7) NOT NULL,
-    username VARCHAR(10) NOT NULL,
-    deviceID VARCHAR(10) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    deviceID VARCHAR(25) NOT NULL,
     PRIMARY KEY (timeStamp),
     KEY (username, deviceID),
 
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS VisitLog(
     visitTime BIGINT NOT NULL,
     locationID INT NOT NULL,
     duration INT NOT NULL,
-    username VARCHAR(10) NOT NULL,
-    deviceID VARCHAR(10) NOT NULL,
+    username VARCHAR(25) NOT NULL,
+    deviceID VARCHAR(25) NOT NULL,
     PRIMARY KEY (visitTime),
     KEY (locationID),
     KEY (username, deviceID),

@@ -10,6 +10,7 @@
 #define DATA_DEPOSITOR_H
 
 #include <string>
+#include <sstream>
 #include <iostream>
 
 #include "RawDataRepository.h"
@@ -19,11 +20,11 @@ class DataDepositor
 {
   private:
     Database *db_link;
-    std::string concatRawQuery(long timestamp, double latitude, double longitude, std::string device);
+    std::string concatRawQuery(long timestamp, double latitude, double longitude, std::string user, std::string device);
 
   public:
     DataDepositor(Database *db_pointer);
-    bool depositRaw(std::string deviceID, RawDataRepository dataset);
+    bool depositRaw(std::string username, std::string deviceID, RawDataRepository dataset);
 
     ~DataDepositor();
 };

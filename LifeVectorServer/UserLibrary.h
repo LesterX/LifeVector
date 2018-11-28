@@ -23,11 +23,12 @@ class UserLibrary
 
 	// Getters
 	bool retrieveUserFromDB(User *user, std::string username, std::string deviceID);
+	Database *getDBConnection();
 
 	// Updater & Uploaders
 	bool updateUserSyncTime(User user, int syncTime);
 	bool updateReport(User user, nlohmann::json report);
-	bool uploadRawGPSData(std::string deviceID, RawDataRepository rawDataSet);
+	bool uploadRawGPSData(std::string username, std::string deviceID, RawDataRepository rawDataSet);
 
 	// Helpers
 	bool isRegistered(std::string username, std::string deviceID);
