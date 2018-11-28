@@ -7,7 +7,7 @@ PFLAG3=-lcrypto
 
 all: clean main 
 
-main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
+main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o ArchiveLocation.o ArchiveLibrary.o ArchiveTest.o CoordinateInformation.o LocationInformation.o UserVisitInfo.o VisitLog.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 UserControllerTest.o: UserControllerTest.cpp
@@ -47,6 +47,27 @@ EncryptionModule.o: EncryptionModule.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 SystemTimeManager.o: SystemTimeManager.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+ArchiveLocation.o: ArchiveLocation.cpp 
+	$(CC) $(CFLAGS) -o $@ $<
+
+ArchiveLibrary.o: ArchiveLibrary.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+ArchiveTest.o: ArchiveTest.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+CoordinateInformation.o: CoordinateInformation.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+LocationInformation.o: LocationInformation.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+UserVisitInfo.o: UserVisitInfo.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+VisitLog.o: VisitLog.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 test: clean main #cleans and runs main with the test file
