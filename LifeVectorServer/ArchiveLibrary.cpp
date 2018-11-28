@@ -25,13 +25,13 @@ void ArchiveLibrary::userLogDBtoObj(std::map<int, UserVisitInfo> *userLog, std::
     std::vector<std::string> entries, fields;
 
     // separate each entry to interate through
-    StringParser::StringParser::custom_parse(results, entries, '\n');
+    StringParser::custom_parse(results, entries, '\n');
     std::vector<std::string>::iterator row = entries.begin();
 
     for (row; row != entries.end(); ++row)
     {
         // split entry to individual fields
-        StringParser::StringParser::custom_parse(*row, fields, '\t');
+        StringParser::custom_parse(*row, fields, '\t');
 
         // check if location is in userLog already
         std::map<int, UserVisitInfo>::iterator target;
@@ -56,13 +56,13 @@ void ArchiveLibrary::locationLogDBtoOBJ(VisitLog *record, std::string results)
 {
     // Split into entries (rows)
     std::vector<std::string> entries, fields;
-    StringParser::StringParser::custom_parse(results, entries, '\n');
+    StringParser::custom_parse(results, entries, '\n');
     std::vector<std::string>::iterator row = entries.begin();
 
     for (row; row != entries.end(); ++row)
     {
         // Split into indiviual fields
-        StringParser::StringParser::custom_parse(*row, fields, '\t');
+        StringParser::custom_parse(*row, fields, '\t');
         std::string uID = composeID(fields[3], fields[4]);
 
         // check for user in record
@@ -138,7 +138,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
 
         // Parse result into vector
         std::vector<std::string> fields;
-        StringParser::StringParser::custom_parse(result, fields, '\t');
+        StringParser::custom_parse(result, fields, '\t');
 
         /* Field Legend : 
          * 0. locationID, 
@@ -178,7 +178,7 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
     query << "SELECT locationID, latitudePosition, longitudePosition, northBound, southBound, eastBound, westBound FROM ArchivedLocations WHERE northBound >= " << latitude << " AND southBound <= " << latitude << " AND eastBound >= " << longitude << " AND westBound <= " << longitude << ";";
     results = connected_db->getSQLResult(query.str());
 
-    StringParser::StringParser::custom_parse(results, locations, '\n');
+    StringParser::custom_parse(results, locations, '\n');
 
     if (locations.size() < 1)
     {
@@ -188,7 +188,7 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> *
     row = locations.begin();
     for (row; row != locations.end(); ++row)
     {
-        StringParser::StringParser::custom_parse(*row, coordinates, '\t');
+        StringParser::custom_parse(*row, coordinates, '\t');
 
         CoordinateInformation match(atof(coordinates[1].c_str()), atof(coordinates[2].c_str()));
         match.setLimits(atof(coordinates[3].c_str()), atof(coordinates[4].c_str()), atof(coordinates[5].c_str()), atof(coordinates[6].c_str()));
@@ -279,7 +279,7 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
 
         if (connected_db->exeSQL(entry.str()))
         {
-            std::cout << "User Record at LocID, " << locationID << ", has been added to Database" << std::endl;
+            std::cout << "User Record at LocID: " << locationID << " has been added to Database" << std::endl;
             check = true;
         }
         else

@@ -41,6 +41,7 @@ public:
 
   bool getLocationFromDatabase(ArchivedLocation *location, int id);
   bool saveLocationToDatabase(ArchivedLocation location);
+  // bool deleteLocationFromDatabase(int locationID);
 
   bool getAdjacentLocations(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude);
   int matchNearestLocation(std::map<int, CoordinateInformation> *matchedLocations, double latitude, double longitude);
