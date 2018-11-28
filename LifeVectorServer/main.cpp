@@ -5,7 +5,11 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
-    googleAPI g("43.0094907", "-81.2702514",11271411);
+   int example = 0;
+
+
+    googleAPI g("43.0094907", "-81.2702514");
+    vector<string> container = g.getTypesArray(example);
 
     //this returns a string
 
@@ -22,7 +26,15 @@ int main(int argc, char** argv) {
 
     cout << "South West Longitude: " << g.getSouthWestLng() << endl;
 
-    cout << "Types: " << g.getTypes() << endl;
+    cout << "Types: " << container[0] << endl;
+
+    if(g.checkTypes(example)){
+        cout << "TRUEEE" << endl;
+    }else {
+        cout << "FALSE" << endl;
+    }
+
+
 
 	return 0;
 }

@@ -29,16 +29,15 @@ class googleAPI{
 	    nlohmann::json doc;
 	    std::string name;
         std::string location;
-        long time;
-    
+        std::string unwantedTypes = "administrative_area_level_1, administrative_area_level_2, administrative_area_level_3, administrative_area_level_4, administrative_area_level_5, country, intersection, locality, neighborhood, political, post_box, postal_code, postal_code_prefix, postal_code_suffix, postal_town, premise, route, street_address, street_number, sublocality, sublocality_level_4, sublocality_level_5, sublocality_level_3, sublocality_level_2, sublocality_level_1, subpremise";
+
 	public:
 
-		googleAPI(std::string latitude, std::string longitude, long t){
+		googleAPI(std::string latitude, std::string longitude){
 			//constructor
 			
 			lat = latitude;
         	lng = longitude;
-            time = t;
 
 			CURLplusplus client;
 	    
@@ -68,9 +67,11 @@ class googleAPI{
 	    std::string getNorthEastLng();
 	    std::string getSouthWestLat();
 	    std::string getSouthWestLng();
-	    std::string getTypes();
+	    std::string getTypes(int j);
+	    std::vector<std::string> getTypesArray(int j);
 	    std::string getName();
-        long getTime();
+	    std::string getPlaceID(int j);
+	    bool checkTypes(int j);
 	    void splitstr(const std::string& str, std::vector<std::string>& container, char delim);
 
 
