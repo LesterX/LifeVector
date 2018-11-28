@@ -1,10 +1,10 @@
 #include "squasher.h" 
 #include <vector>
 #include <sstream>
-#include "./ArchiveClasses/CoordinateInformation.h"
-#include "./ArchiveClasses/ArchivedLocation.h"
+#include "CoordinateInformation.h"
+//#include "ArchivedLocation.h"
 #include "googleAPI.h"
-#include "./ArchiveClasses/UserVisitInfo.h"
+#include "UserVisitInfo.h"
 
 /* Initializing auto-increment location id */
 int squasher::currentID = 0;
@@ -113,7 +113,7 @@ void squasher::squashForTest() {
 		int id = currentID;
 		std::string name = gAPI.getName();
 		std::string address = gAPI.getFormattedLocation();
-		std::string description = gAPI.getTypes();
+		std::string description = gAPI.getTypes(0);
 		double eastbound = std::stod(gAPI.getNorthEastLng());
 		double northbound = std::stod(gAPI.getNorthEastLat());
 		double westbound = std::stod(gAPI.getSouthWestLng());
@@ -129,17 +129,12 @@ void squasher::squashForTest() {
 			}
 		}
 		TestPlace place(id, eastbound, westbound, southbound, northbound);
-		if (!duplicate) incrementID();
+		if (!duplicate && itr != timeStamps.begin()) incrementID();
 
 		places.push_back(place);
 
 		log.emplace(*itr, locationID);	
-	}
-
-	//Testing if the first part is working
-	map<long, int>::iterator itr0 = log.begin();
-	for (itr0; itr0 != log.end(); ++itr0) {
-		cout << itr0->first << " , " << itr0->second << endl;
+		cout << name << ", " << address << endl;
 	}
 
 	//Another loop to squash the points
@@ -155,8 +150,10 @@ void squasher::squashForTest() {
 			lastID = locID;
 		}
 		else {
-			//If found a different location, add it to the user visit location
+			//If found a different location, 
+			//add the last location to the user visit info
 			if (locID != lastID) {
+				cout << "LocationID: " << lastID << ", Time Spent: " << timeSpent << endl;
 				uvi.addSingleLog(lastTime, (int)timeSpent);
 				lastTime = *itr;
 				lastID = locID;
@@ -168,8 +165,16 @@ void squasher::squashForTest() {
 				lastTime = *itr;
 			}
 		}
+
+		//If it's the last location, also add it to the user visit info
+		if ((itr+1) == timeStamps.end()){
+			cout << "LocationID: " << locID <<  ", Time Spent: " << (int) timeSpent << endl;
+				uvi.addSingleLog(lastTime, (int) timeSpent);
+				timeSpent = 0;
+		}
 	}
 	//Raw data is now squashed into the user visit info object
+	cout << "----User Visit Info Log----" << endl;
 	uvi.printLog();
 }
 
