@@ -12,6 +12,7 @@
     "async": "^2.6.1",
     "bytes-counter": "^1.0.0",
     "convert-string": "^0.1.0",
+    "node-rsa": "^1.0.1",
     "pusher-js": "^4.1.0",
     "random-id": "0.0.2",
     "react": "16.5.0",

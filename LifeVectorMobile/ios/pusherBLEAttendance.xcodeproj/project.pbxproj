@@ -37,6 +37,20 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		25FADDAD8F9D4654A17774EF /* libBleManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A53E0EE8B254F2CB7CF0C47 /* libBleManager.a */; };
+		ED7F1A5523064F00938A1253 /* libRNBackgroundTimer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95FF5B17CE204AC280123922 /* libRNBackgroundTimer.a */; };
+		49C809A7EA154361A5708221 /* libBleClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 536A84C1581740998D92B939 /* libBleClient.a */; };
+		9A80034F5C324C8FA4BD0C06 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2878F5544E495CA8697991 /* libRNDeviceInfo.a */; };
+		3B02F8519FA24620ACFEB284 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DCECF06193B548FB941BAE75 /* libRNDeviceInfo-tvOS.a */; };
+		3D2547C51AB844C8A6A3D667 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E6C6AE6DD70413584CA2E87 /* libRNSpinkit.a */; };
+		D43F8DA5A03C46ABB14CBC6E /* aqua.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7335F2D02BF14AD38D54F63A /* aqua.ttf */; };
+		9976B47E74A148729620AF53 /* Friction-Core.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FD8402DC8BD34FDD83651C52 /* Friction-Core.ttf */; };
+		55404F4D3E764357BFBCA0BE /* Friction-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 071622F2771C42568735DA31 /* Friction-Regular.ttf */; };
+		09EB4A379C1546EBBABCD6E3 /* Friction-Secondary1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C57C3F7CE93D462D88C21BB5 /* Friction-Secondary1.ttf */; };
+		3FB28DF874CB4E4E88494B79 /* Friction-Secondary2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C9499659D6B642CAA4ED71BA /* Friction-Secondary2.ttf */; };
+		96C79A8497C34F68BDD1FBBC /* Hatterline-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8BB7316435B47229F8B89CD /* Hatterline-Regular.ttf */; };
+		881974C79D4745DCA9698130 /* Storytella.otf in Resources */ = {isa = PBXBuildFile; fileRef = D94AC28700654646B7DE9FC0 /* Storytella.otf */; };
+		C4F10CB8F7C0438A9B6047D0 /* TheDodgerInky-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 39EC35C5F6DD410782821AE9 /* TheDodgerInky-Regular.ttf */; };
+		EC49EB05B4AF48AC8F675B18 /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6590CAB857BA44AAA777064A /* libRNRSA.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,6 +280,25 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		4CEBBE95A2634DCE9AD0F84D /* BleManager.xcodeproj */ = {isa = PBXFileReference; name = "BleManager.xcodeproj"; path = "../node_modules/react-native-ble-manager/ios/BleManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		9A53E0EE8B254F2CB7CF0C47 /* libBleManager.a */ = {isa = PBXFileReference; name = "libBleManager.a"; path = "libBleManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		7D48FE1473DA403BAF31F293 /* RNBackgroundTimer.xcodeproj */ = {isa = PBXFileReference; name = "RNBackgroundTimer.xcodeproj"; path = "../node_modules/react-native-background-timer/ios/RNBackgroundTimer.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		95FF5B17CE204AC280123922 /* libRNBackgroundTimer.a */ = {isa = PBXFileReference; name = "libRNBackgroundTimer.a"; path = "libRNBackgroundTimer.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		0285289C2DC842DAA90A28C2 /* BleClient.xcodeproj */ = {isa = PBXFileReference; name = "BleClient.xcodeproj"; path = "../node_modules/react-native-ble-plx/ios/BleClient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		536A84C1581740998D92B939 /* libBleClient.a */ = {isa = PBXFileReference; name = "libBleClient.a"; path = "libBleClient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		A489E80172794F2FABA8BF7B /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; name = "RNDeviceInfo.xcodeproj"; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CA2878F5544E495CA8697991 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo.a"; path = "libRNDeviceInfo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		DCECF06193B548FB941BAE75 /* libRNDeviceInfo-tvOS.a */ = {isa = PBXFileReference; name = "libRNDeviceInfo-tvOS.a"; path = "libRNDeviceInfo-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		ADD78A27CF3949D69D64EDE2 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; name = "RNSpinkit.xcodeproj"; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		3E6C6AE6DD70413584CA2E87 /* libRNSpinkit.a */ = {isa = PBXFileReference; name = "libRNSpinkit.a"; path = "libRNSpinkit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		7335F2D02BF14AD38D54F63A /* aqua.ttf */ = {isa = PBXFileReference; name = "aqua.ttf"; path = "../assets/fonts/aqua.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FD8402DC8BD34FDD83651C52 /* Friction-Core.ttf */ = {isa = PBXFileReference; name = "Friction-Core.ttf"; path = "../assets/fonts/Friction-Core.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		071622F2771C42568735DA31 /* Friction-Regular.ttf */ = {isa = PBXFileReference; name = "Friction-Regular.ttf"; path = "../assets/fonts/Friction-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C57C3F7CE93D462D88C21BB5 /* Friction-Secondary1.ttf */ = {isa = PBXFileReference; name = "Friction-Secondary1.ttf"; path = "../assets/fonts/Friction-Secondary1.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C9499659D6B642CAA4ED71BA /* Friction-Secondary2.ttf */ = {isa = PBXFileReference; name = "Friction-Secondary2.ttf"; path = "../assets/fonts/Friction-Secondary2.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F8BB7316435B47229F8B89CD /* Hatterline-Regular.ttf */ = {isa = PBXFileReference; name = "Hatterline-Regular.ttf"; path = "../assets/fonts/Hatterline-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D94AC28700654646B7DE9FC0 /* Storytella.otf */ = {isa = PBXFileReference; name = "Storytella.otf"; path = "../assets/fonts/Storytella.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		39EC35C5F6DD410782821AE9 /* TheDodgerInky-Regular.ttf */ = {isa = PBXFileReference; name = "TheDodgerInky-Regular.ttf"; path = "../assets/fonts/TheDodgerInky-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		28531BCB184842F8912CBF7E /* RNRSA.xcodeproj */ = {isa = PBXFileReference; name = "RNRSA.xcodeproj"; path = "../node_modules/react-native-rsa-native/ios/RNRSA.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		6590CAB857BA44AAA777064A /* libRNRSA.a */ = {isa = PBXFileReference; name = "libRNRSA.a"; path = "libRNRSA.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,6 +328,11 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				25FADDAD8F9D4654A17774EF /* libBleManager.a in Frameworks */,
+				ED7F1A5523064F00938A1253 /* libRNBackgroundTimer.a in Frameworks */,
+				49C809A7EA154361A5708221 /* libBleClient.a in Frameworks */,
+				9A80034F5C324C8FA4BD0C06 /* libRNDeviceInfo.a in Frameworks */,
+				3D2547C51AB844C8A6A3D667 /* libRNSpinkit.a in Frameworks */,
+				EC49EB05B4AF48AC8F675B18 /* libRNRSA.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +348,7 @@
 				2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */,
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
+				3B02F8519FA24620ACFEB284 /* libRNDeviceInfo-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,6 +503,11 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				4CEBBE95A2634DCE9AD0F84D /* BleManager.xcodeproj */,
+				7D48FE1473DA403BAF31F293 /* RNBackgroundTimer.xcodeproj */,
+				0285289C2DC842DAA90A28C2 /* BleClient.xcodeproj */,
+				A489E80172794F2FABA8BF7B /* RNDeviceInfo.xcodeproj */,
+				ADD78A27CF3949D69D64EDE2 /* RNSpinkit.xcodeproj */,
+				28531BCB184842F8912CBF7E /* RNRSA.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -484,6 +528,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* lifeVectorMobileTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				09393CC7E1C04E51905031B5 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -508,6 +553,22 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		09393CC7E1C04E51905031B5 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				7335F2D02BF14AD38D54F63A /* aqua.ttf */,
+				FD8402DC8BD34FDD83651C52 /* Friction-Core.ttf */,
+				071622F2771C42568735DA31 /* Friction-Regular.ttf */,
+				C57C3F7CE93D462D88C21BB5 /* Friction-Secondary1.ttf */,
+				C9499659D6B642CAA4ED71BA /* Friction-Secondary2.ttf */,
+				F8BB7316435B47229F8B89CD /* Hatterline-Regular.ttf */,
+				D94AC28700654646B7DE9FC0 /* Storytella.otf */,
+				39EC35C5F6DD410782821AE9 /* TheDodgerInky-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -878,6 +939,14 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				D43F8DA5A03C46ABB14CBC6E /* aqua.ttf in Resources */,
+				9976B47E74A148729620AF53 /* Friction-Core.ttf in Resources */,
+				55404F4D3E764357BFBCA0BE /* Friction-Regular.ttf in Resources */,
+				09EB4A379C1546EBBABCD6E3 /* Friction-Secondary1.ttf in Resources */,
+				3FB28DF874CB4E4E88494B79 /* Friction-Secondary2.ttf in Resources */,
+				96C79A8497C34F68BDD1FBBC /* Hatterline-Regular.ttf in Resources */,
+				881974C79D4745DCA9698130 /* Storytella.otf in Resources */,
+				C4F10CB8F7C0438A9B6047D0 /* TheDodgerInky-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,6 +1085,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Debug;
@@ -1041,6 +1115,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Release;
@@ -1063,6 +1142,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Debug;
@@ -1084,6 +1168,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Release;
@@ -1118,6 +1207,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Debug;
@@ -1152,6 +1246,11 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-ble-manager\ios",
+					"$(SRCROOT)/../node_modules/react-native-background-timer/ios",
+					"$(SRCROOT)/../node_modules/react-native-ble-plx/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-rsa-native/ios",
 				);
 			};
 			name = Release;
