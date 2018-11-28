@@ -163,7 +163,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
     }
     else
     {
-        std::cout << "Location retrieval failed" << std::endl;
+        std::cout << "No Location at id: " << id << std::endl;
         return false;
     }
 }

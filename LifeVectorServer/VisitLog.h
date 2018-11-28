@@ -4,9 +4,15 @@
 #include <map>
 #include <utility>
 #include <set>
+#include <vector>
 #include <string>
+#include <sstream>
 
 #include "UserVisitInfo.h"
+
+#ifndef STRING_PARSER_H
+#include "StringParser.h"
+#endif
 
 class VisitLog
 {
@@ -38,10 +44,11 @@ class VisitLog
   int getTotalTimesVisited();
   int getTotalTimeSpent();
 
-  // Time Bound Getters:
-
   // bool checkers:
   bool userFound(std::string userID);
+
+  std::string beautify();
+  void printLog();
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "RawDataRepository.h"
 #include "./ArchiveClasses/ArchiveLibrary.h"
 #include "Database.h"
+#include "googleAPI.h"
 
 
 class squasher{

@@ -1,3 +1,5 @@
+/*if needed install ssl:sudo apt-get install libssl-dev*/
+
 #ifndef ENCRYPTIONMODULE_H
 #define ENCRYPTIONMODULE_H
 #define LOG(x)               \

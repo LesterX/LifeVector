@@ -9,14 +9,16 @@
 #include <sstream>
 #include <cmath>
 
-#include "../Database.h"
+#include "Database.h"
 #include "ArchivedLocation.h"
 #include "VisitLog.h"
 #include "UserVisitInfo.h"
 
+#ifndef STRING_PARSER_H
 #include "StringParser.h"
+#endif
 
-#include "../DataDepositor.h"
+// #include "../DataDepositor.h"
 
 class ArchiveLibrary
 {

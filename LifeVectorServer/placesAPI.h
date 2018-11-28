@@ -1,5 +1,5 @@
 /**
- * header file for googleAPI class
+ * header file for placesAPI class
  */
 #ifndef PLACESAPI_H
 #define PLACESAPI_H
