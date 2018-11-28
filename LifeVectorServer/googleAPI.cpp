@@ -59,16 +59,41 @@ using namespace std;
         return location;
     }
 
+    string googleAPI :: getLat(){
+
+        string result;
+        // Create an output string stream
+        std::ostringstream streamObj;
+        //Add double to stream
+        streamObj << doc.at("results")[0].at("geometry").at("location").at("lat");
+        // Get string from output string stream
+        std::string strObj = streamObj.str();
+
+        return strObj;
+    }
+    string googleAPI :: getLng(){
+
+            string result;
+            // Create an output string stream
+            std::ostringstream streamObj;
+            //Add double to stream
+            streamObj << doc.at("results")[0].at("geometry").at("location").at("lng");
+            // Get string from output string stream
+            std::string strObj = streamObj.str();
+
+            return strObj;
+        }
+
     string googleAPI :: getNorthEastLat(){
 
         string result;
         // Create an output string stream
         std::ostringstream streamObj;
         //Add double to stream
-        streamObj << doc.at("results")[0].at("geometry").at("viewport").at("northeast").at("lat");
+        streamObj << doc.at("results")[0].at("geometry").at("bounds").at("northeast").at("lat");
         // Get string from output string stream
         std::string strObj = streamObj.str();
-     
+
         return strObj;
     }
 
@@ -78,10 +103,10 @@ using namespace std;
         // Create an output string stream
         std::ostringstream streamObj;
         //Add double to stream
-        streamObj << doc.at("results")[0].at("geometry").at("viewport").at("northeast").at("lng");
+        streamObj << doc.at("results")[0].at("geometry").at("bounds").at("northeast").at("lng");
         // Get string from output string stream
         std::string strObj = streamObj.str();
-     
+
         return strObj;
     }
 
@@ -92,10 +117,10 @@ using namespace std;
         // Create an output string stream
         std::ostringstream streamObj;
         //Add double to stream
-        streamObj << doc.at("results")[0].at("geometry").at("viewport").at("southwest").at("lat");
+        streamObj << doc.at("results")[0].at("geometry").at("bounds").at("southwest").at("lat");
         // Get string from output string stream
         std::string strObj = streamObj.str();
-     
+
         return strObj;
     }
 
@@ -105,29 +130,83 @@ using namespace std;
         // Create an output string stream
         std::ostringstream streamObj;
         //Add double to stream
-        streamObj << doc.at("results")[0].at("geometry").at("viewport").at("southwest").at("lng");
+        streamObj << doc.at("results")[0].at("geometry").at("bounds").at("southwest").at("lng");
         // Get string from output string stream
         std::string strObj = streamObj.str();
-     
+
         return strObj;
     }
 
-    string googleAPI :: getTypes(){
+    string googleAPI :: getTypes(int j){
 
-        string result = "";
+        string result;
 
         //char *arr = doc.at("results")[0].at("types");
 
-        for (int i = 0; i < doc.at("results")[0].at("types").size(); i++){
+        for (int i = 0; i < doc.at("results")[j].at("types").size(); i++){
 
-            result = result.append(doc.at("results")[0].at("types")[i]);
-            if (i + 1 != doc.at("results")[0].at("types").size()){
+            result = result.append(doc.at("results")[j].at("types")[i]);
+            if (i + 1 != doc.at("results")[j].at("types").size()){
                 result = result.append(", ");
             }
-            
+
+        }
+        return result;
+
+    }
+
+    vector<string> googleAPI :: getTypesArray(int j){
+
+
+        vector<string> container;
+
+        string types = getTypes(j);
+        char delimiter = ',';
+        stringstream ss(types);
+        string token;
+        while (getline(ss, token, delimiter)) {
+            container.push_back(token);
         }
 
-        return result;
+        return container;
+
+    }
+
+    string googleAPI :: getValidPlace(){
+
+        for(int i = 0; i < doc.at("results").size(); i++){
+            if(checkTypes(i)){
+                return getPlaceID(i);
+                break;
+            }
+
+        }
+    }
+
+    string googleAPI :: getPlaceID(int j){
+
+        // Create an output string stream
+        std::ostringstream streamObj;
+        //Add double to stream
+        streamObj << doc.at("results")[j].at("place_id");
+        // Get string from output string stream
+        std::string strObj = streamObj.str();
+
+        return strObj;
+    }
+
+    bool googleAPI :: checkTypes(int j) {
+
+        bool flag = false;
+        vector<string> types = getTypesArray(j);
+        for(int i=0; i < types.size(); i++){
+            if (unwantedTypes.find(types[i]) == std::string::npos) {
+                flag = true;
+                break;
+            }
+        }
+
+        return flag;
 
     }
 

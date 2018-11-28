@@ -1,0 +1,661 @@
+{
+  "plus_code" : {
+    "compound_code" : "2PGC+9M London, ON, Canada",
+    "global_code" : "86MW2PGC+9M"
+  },
+  "results" : [
+    {
+      "address_components" : [
+        {
+          "long_name" : "1680",
+          "short_name" : "1680",
+          "types" : [ "street_number" ]
+        },
+        {
+          "long_name" : "Richmond Street",
+          "short_name" : "Richmond St",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "N6G 3Y9",
+          "short_name" : "N6G 3Y9",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "1680 Richmond St, London, ON N6G 3Y9, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.02739649999999,
+            "lng" : -81.27707770000001
+          },
+          "southwest" : {
+            "lat" : 43.024352,
+            "lng" : -81.2802804
+          }
+        },
+        "location" : {
+          "lat" : 43.025599,
+          "lng" : -81.27838009999999
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.02739649999999,
+            "lng" : -81.27707770000001
+          },
+          "southwest" : {
+            "lat" : 43.024352,
+            "lng" : -81.2802804
+          }
+        }
+      },
+      "place_id" : "ChIJg8gHTUPuLogR5CNJ8aXbX2M",
+      "types" : [ "premise" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "1680",
+          "short_name" : "1680",
+          "types" : [ "street_number" ]
+        },
+        {
+          "long_name" : "Richmond Street",
+          "short_name" : "Richmond St",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "N6G 3Y9",
+          "short_name" : "N6G 3Y9",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "1680 Richmond St, London, ON N6G 3Y9, Canada",
+      "geometry" : {
+        "location" : {
+          "lat" : 43.0259461,
+          "lng" : -81.2783931
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.0272950802915,
+            "lng" : -81.27704411970849
+          },
+          "southwest" : {
+            "lat" : 43.0245971197085,
+            "lng" : -81.2797420802915
+          }
+        }
+      },
+      "place_id" : "ChIJT7_Z8UTuLogRuX1oVAIIf7M",
+      "plus_code" : {
+        "compound_code" : "2PGC+9J London, Ontario, Canada",
+        "global_code" : "86MW2PGC+9J"
+      },
+      "types" : [ "clothing_store", "establishment", "point_of_interest", "store" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "CF Masonville Place",
+          "short_name" : "CF Masonville Place",
+          "types" : [ "establishment", "point_of_interest" ]
+        },
+        {
+          "long_name" : "1680",
+          "short_name" : "1680",
+          "types" : [ "street_number" ]
+        },
+        {
+          "long_name" : "Richmond Street",
+          "short_name" : "Richmond St",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "N6G 3Y9",
+          "short_name" : "N6G 3Y9",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "CF Masonville Place, 1680 Richmond St, London, ON N6G 3Y9, Canada",
+      "geometry" : {
+        "location" : {
+          "lat" : 43.0260853,
+          "lng" : -81.277733
+        },
+        "location_type" : "ROOFTOP",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.02743428029149,
+            "lng" : -81.2763840197085
+          },
+          "southwest" : {
+            "lat" : 43.0247363197085,
+            "lng" : -81.27908198029151
+          }
+        }
+      },
+      "place_id" : "ChIJL2ebbEPuLogRzmp87yuGmbs",
+      "plus_code" : {
+        "compound_code" : "2PGC+CW London, Ontario, Canada",
+        "global_code" : "86MW2PGC+CW"
+      },
+      "types" : [ "street_address" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "Unnamed Road",
+          "short_name" : "Unnamed Road",
+          "types" : [ "route" ]
+        },
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        },
+        {
+          "long_name" : "N5X 2S7",
+          "short_name" : "N5X 2S7",
+          "types" : [ "postal_code" ]
+        }
+      ],
+      "formatted_address" : "Unnamed Road, London, ON N5X 2S7, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.0257291,
+            "lng" : -81.2772123
+          },
+          "southwest" : {
+            "lat" : 43.0255856,
+            "lng" : -81.27729359999999
+          }
+        },
+        "location" : {
+          "lat" : 43.0256574,
+          "lng" : -81.277253
+        },
+        "location_type" : "GEOMETRIC_CENTER",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.0270063302915,
+            "lng" : -81.27590396970849
+          },
+          "southwest" : {
+            "lat" : 43.02430836970851,
+            "lng" : -81.2786019302915
+          }
+        }
+      },
+      "place_id" : "ChIJk1ugLUPuLogRDqk_oMOyQmA",
+      "types" : [ "route" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "N5X 2S7",
+          "short_name" : "N5X 2S7",
+          "types" : [ "postal_code" ]
+        },
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "London, ON N5X 2S7, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.02824,
+            "lng" : -81.275595
+          },
+          "southwest" : {
+            "lat" : 43.0251573,
+            "lng" : -81.28042920000001
+          }
+        },
+        "location" : {
+          "lat" : 43.0264241,
+          "lng" : -81.27734799999999
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.02824,
+            "lng" : -81.275595
+          },
+          "southwest" : {
+            "lat" : 43.0251573,
+            "lng" : -81.28042920000001
+          }
+        }
+      },
+      "place_id" : "ChIJ5ZGHVkPuLogRNmZgezawxAk",
+      "types" : [ "postal_code" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "Masonville",
+          "short_name" : "Masonville",
+          "types" : [ "neighborhood", "political" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Masonville, London, ON, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.029225,
+            "lng" : -81.252157
+          },
+          "southwest" : {
+            "lat" : 43.0052059,
+            "lng" : -81.30624019999999
+          }
+        },
+        "location" : {
+          "lat" : 43.0189562,
+          "lng" : -81.2821647
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.029225,
+            "lng" : -81.252157
+          },
+          "southwest" : {
+            "lat" : 43.0052059,
+            "lng" : -81.30624019999999
+          }
+        }
+      },
+      "place_id" : "ChIJh9mHs0DuLogRJPVZpm0ByEU",
+      "types" : [ "neighborhood", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "N5X",
+          "short_name" : "N5X",
+          "types" : [ "postal_code", "postal_code_prefix" ]
+        },
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "London, ON N5X, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.073027,
+            "lng" : -81.171289
+          },
+          "southwest" : {
+            "lat" : 43.013429,
+            "lng" : -81.29279489999999
+          }
+        },
+        "location" : {
+          "lat" : 43.046705,
+          "lng" : -81.2353612
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.073027,
+            "lng" : -81.171289
+          },
+          "southwest" : {
+            "lat" : 43.013429,
+            "lng" : -81.29279489999999
+          }
+        }
+      },
+      "place_id" : "ChIJ-x_DSDjsLogR4syExOYUYYI",
+      "types" : [ "postal_code", "postal_code_prefix" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "London",
+          "short_name" : "London",
+          "types" : [ "locality", "political" ]
+        },
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "London, ON, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.073245,
+            "lng" : -81.1063879
+          },
+          "southwest" : {
+            "lat" : 42.824517,
+            "lng" : -81.390852
+          }
+        },
+        "location" : {
+          "lat" : 42.9849233,
+          "lng" : -81.2452768
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.073245,
+            "lng" : -81.1063879
+          },
+          "southwest" : {
+            "lat" : 42.824517,
+            "lng" : -81.390852
+          }
+        }
+      },
+      "place_id" : "ChIJC5uNqA7yLogRlWsFmmnXxyg",
+      "types" : [ "locality", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "Middlesex County",
+          "short_name" : "Middlesex County",
+          "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Middlesex County, ON, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 43.292973,
+            "lng" : -80.8987659
+          },
+          "southwest" : {
+            "lat" : 42.607479,
+            "lng" : -81.83562289999999
+          }
+        },
+        "location" : {
+          "lat" : 42.9310419,
+          "lng" : -81.42789839999999
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 43.292973,
+            "lng" : -80.8987659
+          },
+          "southwest" : {
+            "lat" : 42.607479,
+            "lng" : -81.83562289999999
+          }
+        }
+      },
+      "place_id" : "ChIJv8s7RyYdLIgRQTOl7qAHfRw",
+      "types" : [ "administrative_area_level_2", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "Ontario",
+          "short_name" : "ON",
+          "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Ontario, Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 56.931393,
+            "lng" : -74.3206479
+          },
+          "southwest" : {
+            "lat" : 41.6765559,
+            "lng" : -95.1562271
+          }
+        },
+        "location" : {
+          "lat" : 51.253775,
+          "lng" : -85.32321399999999
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 56.931393,
+            "lng" : -74.3206479
+          },
+          "southwest" : {
+            "lat" : 41.6765559,
+            "lng" : -95.1562271
+          }
+        }
+      },
+      "place_id" : "ChIJrxNRX7IFzkwRCR5iKVZC-HA",
+      "types" : [ "administrative_area_level_1", "political" ]
+    },
+    {
+      "address_components" : [
+        {
+          "long_name" : "Canada",
+          "short_name" : "CA",
+          "types" : [ "country", "political" ]
+        }
+      ],
+      "formatted_address" : "Canada",
+      "geometry" : {
+        "bounds" : {
+          "northeast" : {
+            "lat" : 83.63809999999999,
+            "lng" : -50.9766
+          },
+          "southwest" : {
+            "lat" : 41.6765559,
+            "lng" : -141.00187
+          }
+        },
+        "location" : {
+          "lat" : 56.130366,
+          "lng" : -106.346771
+        },
+        "location_type" : "APPROXIMATE",
+        "viewport" : {
+          "northeast" : {
+            "lat" : 83.63809999999999,
+            "lng" : -50.9766
+          },
+          "southwest" : {
+            "lat" : 41.6765559,
+            "lng" : -141.00187
+          }
+        }
+      },
+      "place_id" : "ChIJ2WrMN9MDDUsRpY9Doiq3aJk",
+      "types" : [ "country", "political" ]
+    }
+  ],
+  "status" : "OK"
+}

@@ -105,3 +105,29 @@ bool VisitLog::addSingleEntry(std::string userID, long time, int duration)
     return true;
 }
 
+std::string VisitLog::beautify()
+{
+    std::stringstream output;
+    std::map<std::string, UserVisitInfo>::iterator it = userVisitRecord.begin();
+    output << "Location Visit Record Information: \n";
+
+    for (it; it != userVisitRecord.end(); ++it)
+    {
+        std::vector<std::string> userID;
+        split(it->first, userID, '/');
+
+        output << "User : " << userID[0] << ", DeviceID : " << userID[1] << "\n";
+        it->second.beautify();
+    }
+
+    output << "Total Visits at this Location : " << visitCount
+              << "\nTotal Time at this Location : " << durationSpent << "\n";
+
+    return output.str();
+}
+
+void VisitLog::printLog()
+{
+    std::cout << beautify()
+              << std::endl;
+}
