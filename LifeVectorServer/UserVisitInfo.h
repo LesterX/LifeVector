@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "../SystemTimeManager.h"
+#include "SystemTimeManager.h"
 
 class UserVisitInfo
 {
