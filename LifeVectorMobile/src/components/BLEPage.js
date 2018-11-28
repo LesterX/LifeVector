@@ -15,13 +15,12 @@ import {
     Alert,
     AppState
 } from 'react-native';
+import LoginPage from './LoginPage';
 import BackgroundTimer from 'react-native-background-timer';
 import BLEAndLocation from './BLEAndLocation';
 import newBLE from 'react-native-ble-manager';
 import { AsyncStorage } from "react-native";
 import { bytesToString, stringToBytes } from 'convert-string';
-import PushNotification from 'react-native-push-notification';
-import PushNotificationAndroid from 'react-native-push-notification';
 const uniqueId = require('react-native-unique-id');
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
@@ -29,8 +28,8 @@ const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
 import Spinner from 'react-native-spinkit';
 import { BleManager } from 'react-native-ble-plx';
 import {RSA, RSAKeychain} from 'react-native-rsa-native';
-
-
+var aesjs = require('aes-js');
+const GLOBAL = require('./libraries/globals');
 
 export default class BLEPage extends Component {
 
@@ -109,7 +108,7 @@ export default class BLEPage extends Component {
 
       AsyncStorage.getItem('public_key', (err, result) => {
         AsyncStorage.getItem('private_key', (err1, result1) => {
-          if (err || err1){
+          if (!result || !result1){
             RSA.generateKeys(2048) // set key size
               .then(keys => {
                 AsyncStorage.setItem('public_key', keys.public, () => {
@@ -122,20 +121,36 @@ export default class BLEPage extends Component {
           } else {
             this.public_key = result;
             this.private_key = result1;
-            console.log(result);
-            console.log(result1);
           }
         });
       });
+
+      AsyncStorage.getItem('AES_key', (err, result) => {
+        AsyncStorage.getItem('AES_iv', (err1, result1) => {
+          if (!(err || err1 || !result || !result1)){
+            this.AES_key = result;
+            this.AES_iv = result1;
+          }
+        });
+      });
+
 
       uniqueId()
         .then(id => {
           this.dev_id = id;
         })
         .catch(error => console.error(error))
+      navigator.geolocation.watchPosition(
+        position => {
+          const location = JSON.stringify(position);
+
+          console.log(location);
+        },
+        error => Alert.alert(error.message),
+        { 'enableHighAccuracy': true, 'maximumAge': 10000 }
+      );
     }
     string_format =  function(str, id) {
-      console.log(str);
       var actualReturn = "";
       var returnString = id + ':[START]' + str;
       var firstPart = returnString.slice(0, 512);
@@ -162,13 +177,13 @@ export default class BLEPage extends Component {
     convertPKCS1toPKCS8(input_key){
       var no_newlines = input_key.replace(/(\r\n\t|\n|\r\t)/gm,"");
       var remove_header_footer = no_newlines.replace(/-----.{3,5} RSA PUBLIC KEY-----/g, "");
-      remove_header_footer = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A" + remove_header_footer;
+      remove_header_footer = GLOBAL.PKCS8_32 + remove_header_footer;
       var new_string = "";
       while (remove_header_footer.length > 0){
         new_string += remove_header_footer.substring(0,64) + '\n';
         remove_header_footer = remove_header_footer.substring(64);
       }
-      new_string = '-----BEGIN PUBLIC KEY-----\n' + new_string + '-----END PUBLIC KEY-----\n';
+      new_string = GLOBAL.PKCS8_HEADER + new_string + GLOBAL.PKCS8_FOOTER;
       return new_string
     }
 
@@ -177,18 +192,22 @@ export default class BLEPage extends Component {
         if (this.state.is_connected == true){
           AsyncStorage.getItem('public_key', (err, result) => {
             var sendData = this.convertPKCS1toPKCS8(result);
-            console.log(this.string_format(sendData, this.dev_id));
             // To enable BleManagerDidUpdateValueForCharacteristic listener
-            this.manager2.startNotification(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000003-1E3C-FAD4-74E2-97A033F1BFAA')
-              .then(() => {
-                this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000003-1E3C-FAD4-74E2-97A033F1BFAA', stringToBytes(this.string_format(sendData, this.dev_id)), 512)
-                  .then((value) => {
-                    console.log(String.fromCharCode.apply(null, value));
-                  })
-                  .catch((error) => {
-                    console.log(error);
-                  })
-              });
+            var that = this;
+            setTimeout(()=>{
+              that.manager2.startNotification(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TRANSFER)
+                .then(() => {
+                  setTimeout(()=>{
+                    that.manager2.write(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TRANSFER, stringToBytes(that.string_format(sendData, that.dev_id)), GLOBAL.MTU_SIZE)
+                      .then((value) => {
+                        console.log(String.fromCharCode.apply(null, value));
+                      })
+                      .catch((error) => {
+                        console.log(error);
+                      })
+                  }, 5000);
+                });
+              }, 5000);
           });
 
         }
@@ -235,7 +254,6 @@ export default class BLEPage extends Component {
       if (error){
         return
       }
-      console.log(device.name);
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
       if (device != null && device.name != null && device.name.startsWith('lifepi')) {
@@ -378,44 +396,93 @@ export default class BLEPage extends Component {
   //       console.log(data);
   //     });
   // }
+  hexToBase64(hexstring) {
+    return btoa(hexstring.match(/\w{2}/g).map(function(a) {
+      return String.fromCharCode(parseInt(a, 16));
+    }).join(""));
+  }
 
   componentDidMount() {
     bleManagerEmitter.addListener(
       'BleManagerDidUpdateValueForCharacteristic',
       ({ value, peripheral, characteristic, service }) => {
-        // Convert bytes array to string
-        const data = bytesToString(value);
-        console.log(data);
-        if (data == "already logged in"){
-          AsyncStorage.getItem('AES_key', (err, result) => {
-            AsyncStorage.getItem('AES_iv', (err1, result1) => {
-              this.AES_key = result;
-              this.AES_iv = result1;
+        console.log(characteristic);
+        if (characteristic.toUpperCase() == GLOBAL.KEY_TRANSFER) {
+          // Convert bytes array to string
+          console.log(value);
+          const data = bytesToString(value);
+          if (data == "already logged in") {
+            AsyncStorage.getItem('AES_key', (err, result) => {
+              AsyncStorage.getItem('AES_iv', (err1, result1) => {
+                this.AES_key = result;
+                this.AES_iv = result1;
+              });
             });
-          });
-        } else {
-          RSA.decrypt(data, this.private_key)
-            .then((encodedMessage) => {
-              var AES_key = encodedMessage.match("\\[key:\\](.*)\\[iv:\\]")[1];
-              var AES_iv = encodedMessage.match("\\[iv:\\](.*)")[1];
-              AsyncStorage.setItem('AES_key', AES_key, () => {
-                console.log("Successfully saved public key");
-              });
-              AsyncStorage.setItem('AES_iv', AES_iv, () => {
-                console.log("Successfully saved private key");
-              });
-            })
-            .catch((error) => {
-              console.log(error);
-            })
+          } else {
+            setTimeout(() => {
+              console.log('here');
+              RSA.decrypt(data, this.private_key)
+                .then((encodedMessage) => {
+                  console.log("Encoded: " + encodedMessage);
+                  var AES_key = encodedMessage.match("\\[key:\\](.*)\\[iv:\\]")[1];
+                  var AES_iv = encodedMessage.match("\\[iv:\\](.*)")[1];
+                  this.AES_key = AES_key;
+                  this.AES_iv = AES_iv;
+                  AsyncStorage.setItem('AES_key', AES_key, () => {
+                    console.log("Successfully saved public key");
+                  });
+                  AsyncStorage.setItem('AES_iv', AES_iv, () => {
+                    console.log("Successfully saved private key");
+                  });
+                  // An example 128-bit key
+
+                  var key = Uint8Array.from(atob(AES_key), c => c.charCodeAt(0));
+                  // The initialization vector (must be 16 bytes)
+                  var iv = Uint8Array.from(atob(AES_iv), c => c.charCodeAt(0));
+                  // Convert text to bytes (text must be a multiple of 16 bytes)
+                  var text = 'Pass back';
+                  var textBytes = aesjs.utils.utf8.toBytes(text);
+
+                  var aesCbc = new aesjs.ModeOfOperation.cbc(key, iv);
+                  var encryptedBytes = aesCbc.encrypt(aesjs.padding.pkcs7.pad(textBytes));
+
+                  // To print or store the binary data, you may convert it to hex
+                  var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+                  console.log(encryptedHex);
+                  //Convert to Base64 String
+                  var base64Encrypted = this.hexToBase64(encryptedHex);
+                  var that = this;
+                  setTimeout(()=>{
+                    that.manager2.startNotification(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST)
+                      .then(() => {
+                        setTimeout(()=> {
+                          that.manager2.write(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST, stringToBytes(that.string_format(base64Encrypted, that.dev_id)), GLOBAL.MTU_SIZE)
+                            .then((value) => {
+                              console.log(String.fromCharCode.apply(null, value));
+                            })
+                            .catch((error) => {
+                              console.log(error);
+                            })
+                        },10000);
+                      });
+                  }, 5000);
+                })
+                .catch((error) => {
+                  console.log('asdasd');
+                  console.log(error);
+                });
+            }, 5000);
+          }
+        }else if (characteristic.toUpperCase() == GLOBAL.KEY_TEST){
+          const data = bytesToString(value);
+          console.log(data);
         }
+
       }
     );
     this.checkForScanning();
     AppState.addEventListener('change', this._handleAppStateChange);
     this.timeoutID = setInterval(()=>{this.backgroundScanCheck();},5000);
-
-
 
 
         // var pusher = new Pusher('YOUR PUSHER APP KEY', {
@@ -437,6 +504,16 @@ export default class BLEPage extends Component {
         //   }
         //
         // });
+    }
+    writeKeyTest(param){
+      this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000004-1E3C-FAD4-74E2-97A033F1BFAA', param, 512)
+        .then((value) => {
+          console.log(String.fromCharCode.apply(null, value));
+        })
+        .catch((error) => {
+          console.log(error);
+          this.writeKeyTest(param);
+        })
     }
     disconnect(){
        this.manager2.disconnect(this.state.connected_peripheral)
@@ -495,132 +572,65 @@ export default class BLEPage extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.app_title}>
-                        <Text style={styles.header_text}>Life Vector Mobile</Text>
-                    </View>
-
-                </View>
-
-                <View style={styles.body}>
-
-                    <Spinner
-                        size={50}
-                        type={"WanderingCubes"}
-                        color={"#6097FC"}
-                        isVisible={this.state.is_scanning}
-                        style={styles.spinner}
-                    />
-
-                    {
-                        !this.state.connected_peripheral &&
-                        <FlatList
-                            data={this.state.peripherals}
-                            renderItem={this.renderItem.bind(this)}
-                        />
-                    }
-
-                    {
-                        this.state.attendees &&
-                        <View style={styles.attendees_container}>
-                            <Prompt
-                                title="Enter your full name"
-                                placeholder="e.g. Son Goku"
-                                visible={this.state.promptVisible}
-                                onCancel={() => {
-                                    this.setState({
-                                        promptVisible: false
-                                    });
-                                }
-                                }
-                                onSubmit={ (value) => {
-                                    this.setState({
-                                        promptVisible: false
-                                    });
-                                    this.attend.call(this, value);
-                                }
-                                }/>
-                            {
-                                !this.state.has_attended &&
-                                <Button
-                                    title="Enter"
-                                    color="#1491ee"
-                                    onPress={this.openBox} />
-                            }
-                            <FlatList
-                                data={this.state.attendees}
-                                renderItem={this.renderItem.bind(this)}
-                            />
-                        </View>
-                    }
-
-                </View>
-                <View style={styles.header_button_container}>
-                  {
-                    this.state.connected_peripheral != null && <Button title="DISCONNECT" color="#1491ee" onPress={()=>{this.disconnect(this.state.connected_peripheral);}} />
-                  }
-                </View>
-            </View>
+          <View style={{height: '100%'}}>
+              <LoginPage/>
+              <View style={{flexDirection: 'column', flex: 0}}>
+                {
+                  this.state.connected_peripheral != null && <Button title="Disconnect From Server" color="#1491ee" onPress={()=>{this.disconnect(this.state.connected_peripheral);}} />
+                }
+              </View>
+          </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#F5FCFF',
-    },
-    header: {
-        flex: 1,
-        backgroundColor: '#3B3738',
-        flexDirection: 'row'
-    },
-    app_title: {
-        flex: 7,
-        padding: 10
-    },
-    header_button_container: {
-        flex: 2,
-        justifyContent: 'center',
-        paddingRight: 5
-    },
-    header_text: {
-        fontSize: 20,
-        color: '#FFF',
-        fontWeight: 'bold'
-    },
-    body: {
-        flex: 19
-    },
-    list_item: {
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingTop: 15,
-        paddingBottom: 15,
-        marginBottom: 5,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        flex: 1,
-        flexDirection: 'row'
-    },
-    list_item_text: {
-        flex: 8,
-        color: '#575757',
-        fontSize: 18
-    },
-    list_item_button: {
-        flex: 2
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+  },
+  welcome: {
+    fontSize: 30,
+    textAlign: 'center',
+    margin: 10,
+  },
+  login_button: {
+    fontSize: 20,
+    color: 'black',
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+  container2: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  image: {
+    width: 150,
+    height: 150,
+    margin: 50,
+  },
+  text: {
+    color: 'black',
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+    marginTop: 20,
+    fontSize: 30,
+  },
+  customFont: {
+    fontFamily: 'Friction-Core',
+    color: 'black',
+    backgroundColor: 'transparent',
+    marginTop: 20,
+    fontSize: 50,
+  },
 
-    },
-    spinner: {
-        alignSelf: 'center',
-        marginTop: 30
-    },
-    attendees_container: {
-        flex: 1
-    }
+
 });
 
 AppRegistry.registerHeadlessTask('BLEAndLocation', () => BLEAndLocation, );

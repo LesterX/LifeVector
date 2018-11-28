@@ -3,21 +3,17 @@ import {Platform, StyleSheet, Text, View, Image, KeyboardAvoidingView, TextInput
 import PropTypes from 'prop-types';
 import Button from 'react-native-button';
 import UserInput from './UserInput';
-import BLEPage from './BLEPage';
 
 import logoImg from '../images/logo.png';
 
 export default class LoginPage extends Component {
-    _handlePress(event) {
-        console.log();
-    }
 
     render() {
         return (
             <View style={styles.container}>
                 <Image source={logoImg} style={styles.image} />
-                <Text style={styles.customFont}>LIFE VECTOR</Text>
-                <KeyboardAvoidingView behavior="padding" style={styles.container}>
+              <Text style={styles.customFont}>Life Vector</Text>
+                <KeyboardAvoidingView behavior="padding" style={styles.textContainer}>
                     <UserInput
                         source=""
                         placeholder="Username"
@@ -51,7 +47,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
+      paddingBottom: '3%'
     },
+      textContainer: {
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+        marginTop: '5%'
+      },
     welcome: {
         fontSize: 30,
         textAlign: 'center',
@@ -72,23 +74,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     image: {
-        width: 150,
-        height: 150,
-        margin: 50,
+        width: 190,
+        height: 190,
+        margin: '5%',
+        marginTop: '25%'
     },
     text: {
         color: 'black',
         fontWeight: 'bold',
         backgroundColor: 'transparent',
-        marginTop: 20,
+        marginTop: '10%',
         fontSize: 30,
     },
     customFont: {
-        fontFamily: 'Hunters',
+        fontFamily: "Hatterline-Regular",
         color: 'black',
         backgroundColor: 'transparent',
-        marginTop: 20,
-        fontSize: 50,
+        marginTop: '3%',
+        fontSize: 80,
     },
 
 

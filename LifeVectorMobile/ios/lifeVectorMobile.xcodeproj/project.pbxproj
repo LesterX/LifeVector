@@ -44,6 +44,15 @@
 		050B03D2A6AB499D92F61FB6 /* libRNDeviceInfo-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 614B924CE33C49499C1E9620 /* libRNDeviceInfo-tvOS.a */; };
 		1CFD3898EF4F4A29B61E4C86 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B61C82F1AA4546A6936214B5 /* libRNSpinkit.a */; };
 		335DEEFAF4384ED084E315DE /* libRNRSA.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FAE9951D6AF417889BAD5D0 /* libRNRSA.a */; };
+		1F45984C422D4E4A8DFC0ED0 /* libRCTAes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA9751366B141C89FC7B594 /* libRCTAes.a */; };
+		56EBB97F036E40589C87C3E6 /* aqua.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 75FECD92A17E4E88ADF22585 /* aqua.ttf */; };
+		DE12B1E93D3B4B86873CD706 /* Friction-Core.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95C9306E42154642BD69108A /* Friction-Core.ttf */; };
+		BEC9547144134F0386DEB1D8 /* Friction-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7DC06B422F1C424BB820B129 /* Friction-Regular.ttf */; };
+		998D10498261436FB7CCF0FA /* Friction-Secondary1.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3D13CF4EAE34481B9FBDBDB /* Friction-Secondary1.ttf */; };
+		355914992EC34A25BCB975E3 /* Friction-Secondary2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25B26FDDCB854BAFB488A7CC /* Friction-Secondary2.ttf */; };
+		AA3DDAEE06CB4232B7599D4B /* Hatterline-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CEFCF22F705246FC81DC6CAF /* Hatterline-Regular.ttf */; };
+		43B69075D3CD45D6B6D6D3A0 /* Storytella.otf in Resources */ = {isa = PBXBuildFile; fileRef = 066173BCC44A49C3885AC4C2 /* Storytella.otf */; };
+		C5A53AD140534B7E96D4892F /* TheDodgerInky-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03E69037F6CD4B5CB73058A2 /* TheDodgerInky-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -362,6 +371,16 @@
 		B61C82F1AA4546A6936214B5 /* libRNSpinkit.a */ = {isa = PBXFileReference; name = "libRNSpinkit.a"; path = "libRNSpinkit.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		4B66700E1CA84DDD835B0455 /* RNRSA.xcodeproj */ = {isa = PBXFileReference; name = "RNRSA.xcodeproj"; path = "../node_modules/react-native-rsa-native/ios/RNRSA.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		3FAE9951D6AF417889BAD5D0 /* libRNRSA.a */ = {isa = PBXFileReference; name = "libRNRSA.a"; path = "libRNRSA.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		2D9736884FA048FCAABC93CB /* RCTAes.xcodeproj */ = {isa = PBXFileReference; name = "RCTAes.xcodeproj"; path = "../node_modules/react-native-aes-crypto/ios/RCTAes.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		4EA9751366B141C89FC7B594 /* libRCTAes.a */ = {isa = PBXFileReference; name = "libRCTAes.a"; path = "libRCTAes.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		75FECD92A17E4E88ADF22585 /* aqua.ttf */ = {isa = PBXFileReference; name = "aqua.ttf"; path = "../assets/fonts/aqua.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		95C9306E42154642BD69108A /* Friction-Core.ttf */ = {isa = PBXFileReference; name = "Friction-Core.ttf"; path = "../assets/fonts/Friction-Core.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7DC06B422F1C424BB820B129 /* Friction-Regular.ttf */ = {isa = PBXFileReference; name = "Friction-Regular.ttf"; path = "../assets/fonts/Friction-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E3D13CF4EAE34481B9FBDBDB /* Friction-Secondary1.ttf */ = {isa = PBXFileReference; name = "Friction-Secondary1.ttf"; path = "../assets/fonts/Friction-Secondary1.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		25B26FDDCB854BAFB488A7CC /* Friction-Secondary2.ttf */ = {isa = PBXFileReference; name = "Friction-Secondary2.ttf"; path = "../assets/fonts/Friction-Secondary2.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CEFCF22F705246FC81DC6CAF /* Hatterline-Regular.ttf */ = {isa = PBXFileReference; name = "Hatterline-Regular.ttf"; path = "../assets/fonts/Hatterline-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		066173BCC44A49C3885AC4C2 /* Storytella.otf */ = {isa = PBXFileReference; name = "Storytella.otf"; path = "../assets/fonts/Storytella.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		03E69037F6CD4B5CB73058A2 /* TheDodgerInky-Regular.ttf */ = {isa = PBXFileReference; name = "TheDodgerInky-Regular.ttf"; path = "../assets/fonts/TheDodgerInky-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -395,6 +414,7 @@
 				BD9F3C9A6ED14878A7E31C01 /* libRNDeviceInfo.a in Frameworks */,
 				1CFD3898EF4F4A29B61E4C86 /* libRNSpinkit.a in Frameworks */,
 				335DEEFAF4384ED084E315DE /* libRNRSA.a in Frameworks */,
+				1F45984C422D4E4A8DFC0ED0 /* libRCTAes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +608,7 @@
 				BB4A7161E43344EAA2A10E39 /* RNDeviceInfo.xcodeproj */,
 				FAA711EE23A84D29A244CA93 /* RNSpinkit.xcodeproj */,
 				4B66700E1CA84DDD835B0455 /* RNRSA.xcodeproj */,
+				2D9736884FA048FCAABC93CB /* RCTAes.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -609,6 +630,7 @@
 				00E356EF1AD99517003FC87E /* lifeVectorMobileTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
+				9526AB3C65F94FAD9F0A0D5C /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -634,6 +656,22 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		9526AB3C65F94FAD9F0A0D5C /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				75FECD92A17E4E88ADF22585 /* aqua.ttf */,
+				95C9306E42154642BD69108A /* Friction-Core.ttf */,
+				7DC06B422F1C424BB820B129 /* Friction-Regular.ttf */,
+				E3D13CF4EAE34481B9FBDBDB /* Friction-Secondary1.ttf */,
+				25B26FDDCB854BAFB488A7CC /* Friction-Secondary2.ttf */,
+				CEFCF22F705246FC81DC6CAF /* Hatterline-Regular.ttf */,
+				066173BCC44A49C3885AC4C2 /* Storytella.otf */,
+				03E69037F6CD4B5CB73058A2 /* TheDodgerInky-Regular.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1081,6 +1119,14 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				56EBB97F036E40589C87C3E6 /* aqua.ttf in Resources */,
+				DE12B1E93D3B4B86873CD706 /* Friction-Core.ttf in Resources */,
+				BEC9547144134F0386DEB1D8 /* Friction-Regular.ttf in Resources */,
+				998D10498261436FB7CCF0FA /* Friction-Secondary1.ttf in Resources */,
+				355914992EC34A25BCB975E3 /* Friction-Secondary2.ttf in Resources */,
+				AA3DDAEE06CB4232B7599D4B /* Hatterline-Regular.ttf in Resources */,
+				43B69075D3CD45D6B6D6D3A0 /* Storytella.otf in Resources */,
+				C5A53AD140534B7E96D4892F /* TheDodgerInky-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1225,6 +1271,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Debug;
@@ -1256,6 +1303,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Release;
@@ -1284,6 +1332,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Debug;
@@ -1311,6 +1360,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Release;
@@ -1350,6 +1400,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Debug;
@@ -1389,6 +1440,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Release;
@@ -1427,6 +1479,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Debug;
@@ -1465,6 +1518,7 @@
 					"$(SRCROOT)\..\node_modules\react-native-device-info\ios\RNDeviceInfo",
 					"$(SRCROOT)\..\node_modules\react-native-spinkit\ios/**",
 					"$(SRCROOT)\..\node_modules\react-native-rsa-native\ios",
+					"$(SRCROOT)\..\node_modules\react-native-aes-crypto\ios\RCTAes/**",
 				);
 			};
 			name = Release;
