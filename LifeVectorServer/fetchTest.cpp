@@ -1,15 +1,21 @@
-#ifndef STRING_PARSER_H
+#include "fetchReport.h"
+
+#include "json.hpp"
+#include <iostream>
+#include <unistd.h>
+#include <string>
 #include "StringParser.h"
-#endif
+#include <sstream> 
+#include <vector>
+
 
 #include "Database.h"
 #include "UserController.h"
-#include "json.hpp"
-#include "StringParser.h"
-
-// All Archive Classes
-#include "UserVisitInfo.h"
 #include "VisitLog.h"
+
+#include "json.hpp"
+
+#include "UserVisitInfo.h"
 #include "LocationInformation.h"
 #include "CoordinateInformation.h"
 #include "ArchivedLocation.h"
@@ -17,16 +23,13 @@
 
 #include "googleAPI.h"
 
-#include <string>
 #include <iostream>
-#include <sstream>
-#include <vector>
 #include <utility>
 #include <cmath>
 #include <stdlib.h>
 
-int main()
-{
+int main(){
+
     // Fresh Test Ground
 
     using namespace std;
@@ -107,7 +110,9 @@ int main()
     cout << "add from above" << endl;
 
     TestLibrary.saveLocationToDatabase(archL);
+    cout << 1 << endl;
     ArchivedLocation *frmDB_l = TestLibrary.getLocationFromDatabase(200);
+    cout << 2 << endl;
     cout << frmDB_l->getID() << endl;
 
     uvi2.printLog();
@@ -169,19 +174,6 @@ int main()
     cout << " 4 locations archived" << endl;
 
     cout << "end of test" << endl;
-
-    /******************************/
-
-   
-    //fetchReport fr();
-
-    //fr.getReport();
-
-    
-
-
-
-    /**********************************88*/
 
     // create some time logs;
     int interval = 5 * 60; // tracking interval 5min => 300s
@@ -261,7 +253,8 @@ int main()
 
     cout << "logs archived to related locations" << endl
          << endl;
-
+    
+    fetchReport fr;
     // get and print log information for each location
     for (temp = 0; temp < 4; temp++)
     {
@@ -290,6 +283,8 @@ int main()
             VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
             vlog->printLog();
 
+
+
             // Visit count function test
             int l_count = TestLibrary.getVisitCount(found->getID());
             int lu_count = TestLibrary.getVisitCount(found->getID(), "main_usr", "nx5");
@@ -304,17 +299,25 @@ int main()
             // Duration function test
             int dur = TestLibrary.getDurationAtLocation(found->getID());
             int udur = TestLibrary.getDurationAtLocation(found->getID(), "main_usr", "nx5");
-
+            cout << 1 << endl;
             if (dur == udur)
             {
                 cout << "duration functions test passed " << endl
                      << "total duration: " << dur << endl
                      << "main_usr duration: " << udur << endl;
             }
+            cout << 2 << endl;
+            
+            fr.process(vlog, dur);
+            cout << 3 << endl;
         }
     }
 
     cout << "end of test" << endl;
+    
+    fr.getReport();
+ 
+
 
     return 0;
 }
