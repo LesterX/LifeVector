@@ -23,7 +23,6 @@
  * Save the result into ArchiveLibrary
  */
 void squasher::squash() {
-	cout << "Last Location ID: " << currentID - 1 << endl;
 	std::vector<long> timeStamps = rawData.getTimeStamps();
 	std::map<long, int> log;
 	std::vector<long>::iterator itr = timeStamps.begin();
@@ -92,10 +91,6 @@ void squasher::squash() {
 			lastID = locID;
 			if ((itr + 1) == timeStamps.end()){ //If only one input, push to library
 				uvi.addSingleLog(*itr, 0);
-				cout << "----------------" << endl;
-				cout << "Location: " << locID << endl;
-				uvi.printLog();
-				cout << "----------------" << endl;
 				library.archiveUserLog(locID,username,deviceID,uvi);
 			}
 		}
@@ -106,12 +101,6 @@ void squasher::squash() {
 				timeSpent = *itr - lastTime;
 
 				uvi.addSingleLog(lastTime, (int)timeSpent);
-
-				cout << "----------------" << endl;
-				cout << "Location: " << lastID << endl;
-				uvi.printLog();
-				cout << "----------------" << endl;
-
 				library.archiveUserLog(lastID,username,deviceID,uvi);
 
 				lastTime = *itr;
@@ -126,10 +115,6 @@ void squasher::squash() {
 
 				UserVisitInfo uvi0; //Create a new user visit info to avoid conflict with the last one
 				uvi0.addSingleLog(lastTime, (int)timeSpent);
-				cout << "----------------" << endl;
-				cout << "Location: " << locID << endl;
-				uvi0.printLog();
-				cout << "----------------" << endl;
 				library.archiveUserLog(locID,username,deviceID,uvi0);
 				timeSpent = 0;
 			}
