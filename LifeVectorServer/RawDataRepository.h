@@ -19,11 +19,11 @@
 class RawDataRepository
 {
 private:
-  /* gpsLog is a structure holding the raw gps coordinate data
-     * "time" is the time stamp of the log, saved in UNIX time format
-     * "latitude" and "longitude" are the coordinates, in decimal degrees.
-     * They range from -90 (S) to 90 (N) and -180 (W) to 180 (E), respectively.
-     */
+  /**
+   * @brief gpsLog is a structure holding the raw gps coordinate data
+   * "time" is the time stamp of the log, saved in UNIX time format
+   * "latitude" and "longitude" are the coordinates, in decimal degrees.     * They range from -90 (S) to 90 (N) and -180 (W) to 180 (E), respectively
+   */
   struct gpsLog
   {
     long time;
@@ -34,22 +34,82 @@ private:
   std::map<long, gpsLog> rawData; // map holding the raw gps coordinates
   std::vector<long> logTimes;     // vector of times with logged gps data
 
-  void initJSON(std::string source);          // function to import the .json file
-  void buildRepository(std::string fileSpec); // function used to parse the json object to extract the timestamp and coordinate data to be stored in the vector
-  void mapEntry(long time, gpsLog data);      // helper function to insert a single gps entry into the rawData map
+  /**
+   * @brief function to import the .json file
+   * 
+   * @param source string filename of .json file
+   */
+  void initJSON(std::string source);
+
+  /**
+   * @brief function used to parse the json object to extract 
+   * the timestamp and coordinate data to be stored in the vector
+   * 
+   * @param fileSpec string - the json attribute of name identifying
+   * the GPS array
+   */
+  void buildRepository(std::string fileSpec);
+
+  /**
+   * @brief helper function to insert a single gps entry into the rawData map
+   * 
+   * @param time long - time stamp in UNIX format
+   * @param data gpsLog - the struct holding the 
+   */
+  void mapEntry(long time, gpsLog data);
 
 public:
-  // Constructor & Destructor
+  /**
+   * @brief Construct a new Raw Data Repository object
+   * 
+   * @param sourceFile string filename of .json file
+   * @param fileSpecification string - the json attribute of name identifying
+   * the GPS array
+   */
   RawDataRepository(std::string sourceFile, std::string fileSpecification);
-  RawDataRepository(); //Alternative constructor only for testing purpose
+  
+  /**
+   * @brief Construct a new Raw Data Repository object
+   * Alternative constructor only for testing purpose
+   */
+  RawDataRepository();
+
+  /**
+   * @brief Destroy the Raw Data Repository object
+   * 
+   */
   ~RawDataRepository();
 
-  // Fetching coordinates
+  /**
+   * @brief Get the Time Stamps
+   * 
+   * @return std::vector<long> list of all time stamps in entries in 
+   * the raw data set. All in UNIX time format
+   */
   std::vector<long> getTimeStamps();
+
+  /**
+   * @brief Get the GPS Coordinates pair
+   * 
+   * @param coordinates double* coordinate pair stored in a pointer
+   * @param timestamp long time stamp in UNIX time format
+   */
   void getCoordinates(double *coordinates, long timestamp);
+
+  /**
+   * @brief prints out all the entries held in the raw data
+   * repository
+   * 
+   */
   void dumpData();
 
-  //Testing method to add single point
+  /**
+   * @brief Testing method to add single point
+   * 
+   * @param t 
+   * @param lat 
+   * @param lng 
+   */
   void addTestData(long t, double lat, double lng);
 };
 

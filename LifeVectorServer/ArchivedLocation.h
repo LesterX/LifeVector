@@ -1,3 +1,16 @@
+/**
+ * @file ArchivedLocation.h
+ * @author Rukun Wang (rwang264@uwo.ca)
+ * @brief Made up of LocationInformation and CoordinateInformation 
+ * objects. Used to store information detailing the location. 
+ * This includes the qualitative information and quantitative GPS 
+ * coordinate information outlining reference coordinate and GPS 
+ * boundary in all 4 directions. 
+ * @version 0.1
+ * 
+ * @copyright Copyright (c) 2018
+ * 
+ */
 #ifndef ARCHIVED_LOCATION_H
 #define ARCHIVED_LOCATION_H
 
@@ -19,9 +32,9 @@ class ArchivedLocation
 {
 private:
   // Attributes:
-  LocationInformation details; // the qualitative information
+  LocationInformation details;       // the qualitative information
   CoordinateInformation coordinates; // the quantitative information
-  
+
 public:
   // Constructors:
 

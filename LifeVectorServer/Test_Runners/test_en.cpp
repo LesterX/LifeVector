@@ -1,4 +1,4 @@
-#include "EncryptionModule.h"
+#include "../EncryptionModule.h"
 
 // g++ -Wall -std=c++11 evp-encrypt.cxx -o evp-encrypt.exe -lcrypto
 

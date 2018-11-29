@@ -74,6 +74,7 @@ void RawDataRepository::dumpData()
     for (dataIterator = logTimes.begin(); dataIterator != logTimes.end(); ++dataIterator)
     {
         gpsLog entry = rawData.at(*dataIterator);
+        std::cout.precision(12);
         std::cout << entry.time << " - "
                   << "(" << entry.latitude << ", " << entry.longitude << ")" << std::endl;
     }

@@ -384,7 +384,7 @@ std::string removeStartAndEnd(std::string start_end_string){
 
 
                         // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)
-                .gattCharacteristicBegin("key_transfer", "00000003-1E3C-FAD4-74E2-97A033F1BFAA", {"write", "notify"})
+                .gattCharacteristicBegin("key_transfer", "00000003-1E3C-FAD4-74E2-97A033F1BFAA", {"read", "write","notify"})
 
                         // Standard characteristic "WriteValue" method call
                 .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
@@ -394,7 +394,6 @@ std::string removeStartAndEnd(std::string start_end_string){
                                               std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
                                               std::string public_key_fragment;
                                               if (writeValue.substr(36, 1) == ":" && writeValue.substr(8,1) == "-" && writeValue.substr(13,1) == "-" && writeValue.substr(18,1) == "-"){
-                                                  printf("OVERALL: %s\n",writeValue.c_str());
                                                   std::string dev_id = writeValue.substr (0,36);
                                                   if ( bufferStorage.find(dev_id) == bufferStorage.end() || bufferStorage[dev_id].find("status") == bufferStorage[dev_id].end() || bufferStorage[dev_id]["status"] == "not authenticated") {
                                                       if (writeValue.substr(37, 7) != "[START]"){
@@ -414,7 +413,6 @@ std::string removeStartAndEnd(std::string start_end_string){
                                                       if (writeValue.find("[END]") != std::string::npos) {
                                                           //Create encryption module and generate the key and cipher for AES
                                                           // Load the necessary cipher
-                                                          EVP_add_cipher(EVP_aes_256_cbc());
 
                                                           byte key[KEY_SIZE], iv[BLOCK_SIZE];
 
@@ -469,18 +467,13 @@ std::string removeStartAndEnd(std::string start_end_string){
                                             EVP_PKEY* pkey = PEM_read_bio_PUBKEY(mem, NULL, NULL, NULL);
                                             RSA * public_key = EVP_PKEY_get1_RSA(pkey);
                                             char *encrypt = NULL;
-                                            encrypt = (char*)malloc(RSA_size(public_key));
+                                            encrypt = (char*)malloc(256);
                                             int encrypt_length = em.public_encrypt(strlen(first_message), (unsigned char*)first_message, (unsigned char*)encrypt, public_key, RSA_PKCS1_PADDING);
                                             if(encrypt_length == -1) {
                                                 printf("An error occurred in public_encrypt() method");
                                             }
-                                            printf("Data has been encrypted.");
-                                            char * base64 = em.base64((unsigned char*)encrypt, RSA_size(public_key));
-                                            printf("Base64 version created");
-                                            printf("OpenSSL_RSA has been finished.");
-                                            std::string send(base64);
+                                            std::string send(encrypt, encrypt_length);
                                             self.sendChangeNotificationValue(pConnection, send);
-                                            free(base64);
                                             BIO_free_all(mem);
                                             EVP_PKEY_free(pkey);
                                             RSA_free(public_key);
@@ -511,7 +504,7 @@ std::string removeStartAndEnd(std::string start_end_string){
 
                 .gattCharacteristicEnd()
                         // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)
-                .gattCharacteristicBegin("test_key", "00000004-1E3C-FAD4-74E2-97A033F1BFAA", {"write", "notify"})
+                .gattCharacteristicBegin("test_key", "00000004-1E3C-FAD4-74E2-97A033F1BFAA", {"read","write","notify"})
 
                         // Standard characteristic "WriteValue" method call
                 .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
@@ -521,41 +514,41 @@ std::string removeStartAndEnd(std::string start_end_string){
                                               std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
                                               std::string public_key_fragment;
                                               if (writeValue.substr(36, 1) == ":" && writeValue.substr(8,1) == "-" && writeValue.substr(13,1) == "-" && writeValue.substr(18,1) == "-" && writeValue.find("[START]") != std::string::npos && writeValue.find("[END]") != std::string::npos){
-                                          printf("OVERALL: %s\n",writeValue.c_str());
                                           std::string dev_id = writeValue.substr (0,36);
                                           if ( bufferStorage.find(dev_id) != bufferStorage.end() && bufferStorage[dev_id].find("key") != bufferStorage[dev_id].end() && bufferStorage[dev_id].find("iv") != bufferStorage[dev_id].end()) {
                                               std::string startAndEnd = writeValue.substr(37);
                                               std::string withoutStartAndEnd = removeStartAndEnd(startAndEnd);
-                                              std::cout << withoutStartAndEnd << std::endl;
+                                              int first_close = withoutStartAndEnd.find("]");
+                                              int first_colon = withoutStartAndEnd.find(":");
+                                              std::string sizeNumber = withoutStartAndEnd.substr(first_colon+1, first_close-first_colon);
+                                              int sizeOfDecrypted = std::stoi(sizeNumber);
+                                              std::string removeSize = withoutStartAndEnd.substr(first_close+1);
+                                              std::cout << removeSize << std::endl;
 
                                               //Create encryption module and generate the key and cipher for AES
                                               // Load the necessary cipher
-                                              EVP_add_cipher(EVP_aes_256_cbc());
 
                                               byte key[KEY_SIZE], iv[BLOCK_SIZE];
                                               memcpy(key, bufferStorage[dev_id]["key"].data(), bufferStorage[dev_id]["key"].length());
                                               memcpy(iv, bufferStorage[dev_id]["iv"].data(), bufferStorage[dev_id]["iv"].length());
 
-                                              std::string result = em.base64_decode(withoutStartAndEnd);
+                                              std::string result = em.base64_decode(removeSize);
                                               std::cout << "Decoded: " << result << std::endl;
                                               secure_string ctext = result.c_str();
                                               secure_string rtext;
 
-                                              em.aes_decrypt(key, iv, ctext, rtext);
-                                              printf("Return text: %s\n", rtext.c_str());
+                                              std::cout << "here" << std::endl;
+
+                                              em.aes_decrypt(key, iv, sizeOfDecrypted, ctext, rtext);
 
                                               OPENSSL_cleanse(key, KEY_SIZE);
                                               OPENSSL_cleanse(iv, BLOCK_SIZE);
+                                              std::cout << "here1" << std::endl;
                                               if (rtext.find("Pass back") != std::string::npos){
-                                                  self.callOnUpdatedValue(pConnection, pUserData, "Pass back");
-                                              } else {
-                                                  self.callOnUpdatedValue(pConnection, pUserData, "Symmetric key failed.");
+                                                  std::cout << "here2" << std::endl;
+                                                  self.callOnUpdatedValue(pConnection, pUserData, dev_id);
                                               }
-
-
-                                          } else {
-                                              self.callOnUpdatedValue(pConnection, pUserData, "Need to key transfer first.");
-                                          }
+                                      }
                                       }
 
 
@@ -566,8 +559,31 @@ std::string removeStartAndEnd(std::string start_end_string){
                         // We can handle updates in any way we wish, but the most common use is to send a change notification.
                 .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
                                         {
-                                                self.sendChangeNotificationValue(pConnection, id);
+
+
+                                                byte key[KEY_SIZE], iv[BLOCK_SIZE];
+                                                memcpy(key, bufferStorage[id]["key"].data(), bufferStorage[id]["key"].length());
+                                                memcpy(iv, bufferStorage[id]["iv"].data(), bufferStorage[id]["iv"].length());
+                                                std::cout << "here3" << std::endl;
+                                                // plaintext, ciphertext, recovered text
+                                                std::string report = "Received";
+                                                secure_string ptext = report.c_str();
+                                                secure_string ctext, rtext;
+
+                                                std::cout << "here4" << std::endl;
+
+                                                em.aes_encrypt(key, iv, ptext, ctext);
+                                                std::cout << "here5" << std::endl;
+                                                const char * ret = ctext.c_str();
+                                                std::cout << "here6" << std::endl;
+                                                OPENSSL_cleanse(key, KEY_SIZE);
+                                                std::cout << "here7" << std::endl;
+                                                OPENSSL_cleanse(iv, BLOCK_SIZE);
+                                                std::cout << "here8" << std::endl;
+                                                self.sendChangeNotificationValue(pConnection, ret);
+                                                std::cout << "here9" << std::endl;
                                                 return true;
+                                                std::cout << "here10" << std::endl;
 
                                         })
 

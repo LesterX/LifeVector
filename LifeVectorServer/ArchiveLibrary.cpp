@@ -291,6 +291,16 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         `deviceID` varchar(10) NOT NULL,
         */
 
+       // Check if the time stamp is duplicate
+        std::stringstream checkQuery;
+        checkQuery << "SELECT * FROM VisitLog WHERE visitTime = " << record_iter->first
+                   << ";";
+        std::string checkResult = connected_db->getSQLResult(checkQuery.str());
+        if (checkResult.length() > 1){
+            std::cout << "Duplicate time in visit log" << std::endl;
+            return false; //If time exists, return false
+        }
+
         std::stringstream entry;
         entry << "INSERT INTO VisitLog"
               << " (visitTime, locationID, duration, username, deviceID) VALUES ("
