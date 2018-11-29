@@ -1,6 +1,12 @@
+/**
+ * @file LocationInformation.cpp
+ * 
+ * @brief Class storing the location data
+ * 
+ */
+
 #include "LocationInformation.h"
 
-// Constructor:
 LocationInformation::LocationInformation(int locationID)
 {
     id = locationID;
