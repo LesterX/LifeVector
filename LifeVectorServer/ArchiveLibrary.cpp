@@ -296,7 +296,7 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         checkQuery << "SELECT * FROM VisitLog WHERE visitTime = " << record_iter->first
                    << ";";
         std::string checkResult = connected_db->getSQLResult(checkQuery.str());
-        if (checkResult.length() > 1){
+        if (checkResult.length() >= 1){
             std::cout << "Duplicate time in visit log" << std::endl;
             return false; //If time exists, return false
         }
