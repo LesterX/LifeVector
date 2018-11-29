@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c -Wall -g
+CFLAGS=-c 
 CMATH=-lm
 PFLAG=-lmysqlclient
 PFLAG2=-L/usr/include/curl/lib -lcurl
@@ -13,10 +13,19 @@ main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Data
 TestArch: ArchiveTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
+TestFetch: fetchTest.cpp fetchReport.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
+	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
+
 ArchLib: ALibTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 ALibTest.o: ALibTest.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+fetchTest.o: fetchTest.cpp
+	$(CC) $(CFLAGS) -o $@ $<
+
+fetchReport.o: fetchReport.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 UserControllerTest.o: UserControllerTest.cpp
@@ -90,9 +99,13 @@ ALibTest: ArchLib
 	@echo Run ArchLib
 	./ArchLib
 
+testFetch: TestFetch
+	./TestFetch
+
 test: clean main #cleans and runs main with the test file
 	sudo ./main
 
 clean:
 	rm -f *.o main TestArch ArchLib
+
 
