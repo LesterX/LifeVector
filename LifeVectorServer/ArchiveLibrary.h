@@ -39,7 +39,7 @@ public:
                                      double latitude, double longitude,
                                      double northBound, double southBound, double eastBound, double westBound);
 
-  bool getLocationFromDatabase(ArchivedLocation *location, int id);
+  ArchivedLocation *getLocationFromDatabase(int id);
   bool saveLocationToDatabase(ArchivedLocation location);
   // bool deleteLocationFromDatabase(int locationID);
 
@@ -49,11 +49,11 @@ public:
   /* Location Visit Records Functions: */
   bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);
 
-  bool getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device);
-  bool getUserLogBetween(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device, long start, long fin);
+  std::map<int, UserVisitInfo> *getUserLogFromDatabase(std::string user, std::string device);
+  std::map<int, UserVisitInfo> *getUserLogBetween(std::string user, std::string device, long start, long fin);
 
-  bool getLocationRecordFromDatabase(VisitLog *record, int locationID);
-  bool getLocationRecordFBetween(VisitLog *record, int locationID, long start, long fin);
+  VisitLog *getLocationRecordFromDatabase(int locationID);
+  VisitLog *getLocationRecordFBetween(int locationID, long start, long fin);
 
   int getVisitCount(int locationID);
   int getVisitCount(int locationID, std::string user, std::string device);

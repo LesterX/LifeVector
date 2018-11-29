@@ -105,15 +105,14 @@ int main()
     cout << "add from above" << endl;
 
     TestLibrary.saveLocationToDatabase(archL);
-    ArchivedLocation *frmDB_l = (ArchivedLocation *)malloc(sizeof(ArchivedLocation));
-    TestLibrary.getLocationFromDatabase(frmDB_l, 200);
+    ArchivedLocation *frmDB_l = TestLibrary.getLocationFromDatabase(200);
     cout << frmDB_l->getID() << endl;
 
     uvi2.printLog();
 
     // Add a location
     string loc_name, address, desc;
-    int loc_id = 400, id[4] = {0,0,0,0}, temp = 3, cnt;
+    int loc_id = 400, id[4] = {0, 0, 0, 0}, temp = 3, cnt;
     double x_ref, y_ref, n_border, e_border, s_border, w_border;
 
     // create some locations:
@@ -133,13 +132,13 @@ int main()
         int azero = 0;
         desc = google.getTypes(azero);
 
-        x_ref = atof(google.getLat().c_str());
-        y_ref = atof(google.getLng().c_str());
+        x_ref = std::stod(google.getLat());
+        y_ref = std::stod(google.getLng());
 
-        n_border = atof(google.getNorthEastLat().c_str());
-        e_border = atof(google.getNorthEastLng().c_str());
-        s_border = atof(google.getSouthWestLat().c_str());
-        w_border = atof(google.getSouthWestLng().c_str());
+        n_border = std::stod(google.getNorthEastLat());
+        e_border = std::stod(google.getNorthEastLng());
+        s_border = std::stod(google.getSouthWestLat());
+        w_border = std::stod(google.getSouthWestLng());
 
         // create ArchiveLocation
         ArchivedLocation loca_loca = TestLibrary.constructLocation(loc_id, loc_name, address, desc, x_ref, y_ref, n_border, s_border, e_border, w_border);
@@ -166,9 +165,7 @@ int main()
 
     cout << " 4 locations archived" << endl;
 
-
     cout << "end of test" << endl;
-
 
     // create some time logs;
     int interval = 5 * 60; // tracking interval 5min => 300s
@@ -194,32 +191,114 @@ int main()
 
     cout << "t_log populated" << endl;
 
-
     //get locations from DB
 
-    cout << "the incredible loop (id : 200 - 450)" << endl;
+    cout << "single fetch" << endl;
+
+    ArchivedLocation *sloc = TestLibrary.getLocationFromDatabase(200);
+
+    /*     string testline = "400\tDelaware Hall NB - #510\tLondon ON N6G Canada\t43.0086000\t-81.2690000\t43.01000000\t43.00730000\t-81.26760000\t-81.27030000\tpremise";
+    string testint = "400";
+    string testd = "43.01000000";
+    int frmstr = stoi(testint);
+    double wasstr = stod(testd);
+
+    cout << testint << frmstr << endl
+         << testd << wasstr << endl;
+ */
+    cout << sloc->getID() << endl;
+
+    sloc->printInformation();
+
+    cout << "the incredible loop (id : 399 - 410)" << endl;
 
     cnt = 0;
-    for (temp = 200; temp < 450; temp++)
+    for (temp = 399; temp < 410; temp++)
     {
-        void *found = (ArchivedLocation *)malloc(sizeof(ArchivedLocation *));
+        ArchivedLocation *found = TestLibrary.getLocationFromDatabase(temp);
 
-        if (TestLibrary.getLocationFromDatabase(((ArchivedLocation *)found), temp))
+        if (found)
         {
             if (cnt < 4)
             {
-                id[cnt] = ((ArchivedLocation *)found)->getID();
+                id[cnt] = found->getID();
                 cout << "here: " << cnt << ", id " << id[cnt] << endl;
                 cnt++;
 
-                ((ArchivedLocation *)found)->printInformation();
+                found->printInformation();
             }
         }
-
-        free(found);
     }
 
-    // TestLibrary.archiveUserLog(200, "usr1", "nx5", uvi2);
-    // cout << "loc 200 added with log" << endl;
+    uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;");
+
+    // add the logs to the 4 locations
+    TestLibrary.archiveUserLog(200, "usr1", "nx5", uvi2);
+    cout << "loc 200 added with log" << endl;
+
+    temp = 0;
+    UserVisitInfo userlogs[4] = {u1, u2, u3, u4};
+    for (; temp < 4; temp++)
+    {
+        TestLibrary.archiveUserLog(id[temp], "main_usr", "nx5", userlogs[temp]);
+    }
+
+    cout << "logs archived to related locations" << endl
+         << endl;
+
+    // get and print log information for each location
+    for (temp = 0; temp < 4; temp++)
+    {
+        ArchivedLocation *found = TestLibrary.getLocationFromDatabase(id[temp]);
+
+        if (found)
+        {
+            found->printInformation();
+
+            // User Log
+            std::map<int, UserVisitInfo> *u_log = TestLibrary.getUserLogFromDatabase("main_usr", "nx5");
+
+            if (u_log)
+            {
+                cout << "user log retrieved" << endl;
+
+                map<int, UserVisitInfo>::iterator uit = u_log->begin();
+                for (uit; uit != u_log->end(); ++uit)
+                {
+                    cout << "User at LocID: " << uit->first << endl;
+                    uit->second.printLog();
+                }
+            }
+
+            // Location Log
+            VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
+            vlog->printLog();
+
+            // Visit count function test
+            int l_count = TestLibrary.getVisitCount(found->getID());
+            int lu_count = TestLibrary.getVisitCount(found->getID(), "main_usr", "nx5");
+
+            if (l_count == lu_count)
+            {
+                cout << "count functions test passed " << endl
+                     << "total count: " << l_count << endl
+                     << "main_usr count: " << lu_count << endl;
+            }
+
+            // Duration function test
+            int dur = TestLibrary.getDurationAtLocation(found->getID());
+            int udur = TestLibrary.getDurationAtLocation(found->getID(), "main_usr", "nx5");
+
+            if (dur == udur)
+            {
+                cout << "duration functions test passed " << endl
+                     << "total duration: " << dur << endl
+                     << "main_usr duration: " << udur << endl;
+            }
+        }
+    }
+
+    cout << "end of test" << endl;
+
     return 0;
 }

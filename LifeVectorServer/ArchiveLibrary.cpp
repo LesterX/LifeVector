@@ -125,7 +125,7 @@ bool ArchiveLibrary::saveLocationToDatabase(ArchivedLocation location)
     }
 }
 
-bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
+ArchivedLocation *ArchiveLibrary::getLocationFromDatabase(int id)
 {
     if (isKnown(id))
     {
@@ -140,7 +140,7 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
         std::vector<std::string> fields;
         StringParser::custom_parse(result, fields, '\t');
 
-        std::cout << result << std::endl;
+        // std::cout << result << std::endl;
 
         /* Field Legend : 
          * 0. locationID, 
@@ -157,10 +157,10 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
 
         // Create Archive Location
 
-        for (std::vector<std::string>::iterator i = fields.begin(); i != fields.end(); ++i)
+        /* for (std::vector<std::string>::iterator i = fields.begin(); i != fields.end(); ++i)
         {
             std::cout << *i << std::endl;
-        }
+        } */
 
         int l_id = std::stoi(fields[0]);
         std::string name = fields[1],
@@ -173,19 +173,20 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
                e = std::stod(fields[7]),
                w = std::stod(fields[8]);
 
-        std::cout << l_id << std::endl;
+        // std::cout << name << std::endl;
 
-        ArchivedLocation forArchive = constructLocation(l_id, name, address, descr, lat, lng, n, s, e, w);
+        ArchivedLocation *location = new ArchivedLocation(l_id, lat, lng, n, s, e, w);
+        location->setLocationInformation(name, address, descr);
 
-        location = &forArchive;
+        // location->printInformation();
 
         std::cout << "Location retrieved successfully from Database" << std::endl;
-        return true;
+        return location;
     }
     else
     {
         std::cout << "No Location at id: " << id << std::endl;
-        return false;
+        return NULL;
     }
 }
 
@@ -273,13 +274,14 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         return false;
     }
 
-    // extract iterator of user's time log
-    std::map<long, int>::iterator record_iter = (userVisitLog.getTimeLog()).begin();
-
     bool check = false;
 
+    // extract iterator of user's time log
+    std::map<long, int> log = userVisitLog.getTimeLog();
+    std::map<long, int>::iterator record_iter = log.begin();
+
     // iterate through log and enter each entry into DB
-    for (; record_iter != (userVisitLog.getTimeLog()).end(); ++record_iter)
+    for (; record_iter != log.end(); record_iter++)
     {
         /* Fields Legend : VisitLog
         `visitTime` bigint(20) NOT NULL,
@@ -291,7 +293,7 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
 
         std::stringstream entry;
         entry << "INSERT INTO VisitLog"
-              << "(visitTime, locationID, duration, username, deviceID) VALUES ("
+              << " (visitTime, locationID, duration, username, deviceID) VALUES ("
               << record_iter->first << ", "
               << locationID << ", "
               << record_iter->second << ", '"
@@ -300,29 +302,31 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
 
         if (connected_db->exeSQL(entry.str()))
         {
-            std::cout << "User Record at LocID: " << locationID << " has been added to Database" << std::endl;
+            SystemTimeManager t(record_iter->first);
+            std::cout << "User Record for " << t.UNIXtoEST() << " at LocID: " << locationID << " added to Database" << std::endl;
             check = true;
 
-            std::cout << "check" << std::endl;
+            // std::cout << "check" << std::endl;
         }
         else
         {
             std::cout << "User Record could not save to Database" << std::endl;
             check = false;
+            break;
         }
     }
 
-    std::cout << "returning" << std::endl;
+    // std::cout << "returning" << std::endl;
     return check;
 }
 
-bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device)
+std::map<int, UserVisitInfo> *ArchiveLibrary::getUserLogFromDatabase(std::string user, std::string device)
 {
-    userLog = new std::map<int, UserVisitInfo>();
+    std::map<int, UserVisitInfo> *userLog = new std::map<int, UserVisitInfo>();
 
     if (!isRegistered(user, device))
     {
-        return false;
+        return NULL;
     }
 
     std::stringstream query;
@@ -333,16 +337,16 @@ bool ArchiveLibrary::getUserLogFromDatabase(std::map<int, UserVisitInfo> *userLo
 
     userLogDBtoObj(userLog, results);
 
-    return true;
+    return userLog;
 }
 
-bool ArchiveLibrary::getUserLogBetween(std::map<int, UserVisitInfo> *userLog, std::string user, std::string device, long start, long fin)
+std::map<int, UserVisitInfo> *ArchiveLibrary::getUserLogBetween(std::string user, std::string device, long start, long fin)
 {
-    userLog = new std::map<int, UserVisitInfo>();
+    std::map<int, UserVisitInfo> *userLog = new std::map<int, UserVisitInfo>();
 
     if (!isRegistered(user, device))
     {
-        return false;
+        return NULL;
     }
 
     std::stringstream query;
@@ -354,17 +358,17 @@ bool ArchiveLibrary::getUserLogBetween(std::map<int, UserVisitInfo> *userLog, st
 
     userLogDBtoObj(userLog, results);
 
-    return true;
+    return userLog;
 }
 
-bool ArchiveLibrary::getLocationRecordFromDatabase(VisitLog *record, int locationID)
+VisitLog *ArchiveLibrary::getLocationRecordFromDatabase(int locationID)
 {
     // VisitLog initialization
-    record = new VisitLog();
+    VisitLog *record = new VisitLog();
 
     if (!isKnown(locationID))
     {
-        return false;
+        return NULL;
     }
 
     // Variable Declaration
@@ -376,17 +380,17 @@ bool ArchiveLibrary::getLocationRecordFromDatabase(VisitLog *record, int locatio
 
     locationLogDBtoOBJ(record, results);
 
-    return true;
+    return record;
 }
 
-bool ArchiveLibrary::getLocationRecordFBetween(VisitLog *record, int locationID, long start, long fin)
+VisitLog *ArchiveLibrary::getLocationRecordFBetween(int locationID, long start, long fin)
 {
     // VisitLog initialization
-    record = new VisitLog();
+    VisitLog *record = new VisitLog();
 
     if (!isKnown(locationID))
     {
-        return false;
+        return NULL;
     }
 
     // Variable Declaration
@@ -399,7 +403,7 @@ bool ArchiveLibrary::getLocationRecordFBetween(VisitLog *record, int locationID,
 
     locationLogDBtoOBJ(record, results);
 
-    return true;
+    return record;
 }
 
 int ArchiveLibrary::getVisitCount(int locationID)
@@ -442,7 +446,6 @@ int ArchiveLibrary::getCountBetween(int locationID, std::string user, std::strin
     return std::stoi(results);
 }
 
-//sum(duration)
 int ArchiveLibrary::getDurationAtLocation(int locationID)
 {
     std::stringstream query;

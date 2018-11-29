@@ -94,5 +94,5 @@ test: clean main #cleans and runs main with the test file
 	sudo ./main
 
 clean:
-	rm -f *.o main TestArch
+	rm -f *.o main TestArch ArchLib
 
