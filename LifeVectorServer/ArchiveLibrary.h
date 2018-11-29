@@ -1,7 +1,9 @@
 /**
  * @file ArchiveLibrary.h
  * @author Rukun Wang (rwang264@uwo.ca)
- * @brief 
+ * @brief The Library to handle interfacing between the C++ objects
+ * and database. Generates and updates Archived Locations and the 
+ * Visit Logs related to each location and for all users.
  * @version 0.1
  * 
  * @copyright Copyright (c) 2018
@@ -398,7 +400,6 @@ public:
    * @return false if user is not found in database
    */
   bool isRegistered(std::string user, std::string device);
-  // bool
 
   /**
    * @brief Get the Last Location ID
