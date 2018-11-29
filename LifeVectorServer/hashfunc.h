@@ -1,5 +1,7 @@
 /**
- * header file for salt class
+ * @file hashfunc.h
+ * @brief Using md5 to encrypt data
+ * 
  */
 #ifndef HASHFUNC_H
 #define HASHFUNC_H
@@ -15,12 +17,34 @@ class hashfunc  {
  
 	public:
 		
-
+        /**
+         * @brief Hashing a string data
+         * 
+         * @param str String data to be hashed
+         */
 		void hashString(std::string str);
 
+        /**
+         * @brief Get the Salt object
+         * 
+         * @return Salt
+         */
         std::string getSalt();
+
+        /**
+         * @brief Get the Hash object
+         * 
+         * @return Hash result
+         */
         std::string getHash();
-		//need to implement
+		
+        /**
+         * @brief Alternative getter for hash object
+         * 
+         * @param password 
+         * @param salt 
+         * @return Hash result
+         */
         std::string getHash(std::string password, std::string salt);
 
 

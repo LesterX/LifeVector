@@ -1,3 +1,12 @@
+/**
+ * @file TestSquash.cpp
+ * 
+ * @brief Testing class for squasher
+ * 
+ * Mannually input raw data repository into squasher
+ * Connecting to Archive Library
+ */
+
 #include "googleAPI.h"
 #include "squasher.h"
 #include <iomanip>
