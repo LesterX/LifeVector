@@ -23,6 +23,8 @@ private:
 	int currentID;
 	RawDataRepository rawData;
 	ArchiveLibrary library;
+	std::string username;
+	std::string deviceID;
 
 	/**
 	 * @brief Increment static ID
@@ -40,16 +42,16 @@ public:
 	 * @param db_pointer 
 	 * 
 	 */
-	squasher(RawDataRepository data, Database *db_pointer) : library(db_pointer){
+	squasher(RawDataRepository data, Database *db_pointer,std::string user,std::string devID) : library(db_pointer){
 		rawData = data;	
 		currentID = library.getLastLocationID() + 1;
+		username = user;
+		deviceID = devID;
 	}
 
 	/**
 	 * @brief Squash unprocessed data
 	 * 
-	 * Recoding the time spent in each location
-	 * Save the result into ArchiveLibrary
 	 */
 	void squash();
 };
