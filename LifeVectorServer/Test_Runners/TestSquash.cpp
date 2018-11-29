@@ -7,12 +7,12 @@
  * Connecting to Archive Library
  */
 
-#include "googleAPI.h"
-#include "squasher.h"
+#include "../googleAPI.h"
+#include "../squasher.h"
 #include <iomanip>
-#include "RawDataRepository.h"
-#include "Database.h"
-#include "UserController.h"
+#include "../RawDataRepository.h"
+#include "../Database.h"
+#include "../UserController.h"
 
 using namespace std;
 

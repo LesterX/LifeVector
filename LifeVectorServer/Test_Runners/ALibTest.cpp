@@ -1,21 +1,21 @@
 #ifndef STRING_PARSER_H
-#include "StringParser.h"
+#include "../StringParser.h"
 #endif
 
-#include "Database.h"
-#include "UserController.h"
-#include "json.hpp"
-#include "StringParser.h"
+#include "../Database.h"
+#include "../UserController.h"
+#include "../json.hpp"
+#include "../StringParser.h"
 
 // All Archive Classes
-#include "UserVisitInfo.h"
-#include "VisitLog.h"
-#include "LocationInformation.h"
-#include "CoordinateInformation.h"
-#include "ArchivedLocation.h"
-#include "ArchiveLibrary.h"
+#include "../UserVisitInfo.h"
+#include "../VisitLog.h"
+#include "../LocationInformation.h"
+#include "../CoordinateInformation.h"
+#include "../ArchivedLocation.h"
+#include "../ArchiveLibrary.h"
 
-#include "googleAPI.h"
+#include "../googleAPI.h"
 
 #include <string>
 #include <iostream>
