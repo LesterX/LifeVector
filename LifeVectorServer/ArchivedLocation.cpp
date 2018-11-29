@@ -16,8 +16,11 @@ ArchivedLocation::~ArchivedLocation() {}
 // Setters & Updaters:
 void ArchivedLocation::setBasicInformation(int locationID, double locationLatitude, double locationLongitude)
 {
-    details = LocationInformation(locationID);
-    coordinates = CoordinateInformation(locationLatitude, locationLongitude);
+    LocationInformation loc(locationID);
+    details = loc;
+
+    CoordinateInformation coord(locationLatitude, locationLongitude);
+    coordinates = coord;
 }
 
 void ArchivedLocation::setLocationInformation(std::string name, std::string locationAddress, std::string locationDescription)
@@ -59,7 +62,7 @@ LocationInformation ArchivedLocation::getLocationDetails()
 
 double *ArchivedLocation::getLocationReference()
 {
-    double *gps = (double *)malloc(sizeof(double *) * 2);
+    double *gps = (double *)malloc(sizeof(double) * 2);
     *gps = coordinates.getLatitude();
     *(gps + 1) = coordinates.getLongitude();
 

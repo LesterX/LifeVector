@@ -140,6 +140,8 @@ bool ArchiveLibrary::getLocationFromDatabase(ArchivedLocation *location, int id)
         std::vector<std::string> fields;
         StringParser::custom_parse(result, fields, '\t');
 
+        std::cout << result << std::endl;
+
         /* Field Legend : 
          * 0. locationID, 
          * 1. locationName, 
@@ -253,12 +255,12 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
     }
 
     // extract iterator of user's time log
-    std::map<long, int>::iterator record_iter;
+    std::map<long, int>::iterator record_iter = (userVisitLog.getTimeLog()).begin();
 
     bool check = false;
 
     // iterate through log and enter each entry into DB
-    for (record_iter = userVisitLog.getTimeLog().begin(); record_iter != userVisitLog.getTimeLog().end(); ++record_iter)
+    for (; record_iter != (userVisitLog.getTimeLog()).end(); ++record_iter)
     {
         /* Fields Legend : VisitLog
         `visitTime` bigint(20) NOT NULL,
@@ -281,6 +283,8 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         {
             std::cout << "User Record at LocID: " << locationID << " has been added to Database" << std::endl;
             check = true;
+
+            std::cout << "check" << std::endl;
         }
         else
         {
@@ -289,6 +293,7 @@ bool ArchiveLibrary::archiveUserLog(int locationID, std::string user, std::strin
         }
     }
 
+    std::cout << "returning" <<std::endl;
     return check;
 }
 

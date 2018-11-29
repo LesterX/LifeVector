@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS GPSUnprocessed(
 CREATE TABLE IF NOT EXISTS ArchivedLocations(
     locationID INT NOT NULL,
     locationName VARCHAR(60),
-    address VARCHAR(128),
+    address VARCHAR(256),
     latitudePosition DECIMAL(9, 7) NOT NULL,
     longitudePosition DECIMAL(10, 7) NOT NULL,
     northBound DECIMAL(10, 8) NOT NULL,
