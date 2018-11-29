@@ -9,7 +9,6 @@
 #include <sstream> 
 #include <vector>
 
-
 #include "Database.h"
 #include "UserController.h"
 #include "VisitLog.h"
@@ -36,11 +35,7 @@ class fetchReport
 
     nlohmann::json report;
 
-    VisitLog *vl;
-
-    int totalD;
-
- 
+    Database *connect_db;
 
   public:
   // Constructor
@@ -48,7 +43,7 @@ class fetchReport
   // Destructor
   ~fetchReport();
 
-  void process(VisitLog *visitL, int d);
+  void process(VisitLog *visitL, Database *db_connect, int loc_id);
   
   nlohmann::json getReport();
 

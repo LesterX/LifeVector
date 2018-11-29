@@ -280,7 +280,10 @@ int main(){
             }
 
             // Location Log
+            
+            //VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
             VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
+
             vlog->printLog();
 
 
@@ -299,23 +302,19 @@ int main(){
             // Duration function test
             int dur = TestLibrary.getDurationAtLocation(found->getID());
             int udur = TestLibrary.getDurationAtLocation(found->getID(), "main_usr", "nx5");
-            cout << 1 << endl;
+
             if (dur == udur)
             {
                 cout << "duration functions test passed " << endl
                      << "total duration: " << dur << endl
                      << "main_usr duration: " << udur << endl;
             }
-            cout << 2 << endl;
             
-            fr.process(vlog, dur);
-            cout << 3 << endl;
+            fr.process(vlog, uc.getDBConnection(), found->getID());
         }
     }
-
+    cout << "report processed" << endl;
     cout << "end of test" << endl;
-    
-    fr.getReport();
  
 
 
