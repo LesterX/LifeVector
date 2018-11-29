@@ -172,28 +172,231 @@ public:
    */
   bool archiveUserLog(int locationID, std::string user, std::string device, UserVisitInfo userVisitLog);
 
+  /**
+   * @brief Get the User Log Map From Database - 
+   * This function retrieves all the VisitLog information for all the
+   * locations the specified user has visited.  
+   * 
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @return std::map<int, UserVisitInfo>* a map of all the user visit
+   * information identified by the associated location ID
+   */
   std::map<int, UserVisitInfo> *getUserLogFromDatabase(std::string user, std::string device);
+
+  /**
+   * @brief Get the User Log Map From Database - 
+   * This function retrieves all the VisitLog information for all the
+   * locations the specified user has visited between a specified
+   * time interval.
+   *  
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return std::map<int, UserVisitInfo>* a map of all the user visit
+   * information identified by the associated location ID
+   */
   std::map<int, UserVisitInfo> *getUserLogBetween(std::string user, std::string device, long start, long fin);
 
+
+  /**
+   * @brief Get the Location Record From Database object -
+   * Retrieves the visit record for all the users that have visited
+   * this location
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @return VisitLog* a VisitLog object holding all the associated 
+   * user visit information for all users
+   */
   VisitLog *getLocationRecordFromDatabase(int locationID);
+
+    /**
+   * @brief Get the Location Record From Database object -
+   * Retrieves the visit record for all the users that have visited
+   * this location between a specified time interval.
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return VisitLog* a VisitLog object holding all the associated 
+   * user visit information for all users
+   */
   VisitLog *getLocationRecordFBetween(int locationID, long start, long fin);
 
+  /**
+   * @brief Get the Visit Count at the specified location for all the 
+   * users that has visited
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @return int - the count (frequency) of visits at the location, 
+   * returns 0 if query failed or no visits at this location
+   */
   int getVisitCount(int locationID);
+
+  /**
+   * @brief Get the Visit Count at the specified location for the 
+   * specified user
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @return int - the count (frequency) of visits at the location, 
+   * returns 0 if query failed or no visits at this location
+   */
   int getVisitCount(int locationID, std::string user, std::string device);
+
+  /**
+   * @brief Get the Visit Count at the specified location for all the 
+   * users that has visited between a specified time interval. 
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int - the count (frequency) of visits at the location, 
+   * returns 0 if query failed or no visits at this location
+   */
   int getCountBetween(int locationID, long start, long fin);
+
+  /**
+   * @brief Get the Visit Count at the specified location for the 
+   * specified user between a specified time interval.
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int - the count (frequency) of visits at the location, 
+   * returns 0 if query failed or no visits at this location
+   */
   int getCountBetween(int locationID, std::string user, std::string device, long start, long fin);
+
+  /**
+   * @brief Get the Total Visit Count for all locations and all users
+   * 
+   * @return int - the total count (frequency) of visits made, 
+   * returns 0 if query failed or no visits found
+   */
   int getTotalVisitCount();
+
+  /**
+   * @brief Get the Total Visit Count for all locations and all users
+   * between a specified time interval.
+   * 
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int - the total count (frequency) of visits made, 
+   * returns 0 if query failed or no visits found
+   */
   int getTotalCountBetween(long start, long fin);
 
+
+  /**
+   * @brief Get the Duration spent at the specified location for all the 
+   * users that has visited
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @return int the duration spent at location, in seconds,
+   * returns 0 if query failed or no time spent there
+   */
   int getDurationAtLocation(int locationID);
+
+  /**
+   * @brief Get the Duration spent at the specified location for the 
+   * specified user
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @return int the duration spent at location, in seconds,
+   * returns 0 if query failed or no time spent there
+   */
   int getDurationAtLocation(int locationID, std::string user, std::string device);
+
+  /**
+   * @brief Get the Duration spent at the specified location for all the 
+   * users that has visited between a specified time interval.
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int the duration spent at location, in seconds,
+   * returns 0 if query failed or no time spent there
+   */
   int getDurationBetween(int locationID, long start, long fin);
+
+  /**
+   * @brief Get the Duration spent at the specified location for the 
+   * specified user between a specified time interval.
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int the duration spent at location, in seconds,
+   * returns 0 if query failed or no time spent there
+   */
   int getDurationBetween(int locationID, std::string user, std::string device, long start, long fin);
+
+  /**
+   * @brief Get the Total Duration spent all the location by all the users
+   * 
+   * @return int the total duration spent, in seconds, 
+   * returns 0 if query failed or no time spent there
+   */
   int getTotalDuration();
+
+  /**
+   * @brief Get the Total Duration spent all the location by all the users
+   * between a specified time interval
+   * 
+   * @param start long - the starting point of the time interval in 
+   * UNIX time format
+   * @param fin long - the end point of the time interval in UNIX
+   * time format
+   * @return int the total duration spent, in seconds, 
+   * returns 0 if query failed or no time spent there
+   */
   int getTotalDurationBetween(long start, long fin);
 
   /* Checks */
+
+  /**
+   * @brief Helper function that checks if the provide ID
+   * is of a known location
+   * 
+   * @param locationID int - the location ID of the place of interest
+   * @return true if location is in database, known
+   * @return false if location is not in database, not known
+   */
   bool isKnown(int locationID);
+
+  /**
+   * @brief Helper function that provides a quick check on whether
+   * a user of the provided username and deviceID is a known,
+   * registered user in the database
+   * 
+   * @param user string - the username of user of interest
+   * @param device string - the device ID of the user of interest
+   * @return true if user is found in database
+   * @return false if user is not found in database
+   */
   bool isRegistered(std::string user, std::string device);
   // bool
 
