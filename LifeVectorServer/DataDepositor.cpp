@@ -52,7 +52,8 @@ std::string DataDepositor::concatRawQuery(long timestamp, double latitude, doubl
     xValue = std::to_string(latitude);
     yValue = std::to_string(longitude);
 
-    output << "INSERT INTO GPSUnprocessed (timeStamp, latitude, longitude, username, deviceID) VALUES (" << tValue << ", "
+    output << std::setprecision(12) 
+           << "INSERT INTO GPSUnprocessed (timeStamp, latitude, longitude, username, deviceID) VALUES (" << tValue << ", "
            << xValue << ", " << yValue << ", '"
            << user << "', '" << device + "');";
 

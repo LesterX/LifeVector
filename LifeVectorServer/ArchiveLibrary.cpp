@@ -101,7 +101,7 @@ bool ArchiveLibrary::saveLocationToDatabase(ArchivedLocation location)
     std::stringstream command;
     double *gps = location.getLocationReference();
 
-    command << "INSERT INTO ArchivedLocations "
+    command << std::setprecision(12) << "INSERT INTO ArchivedLocations "
             << "(locationID, locationName, address, latitudePosition, longitudePosition, northBound, southBound, eastBound, westBound, description) VALUES ("
             << location.getID() << ", '"
             << location.getLocationDetails().getName() << "', '"
@@ -197,7 +197,7 @@ bool ArchiveLibrary::getAdjacentLocations(std::map<int, CoordinateInformation> &
     std::vector<std::string> locations, coordinates;
     std::vector<std::string>::iterator row;
 
-    query << "SELECT locationID, latitudePosition, longitudePosition, northBound, southBound, eastBound, westBound FROM ArchivedLocations WHERE northBound >= " << latitude << " AND southBound <= " << latitude << " AND eastBound >= " << longitude << " AND westBound <= " << longitude << ";";
+    query << std::setprecision(12) << "SELECT locationID, latitudePosition, longitudePosition, northBound, southBound, eastBound, westBound FROM ArchivedLocations WHERE northBound >= " << latitude << " AND southBound <= " << latitude << " AND eastBound >= " << longitude << " AND westBound <= " << longitude << ";";
     results = connected_db->getSQLResult(query.str());
 
     StringParser::custom_parse(results, locations, '\n');
