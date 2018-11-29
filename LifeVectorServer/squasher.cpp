@@ -27,7 +27,6 @@ void squasher::squash() {
 	std::vector<long> timeStamps = rawData.getTimeStamps();
 	std::map<long, int> log;
 	std::vector<long>::iterator itr = timeStamps.begin();
-	UserVisitInfo uvi;
 
 	//Loop through all the data points
 	for (itr; itr != timeStamps.end(); ++itr) {
@@ -84,41 +83,56 @@ void squasher::squash() {
 	double timeSpent = 0;
 	int lastID = 0;
 	itr = timeStamps.begin();
-	for (itr; itr != timeStamps.end(); ++itr) {
+	for (itr; itr != timeStamps.end(); itr++) {
+		UserVisitInfo uvi;
 		int locID = log[*itr];
 		//Setting up for the first location
 		if (itr == timeStamps.begin()) {
 			lastTime = *itr;
 			lastID = locID;
-			if ((itr + 1) == timeStamps.end()) //If there's only one point, just push it
+			if ((itr + 1) == timeStamps.end()){ //If only one input, push to library
 				uvi.addSingleLog(*itr, 0);
+				cout << "----------------" << endl;
+				cout << "Location: " << locID << endl;
+				uvi.printLog();
+				cout << "----------------" << endl;
+				library.archiveUserLog(locID,username,deviceID,uvi);
+			}
 		}
 		else {
 			//If found a different location, 
 			//add the last location to the user visit info
 			if (locID != lastID) {
-				timeSpent = timeSpent + (*itr - *(itr - 1));
-				cout << "LocationID: " << lastID << ", Time Spent: " << timeSpent << endl;
+				timeSpent = *itr - lastTime;
+
 				uvi.addSingleLog(lastTime, (int)timeSpent);
+
+				cout << "----------------" << endl;
+				cout << "Location: " << lastID << endl;
+				uvi.printLog();
+				cout << "----------------" << endl;
+
+				library.archiveUserLog(lastID,username,deviceID,uvi);
+
 				lastTime = *itr;
 				lastID = locID;
 				timeSpent = 0;
 			}
-			else {
-				//If found a same location, increment spent time and update lastTime
-				timeSpent = timeSpent + (*itr - lastTime);
-				lastTime = *itr;
-			}
+			//If location is the same with last one, do nothing
 
 			//If it's the last location, also add it to the user visit info
 			if ((itr + 1) == timeStamps.end()) {
-				cout << "LocationID: " << locID << ", Time Spent: " << (int)timeSpent << endl;
-				uvi.addSingleLog(lastTime, (int)timeSpent);
+				timeSpent = *itr - lastTime;
+
+				UserVisitInfo uvi0; //Create a new user visit info to avoid conflict with the last one
+				uvi0.addSingleLog(lastTime, (int)timeSpent);
+				cout << "----------------" << endl;
+				cout << "Location: " << locID << endl;
+				uvi0.printLog();
+				cout << "----------------" << endl;
+				library.archiveUserLog(locID,username,deviceID,uvi0);
 				timeSpent = 0;
 			}
 		}
 	}
-
-	//Raw data is now squashed into the user visit info object
-	uvi.printLog();
 }

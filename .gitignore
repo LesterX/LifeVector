@@ -15,3 +15,5 @@ LifeVectorServer/.dirstamp
 LifeVectorServer/libggk*
 LifeVectorServer/gatt-server/src/standalone*
 *.o
+*.json
+!spec/*.json

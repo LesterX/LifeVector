@@ -1,4 +1,6 @@
 #include "DataDepositor.h"
+#include <iostream>     // std::cout, std::fixed
+#include <iomanip>      // std::setprecision
 
 DataDepositor::DataDepositor(Database *db_pointer)
 {
