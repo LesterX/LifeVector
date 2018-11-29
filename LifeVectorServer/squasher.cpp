@@ -7,7 +7,7 @@
 #include "UserVisitInfo.h"
 
 /* Initializing auto-increment location id */
-int squasher::currentID = 0;
+int squasher::currentID = 1;
 
 
 /* Void method used to squash the unprocessed data
@@ -29,12 +29,10 @@ void squasher::squash() {
 		double lat = *coord;
 		double lng = *(coord + 1);
 
-		cout << lat << "  " << lng << endl;
-
 		//Search nearest location in the library, get 0 if not found
 		std::map<int, CoordinateInformation> matchedLocations = std::map<int, CoordinateInformation>();
 		int locationID = library.matchNearestLocation(matchedLocations,lat,lng);
-		if (locationID != 0){
+		if (locationID > 0){
 			cout << "Used Location" << endl;
 			log.emplace(*itr,locationID);
 		}
@@ -78,11 +76,14 @@ void squasher::squash() {
 		if (itr == timeStamps.begin()) {
 			lastTime = *itr;
 			lastID = locID;
+			if ((itr + 1) == timeStamps.end()) //If there's only one point, just push it
+				uvi.addSingleLog(*itr, 0);
 		}
 		else {
 			//If found a different location, 
 			//add the last location to the user visit info
 			if (locID != lastID) {
+				timeSpent = timeSpent + (*itr - *(itr - 1));
 				cout << "LocationID: " << lastID << ", Time Spent: " << timeSpent << endl;
 				uvi.addSingleLog(lastTime, (int)timeSpent);
 				lastTime = *itr;
@@ -94,13 +95,13 @@ void squasher::squash() {
 				timeSpent = timeSpent + (*itr - lastTime);
 				lastTime = *itr;
 			}
-		}
 
-		//If it's the last location, also add it to the user visit info
-		if ((itr+1) == timeStamps.end()){
-			cout << "LocationID: " << locID <<  ", Time Spent: " << (int) timeSpent << endl;
-				uvi.addSingleLog(lastTime, (int) timeSpent);
+			//If it's the last location, also add it to the user visit info
+			if ((itr + 1) == timeStamps.end()) {
+				cout << "LocationID: " << locID << ", Time Spent: " << (int)timeSpent << endl;
+				uvi.addSingleLog(lastTime, (int)timeSpent);
 				timeSpent = 0;
+			}
 		}
 	}
 	//Raw data is now squashed into the user visit info object
