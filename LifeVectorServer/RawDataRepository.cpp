@@ -1,4 +1,5 @@
 #include "RawDataRepository.h"
+#include <iostream>
 
 /* Constructor */
 RawDataRepository::RawDataRepository(std::string sourceFile, std::string fileSpecification)
@@ -86,7 +87,6 @@ std::vector<long> RawDataRepository::getTimeStamps()
 void RawDataRepository::getCoordinates(double *coordinates, long timestamp)
 {
     gpsLog entry = rawData.at(timestamp);
-
     *coordinates = entry.latitude;
     *(coordinates + 1) = entry.longitude;
 }

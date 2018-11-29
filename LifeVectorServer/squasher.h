@@ -9,7 +9,7 @@
 #define SQUASHER_H
 
 #include "RawDataRepository.h"
-//#include "./ArchiveClasses/ArchiveLibrary.h"
+#include "ArchiveLibrary.h"
 #include "Database.h"
 
 
@@ -19,7 +19,7 @@ private:
 
 	static int currentID;
 	RawDataRepository rawData;
-	//ArchiveLibrary library;
+	ArchiveLibrary library;
 
 	/* Struct place class only for testing purpose
 	 * Using this instead of the archive library class
@@ -59,22 +59,22 @@ public:
 	 * @param data: Raw data of unprocessed data points
 	 * @param db_pointer: Pointer to the archived library
 	 */
-	/*
-	squasher(RawDataRepository data, Database *db_pointer) {
-		rawData = data;
-		library = new ArchiveLibrary(db_pointer);
+	squasher(RawDataRepository data, Database *db_pointer) : library(db_pointer){
+		rawData = data;	
 	}
-	*/
+	
 	/* Constructor
 	 * Helping constructor used only for testing purpose
 	 * Removing the use of archive library
 	 */
+	/*
 	squasher(RawDataRepository data) {
 		rawData = data;
 	}
+	 */
 
 	/* Void method used to squash the unprocessed data */
-	//void squash();
+	void squash();
 	
 	/* Void method used to test squash function without 
 	 * the use of archive library
