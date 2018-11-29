@@ -1,6 +1,6 @@
 
 
-#include "hashfunc.h"
+#include "../hashfunc.h"
 #include <string>
 
 using namespace std;

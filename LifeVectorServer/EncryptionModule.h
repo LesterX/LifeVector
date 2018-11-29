@@ -100,7 +100,7 @@ class EncryptionModule
     public:
         void gen_params(byte key[KEY_SIZE], byte iv[BLOCK_SIZE]);
         void aes_encrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], const secure_string& ptext, secure_string& ctext);
-        void aes_decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], const secure_string& ctext, secure_string& rtext);
+        void aes_decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], int, const secure_string& ctext, secure_string& rtext);
         int envelope_seal(EVP_PKEY **pub_key, unsigned char *plaintext, int plaintext_len, unsigned char **encrypted_key, int *encrypted_key_len, unsigned char *iv, unsigned char *ciphertext);
         int envelope_open(EVP_PKEY *priv_key, unsigned char *ciphertext, int ciphertext_len, unsigned char *encrypted_key, int encrypted_key_len, unsigned char *iv, unsigned char *plaintext);
         void handleErrors(void);

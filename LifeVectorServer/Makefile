@@ -1,5 +1,6 @@
 CC=g++
-CFLAGS=-c 
+CFLAGS=-c
+CXXFLAGS=$(CFLAGS)
 CMATH=-lm
 PFLAG=-lmysqlclient
 PFLAG2=-L/usr/include/curl/lib -lcurl
@@ -7,34 +8,34 @@ PFLAG3=-lcrypto
 
 all: clean main 
 
-main: UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o ArchivedLocation.o ArchiveLibrary.o CoordinateInformation.o LocationInformation.o UserVisitInfo.o VisitLog.o
+main: ./Test_Runners/UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o ArchivedLocation.o ArchiveLibrary.o CoordinateInformation.o LocationInformation.o UserVisitInfo.o VisitLog.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestArch: ArchiveTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
+TestArch: ./Test_Runners/ArchiveTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestFetch: fetchTest.cpp fetchReport.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
+TestFetch: ./Test_Runners/fetchTest.cpp fetchReport.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-ArchLib: ALibTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
+ArchLib: ./Test_Runners/ALibTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestSquash: TestSquash.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserController.o UserLibrary.o hashfunc.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o squasher.o
+TestSquash: ./Test_Runners/TestSquash.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserController.o UserLibrary.o hashfunc.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o squasher.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestSquash.o: TestSquash.cpp
+TestSquash.o: ./Test_Runners/TestSquash.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-ALibTest.o: ALibTest.cpp
+ALibTest.o: ./Test_Runners/ALibTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-fetchTest.o: fetchTest.cpp
+fetchTest.o: ./Test_Runners/fetchTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 fetchReport.o: fetchReport.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-UserControllerTest.o: UserControllerTest.cpp
+UserControllerTest.o: ./Test_Runners/UserControllerTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 user.o: user.cpp
@@ -79,7 +80,7 @@ EncryptionModule.o: EncryptionModule.cpp
 SystemTimeManager.o: SystemTimeManager.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-ArchiveTest.o: ArchiveTest.cpp
+ArchiveTest.o: ./Test_Runners/ArchiveTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 ArchivedLocation.o: ArchivedLocation.cpp 

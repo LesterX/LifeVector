@@ -20,7 +20,7 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
-#include <iomanip> 
+#include <iomanip>
 
 #include "Database.h"
 #include "ArchivedLocation.h"
@@ -203,7 +203,6 @@ public:
    */
   std::map<int, UserVisitInfo> *getUserLogBetween(std::string user, std::string device, long start, long fin);
 
-
   /**
    * @brief Get the Location Record From Database object -
    * Retrieves the visit record for all the users that have visited
@@ -215,7 +214,7 @@ public:
    */
   VisitLog *getLocationRecordFromDatabase(int locationID);
 
-    /**
+  /**
    * @brief Get the Location Record From Database object -
    * Retrieves the visit record for all the users that have visited
    * this location between a specified time interval.
@@ -302,7 +301,6 @@ public:
    * returns 0 if query failed or no visits found
    */
   int getTotalCountBetween(long start, long fin);
-
 
   /**
    * @brief Get the Duration spent at the specified location for all the 
@@ -404,7 +402,7 @@ public:
   /**
    * @brief Get the Last Location ID
    * 
-   * @return int 
+   * @return int location ID
    */
   int getLastLocationID();
 };

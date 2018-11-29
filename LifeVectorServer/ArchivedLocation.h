@@ -7,7 +7,6 @@
  * coordinate information outlining reference coordinate and GPS 
  * boundary in all 4 directions. 
  * @version 0.1
- * @date 2018-11-29
  * 
  * @copyright Copyright (c) 2018
  * 
@@ -33,9 +32,9 @@ class ArchivedLocation
 {
 private:
   // Attributes:
-  LocationInformation details; // the qualitative information
+  LocationInformation details;       // the qualitative information
   CoordinateInformation coordinates; // the quantitative information
-  
+
 public:
   // Constructors:
 

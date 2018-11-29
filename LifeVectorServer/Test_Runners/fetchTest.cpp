@@ -1,27 +1,27 @@
-#include "fetchReport.h"
+#include "../fetchReport.h"
 
-#include "json.hpp"
+#include "../json.hpp"
 #include <iostream>
 #include <unistd.h>
 #include <string>
-#include "StringParser.h"
+#include "../StringParser.h"
 #include <sstream> 
 #include <vector>
 
 
-#include "Database.h"
-#include "UserController.h"
-#include "VisitLog.h"
+#include "../Database.h"
+#include "../UserController.h"
+#include "../VisitLog.h"
 
-#include "json.hpp"
+#include "../json.hpp"
 
-#include "UserVisitInfo.h"
-#include "LocationInformation.h"
-#include "CoordinateInformation.h"
-#include "ArchivedLocation.h"
-#include "ArchiveLibrary.h"
+#include "../UserVisitInfo.h"
+#include "../LocationInformation.h"
+#include "../CoordinateInformation.h"
+#include "../ArchivedLocation.h"
+#include "../ArchiveLibrary.h"
 
-#include "googleAPI.h"
+#include "../googleAPI.h"
 
 #include <iostream>
 #include <utility>

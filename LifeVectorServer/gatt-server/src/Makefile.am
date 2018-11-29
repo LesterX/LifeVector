@@ -63,7 +63,7 @@ libggk_a_SOURCES = ../../Database.cpp \
                    Utils.cpp \
                    Utils.h
 # Build our standalone server (linking statically with libggk.a, linking dynamically with GLib)
-standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++11 -lmysqlclient -lcrypto
+standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lmysqlclient -lcrypto
 noinst_PROGRAMS = standalone
 standalone_SOURCES = standalone.cpp
 standalone_LDADD = libggk.a
