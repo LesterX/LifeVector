@@ -563,3 +563,22 @@ bool ArchiveLibrary::isRegistered(std::string user, std::string device)
         return true;
     }
 }
+
+/**
+ * @brief Get the Last Location ID
+ * 
+ * @return int 
+ */
+int ArchiveLibrary::getLastLocationID()
+{
+    std::stringstream query;
+    query << "SELECT MAX(locationID) FROM ArchivedLocations;";
+
+    std::string result = connected_db->getSQLResult(query.str());
+
+    //Check if table is empty
+    if (result.length() < 1)
+        return 0;
+    else
+        return std::stoi(result);
+}

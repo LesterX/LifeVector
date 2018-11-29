@@ -196,6 +196,13 @@ public:
   bool isKnown(int locationID);
   bool isRegistered(std::string user, std::string device);
   // bool
+
+  /**
+   * @brief Get the Last Location ID
+   * 
+   * @return int 
+   */
+  int getLastLocationID();
 };
 
 #endif

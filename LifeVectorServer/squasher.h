@@ -1,9 +1,12 @@
-
-/* Class used for processing raw data from front end, which recording
+/**
+ * @file squasher.h
+ * @brief Squasher to process raw data
+ * 
+ * Used for processing raw data from front end, which recording
  * the time stamps, latitude, and longitude. Adding unfound location 
- * into archived library and squash continuous points with same 
+ * into archived library and squash continuous points at same 
  * location together
-*/
+ */
 
 #ifndef SQUASHER_H
 #define SQUASHER_H
@@ -17,72 +20,38 @@ class squasher{
 
 private:
 
-	static int currentID;
+	int currentID;
 	RawDataRepository rawData;
 	ArchiveLibrary library;
 
-	/* Struct place class only for testing purpose
-	 * Using this instead of the archive library class
+	/**
+	 * @brief Increment static ID
 	 */
-	struct TestPlace {
-		int id;
-		double eastbound;
-		double westbound;
-		double southbound;
-		double northbound;
-
-		TestPlace(int num, double e, double w, double s, double n) {
-			id = num;
-			eastbound = e;
-			westbound = w;
-			southbound = s;
-			northbound = n;
-		}
-
-		bool inside(double lat, double lng) {
-			if (lat < northbound && lat > southbound &&
-				lng < eastbound && lng > westbound)
-				return true;
-			else return false;
-		}
-	};
-
-	/* Helping method to determine if a point is inside a place */
-	bool insidePlace(double lat, double lng, TestPlace place) {
-		return place.inside(lat, lng);
+	void incrementID() {
+		currentID++;
 	}
-
 
 public:
 
-	/* Constructor
-	 * @param data: Raw data of unprocessed data points
-	 * @param db_pointer: Pointer to the archived library
+	/**
+	 * @brief Construct a new squasher object
+	 * 
+	 * @param data 
+	 * @param db_pointer 
+	 * 
 	 */
 	squasher(RawDataRepository data, Database *db_pointer) : library(db_pointer){
 		rawData = data;	
+		currentID = library.getLastLocationID() + 1;
 	}
-	
-	/* Constructor
-	 * Helping constructor used only for testing purpose
-	 * Removing the use of archive library
-	 */
-	/*
-	squasher(RawDataRepository data) {
-		rawData = data;
-	}
-	 */
 
-	/* Void method used to squash the unprocessed data */
+	/**
+	 * @brief Squash unprocessed data
+	 * 
+	 * Recoding the time spent in each location
+	 * Save the result into ArchiveLibrary
+	 */
 	void squash();
-	
-	/* Void method used to test squash function without 
-	 * the use of archive library
-	 */
-	void squashForTest();
-
-	/* Increment the static id variable */
-	void incrementID();
 };
 
 #endif
