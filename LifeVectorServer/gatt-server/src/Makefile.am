@@ -1,16 +1,37 @@
 # Build a static library (libggk.a)
 noinst_LIBRARIES = libggk.a
-libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lcrypto -lmysqlclient  $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
-libggk_a_SOURCES = ../../Database.cpp \
+libggk_a_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lcrypto -lm -L/usr/include/curl/lib -lcurl -lmysqlclient  $(GLIB_CFLAGS) $(GIO_CFLAGS) $(GOBJECT_CFLAGS)
+libggk_a_SOURCES = ../../ArchivedLocation.cpp \
+		   ../../ArchivedLocation.h \
+		   ../../ArchiveLibrary.cpp \
+		   ../../ArchiveLibrary.h \
+		   ../../CoordinateInformation.cpp \
+		   ../../CoordinateInformation.h \
+		   ../../CURLplusplus.cpp \
+		   ../../CURLplusplus.h \
+		   ../../Database.cpp \
                    ../../Database.h \
                    ../../DataDepositor.cpp \
                    ../../DataDepositor.h \
                    ../../DataDepositor.o \
                    ../../EncryptionModule.cpp \
                    ../../EncryptionModule.h \
-                   ../../hashfunc.cpp \
-                   ../../hashfunc.h \
-                   ../../json.hpp \
+		   ../../fetchReport.cpp \
+		   ../../fetchReport.h \
+		   ../../googleAPI.cpp \
+		   ../../googleAPI.h \
+		   ../../hashfunc.cpp \
+		   ../../hashfunc.h \
+		   ../../json.hpp \
+		   ../../LocationInformation.cpp \
+		   ../../LocationInformation.h \
+		   ../../placesAPI.cpp \
+		   ../../placesAPI.h \
+		   ../../squasher.cpp \
+		   ../../squasher.h \
+		   ../../StringParser.h \
+		   ../../UserController.cpp \
+		   ../../UserController.h \
                    ../../md5.cpp \
                    ../../md5.h \
                    ../../RawDataRepository.cpp \
@@ -23,6 +44,10 @@ libggk_a_SOURCES = ../../Database.cpp \
                    ../../user.h \
                    ../../UserLibrary.cpp \
                    ../../UserLibrary.h \
+		   ../../UserVisitInfo.cpp \
+		   ../../UserVisitInfo.h \
+		   ../../VisitLog.cpp \
+		   ../../VisitLog.h \
 		   DBusInterface.cpp \
                    DBusInterface.h \
                    DBusMethod.cpp \
@@ -63,7 +88,7 @@ libggk_a_SOURCES = ../../Database.cpp \
                    Utils.cpp \
                    Utils.h
 # Build our standalone server (linking statically with libggk.a, linking dynamically with GLib)
-standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lmysqlclient -lcrypto
+standalone_CXXFLAGS = -fPIC -Wall -Wextra -std=c++14 -lm -L/usr/include/curl/lib -lcurl -lmysqlclient -lcrypto
 noinst_PROGRAMS = standalone
 standalone_SOURCES = standalone.cpp
 standalone_LDADD = libggk.a
