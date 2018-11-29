@@ -15,11 +15,12 @@
 #include "ArchivedLocation.h"
 #include "googleAPI.h"
 #include "UserVisitInfo.h"
+#include <iomanip> 
 
 /**
  * @brief Squash unprocessed data
  * 
- * Recoding the time spent in each location
+ * Recording the time spent in each location
  * Save the result into ArchiveLibrary
  */
 void squasher::squash() {
@@ -28,7 +29,7 @@ void squasher::squash() {
 	std::vector<long>::iterator itr = timeStamps.begin();
 
 	//Loop through all the data points
-	for (itr; itr != timeStamps.end(); ++itr) {
+	for (itr; itr != timeStamps.end(); itr++) {
 		double *coord = (double*) malloc(sizeof(double) * 2);
 
 		rawData.getCoordinates(coord, *itr);
@@ -38,6 +39,7 @@ void squasher::squash() {
 		//Search the location in the library based on coordinates, get 0 if not found
 		std::map<int, CoordinateInformation> matchedLocations = std::map<int, CoordinateInformation>();
 		int locationID = library.matchNearestLocation(matchedLocations,lat,lng);
+		
 		if (locationID > 0){
 			//Location is found in library
 			//Push it into map for later squashing
@@ -47,12 +49,9 @@ void squasher::squash() {
 			//Location is not in library
 			//Search location from Google Map and Google Place API
 			locationID = currentID;
-			cout << "Input ID : " << locationID << endl;
-			std::ostringstream lat_str, lng_str; // Converting from double to string
-			lat_str << lat;
-			lng_str << lng;
-			googleAPI gAPI(lat_str.str(), lng_str.str());
 
+			googleAPI gAPI(std::to_string(lat),std::to_string(lng));
+			
 			//Setting up the location information
 			int id = currentID;
 			std::string name = gAPI.getName();
@@ -72,9 +71,6 @@ void squasher::squash() {
 			log.emplace(*itr, locationID);
 			incrementID();
 		}
-
-		//Free assigned memory to pointer
-		free(coord);
 	}
 
 	//Another loop to squash the points
