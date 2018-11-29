@@ -14,3 +14,4 @@ LifeVectorServer/.deps
 LifeVectorServer/.dirstamp
 LifeVectorServer/libggk*
 LifeVectorServer/gatt-server/src/standalone*
+*.o
