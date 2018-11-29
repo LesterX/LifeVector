@@ -59,11 +59,15 @@ public:
   int getVisitCount(int locationID, std::string user, std::string device);
   int getCountBetween(int locationID, long start, long fin);
   int getCountBetween(int locationID, std::string user, std::string device, long start, long fin);
+  int getTotalVisitCount();
+  int getTotalCountBetween(long start, long fin);
 
   int getDurationAtLocation(int locationID);
   int getDurationAtLocation(int locationID, std::string user, std::string device);
   int getDurationBetween(int locationID, long start, long fin);
   int getDurationBetween(int locationID, std::string user, std::string device, long start, long fin);
+  int getTotalDuration();
+  int getTotalDurationBetween(long start, long fin);
 
   /* Checks */
   bool isKnown(int locationID);

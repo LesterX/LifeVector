@@ -446,6 +446,25 @@ int ArchiveLibrary::getCountBetween(int locationID, std::string user, std::strin
     return std::stoi(results);
 }
 
+int ArchiveLibrary::getTotalVisitCount()
+{
+    std::stringstream query;
+    query << "SELECT count(*) FROM VisitLog;";
+    std::string results = connected_db->getSQLResult(query.str());
+
+    return std::stoi(results);
+}
+
+int ArchiveLibrary::getTotalCountBetween(long start, long fin)
+{
+    std::stringstream query;
+    query << "SELECT count(*) FROM VisitLog WHERE"
+          << " visitTime BETWEEN " << start << " AND " << fin << ";";
+    std::string results = connected_db->getSQLResult(query.str());
+
+    return std::stoi(results);
+}
+
 int ArchiveLibrary::getDurationAtLocation(int locationID)
 {
     std::stringstream query;
@@ -481,6 +500,25 @@ int ArchiveLibrary::getDurationBetween(int locationID, std::string user, std::st
     query << "SELECT sum(duration) FROM VisitLog WHERE locationID = " << locationID
           << " AND username = '" << user << "' AND deviceID = '" << device
           << "' AND visitTime BETWEEN " << start << " AND " << fin << ";";
+    std::string results = connected_db->getSQLResult(query.str());
+
+    return std::stoi(results);
+}
+
+int ArchiveLibrary::getTotalDuration()
+{
+    std::stringstream query;
+    query << "SELECT sum(duration) FROM VisitLog;";
+    std::string results = connected_db->getSQLResult(query.str());
+
+    return std::stoi(results);
+}
+
+int ArchiveLibrary::getTotalDurationBetween(long start, long fin)
+{
+    std::stringstream query;
+    query << "SELECT sum(duration) FROM VisitLog WHERE"
+          << " visitTime BETWEEN " << start << " AND " << fin << ";";
     std::string results = connected_db->getSQLResult(query.str());
 
     return std::stoi(results);
