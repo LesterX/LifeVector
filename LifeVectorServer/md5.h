@@ -30,6 +30,13 @@
  
  */
 
+/**
+ * @file md5.h
+ * @author 
+ * @brief Referenced open source md5 encryption class 
+ * 
+ */
+
 #ifndef BZF_MD5_H
 #define BZF_MD5_H
 

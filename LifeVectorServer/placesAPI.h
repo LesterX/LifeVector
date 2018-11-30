@@ -1,6 +1,13 @@
 /**
- * header file for placesAPI class
+ * @file placesAPI.h
+ * @author group 3
+ * @brief header file for placesAPI class
+ *
+ * 
+ * 
  */
+
+
 #ifndef PLACESAPI_H
 #define PLACESAPI_H
 
