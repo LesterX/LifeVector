@@ -32,7 +32,7 @@ int main()
     }
 
     nlohmann::json *reportFromDB = new json();
-    ;
+    
     if (uc.fetchReport(reportFromDB, username, devID))
     {
         cout << "Report: " << endl
