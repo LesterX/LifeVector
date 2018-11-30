@@ -34,7 +34,7 @@ void fetchReport::process(VisitLog *visitL, Database *db_connect, int loc_id){
     vector<string> fields;
     vector<string> visits;
     //parse string
-    StringParser::custom_parse(result, fields, ' :');
+    StringParser::custom_parse(result, fields, ':');
 
     //get the other information from the database
     stringstream addressQuery;

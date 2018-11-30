@@ -1,41 +1,38 @@
 CC=g++
-CFLAGS=-c
+CFLAGS=-c -w
 CXXFLAGS=$(CFLAGS)
 CMATH=-lm
 PFLAG=-lmysqlclient
 PFLAG2=-L/usr/include/curl/lib -lcurl
 PFLAG3=-lcrypto
+OBJ = *.o
 
 # Compile All Files and Run All Tests
 all: main TestUC TestArchive TestSquasher TestReport
+	@echo Compile and Run All Tests - Successful!
 
 # TESTS EXE GENERATOR #
 
 # Test for User Controller
-UC.test: ./Test_Runners/UserControllerTest.o main.o
+UCTest: ./Test_Runners/UserControllerTest.o $(OBJ)
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 # Test for Report Generation
-Report.test: ./Test_Runners/fetchTest.cpp main.o
+ReportTest: ./Test_Runners/fetchTest.cpp $(OBJ)
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 # Test for Archive Library and Archive Classes
-ArchLib.test: ./Test_Runners/ALibTest.o main.o
+ArchLibTest: ./Test_Runners/ALibTest.o $(OBJ)
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 # Test the Squashing Class and algorithm
-Squasher.test: ./Test_Runners/TestSquash.o main.o
+SquasherTest: ./Test_Runners/TestSquash.o $(OBJ)
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
 
 # Compile All .cpp files into main.o 
-main: main.o VisitLog.o UserVisitInfo.o LocationInformation.o CoordinateInformation.o ArchivedLocation.o ArchiveLibrary.o SystemTimeManager.o EncryptionModule.o CURLplusplus.o placesAPI.o googleAPI.o RawDataRepository.o squasher.o md5.o DataDepositor.o Database.o UserController.o hashfunc.o UserLibrary.o user.o UserControllerTest.o fetchReport.o
-	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
-
-
-
-# COMPILE TEST .o FILES #
-
+main: VisitLog.o UserVisitInfo.o LocationInformation.o CoordinateInformation.o ArchivedLocation.o ArchiveLibrary.o SystemTimeManager.o EncryptionModule.o CURLplusplus.o placesAPI.o googleAPI.o RawDataRepository.o squasher.o md5.o DataDepositor.o Database.o UserController.o hashfunc.o UserLibrary.o user.o fetchReport.o
+	@echo All .cpp Files Compiled!
 
 UserControllerTest.o: ./Test_Runners/UserControllerTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
@@ -120,19 +117,19 @@ VisitLog.o: VisitLog.cpp
 
 TestArchive: ArchLibTest
 	@echo Running Execution to Test Archive Library Files
-	./ArchLib.test
+	./ArchLibTest
 
 TestUC: UCTest
 	@echo Running User Controller Tests For Functionality
-	./UC.test
+	./UCTest
 
 TestSquasher: SquasherTest
 	@echo Running Test of Squasher Algorithm
-	./Squasher.test
+	./SquasherTest
 
 TestReport: ReportTest
 	@echo Running Test for Generating Sample Report for Front End
-	./Report.test
+	./ReportTest
 
 # Cleanses Files and Recompiles All Files
 test: clean main
@@ -140,5 +137,5 @@ test: clean main
 
 # Cleanses Folder of All Generated .o and executables
 clean:
-	rm -f *.o main UCTest ReportTest ArchLibTest SquasherTest
-	@echo ALL BINARY & EXECUTABLE FILES CLEANSED
+	rm -f *.o main UC.test Report.test ArchLib.test Squasher.test
+	@echo All Files Cleansed

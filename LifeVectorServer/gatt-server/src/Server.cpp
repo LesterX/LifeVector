@@ -645,12 +645,9 @@ std::string removeStartAndEnd(std::string start_end_string){
                 .gattCharacteristicEnd()
                 .gattServiceEnd()
 
-                        // Custom ASCII time string service
-                        //
-                        // This service will simply return the result of asctime() of the current local time. It's a nice test service to provide
-                        // a new value each time it is read.
-
-                        // Service: ASCII Time (custom: 00000001-1E3D-FAD4-74E2-97A033F1BFEE)
+                        /*
+ * @brief Secure channel used for login, settings, transferring raw gps data, and retrieving reports for the client
+ */
                 .gattServiceBegin("secure", "00000001-1E3D-FAD4-74E2-97A033F1BFEE")
 
                         // Characteristic: String value (custom: 00000002-1E3C-FAD4-74E2-97A033F1BFAA)

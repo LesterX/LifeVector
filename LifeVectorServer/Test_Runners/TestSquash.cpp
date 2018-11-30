@@ -19,8 +19,8 @@ using namespace std;
 int main(int argc, char** argv) {
 
 	//Create user in database for testing
-	//UserController uc("server","LifeVector123");
-	//uc.createUser("Yimin","01","LifeVector123");
+	UserController uc("server","LifeVector123");
+	uc.createUser("Yimin","01","LifeVector123");
 
 	//Create database object and Raw data repository	
 	Database db;
