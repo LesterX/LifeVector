@@ -32,8 +32,14 @@ class placesAPI{
 
 	public:
 
+        /**
+        * @brief Construct a new places API object that queries google places API that
+        *        takes a place ID of an address and returns place details of that address
+        *        and puts results into a json formatted text
+        *
+        * @param std::string place_id - place id that represents an address, used to find place details
+        */
 		placesAPI(std::string place_id){
-			//constructor
 
 			placeid = place_id;
 
@@ -41,10 +47,13 @@ class placesAPI{
 
 	        std::string key = "&key=AIzaSyBJ6CP4wYrqVvOVq-ohJw-0aX6yU0mLu5c";
 
+            //google places api URL
 	        std::string url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=" +  placeid + key;
 
+            //curl get request with google places url
 	        std::string x = client.Get(url);
 
+            //convert resulting string into a json
 	        doc = nlohmann::json::parse(x);
 
 	        std::ofstream o("placesOutput.json");
@@ -52,14 +61,20 @@ class placesAPI{
         	o << doc << std::endl;
 		}
 
+        /**
+         * @brief Destroy the places API object
+         *
+         */
 		~placesAPI(){
-			//destructor
 		}
 
-
+        /**
+        * @brief Parses through the the JSON file returned from the google places API call
+        *        to get the correct place name (if not found from maps API)
+        *
+        * @return string the place name
+        */
 	    std::string getLocationName();
-
-	    void splitstr(const std::string& str, std::vector<std::string>& container, char delim);
 
 
 };
