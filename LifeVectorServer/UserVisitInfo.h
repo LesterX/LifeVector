@@ -26,7 +26,6 @@ class UserVisitInfo
   public:
     /**
      * @brief Construct a new User Visit Info object
-     * 
      */
     UserVisitInfo();
 
