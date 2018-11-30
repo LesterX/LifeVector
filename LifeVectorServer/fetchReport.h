@@ -33,7 +33,7 @@
 #include <stdlib.h>
 
 /**
- *@brief creates and fetches the report to send to the front end
+ *@brief 
  */
 
 class fetchReport
