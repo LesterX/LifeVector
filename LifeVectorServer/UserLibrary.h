@@ -1,6 +1,8 @@
 /**
  * @file UserLibrary.h
  * 
+ * @author group 3
+ * 
  * @brief Directly controll the user data in database
  */
 

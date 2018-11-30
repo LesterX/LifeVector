@@ -2,6 +2,8 @@
  * @file Database.h
  * @brief Read and write database
  * 
+ * @author Yimin Xu (yxu537@uwo.ca)
+ * 
  * If mysql.h is not installed, "sudo apt-get install libmysqlclient-dev"
  * If that command didn't work, try "sudo apt-get install default-libmysqlclient-dev"
  * Need to add "-lmysqlclient" when compiling

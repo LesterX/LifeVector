@@ -1,6 +1,8 @@
 /**
  * @file user.h
  * 
+ * @author group 3
+ * 
  * @brief creates a user or sets values for existing users. Has getters and setters to accomplish this
  */
 #ifndef USER_H

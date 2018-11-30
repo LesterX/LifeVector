@@ -1,6 +1,8 @@
 /**
  * @file UserController.h
  * 
+ * @author group 3
+ * 
  * @brief Controller for the user information stored in database
  * 
  */
