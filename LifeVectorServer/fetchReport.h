@@ -1,4 +1,5 @@
 /**
+ *@file fetchReport.h
  *@brief creates and fetches the report to send to the front end
  */
 #ifndef FETCHREPORT_H
@@ -31,6 +32,9 @@
 #include <cmath>
 #include <stdlib.h>
 
+/**
+ *@brief creates and fetches the report to send to the front end
+ */
 
 class fetchReport
 {

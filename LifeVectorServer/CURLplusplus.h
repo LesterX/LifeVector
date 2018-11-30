@@ -1,4 +1,5 @@
 /** 
+ * @file CURLplusplus
  * @brief used to query the google API
  */
 #ifndef CURLPLUSPLUS_H
@@ -10,7 +11,9 @@
 #include <sstream>
 #include "json.hpp"
 #include <fstream>
-
+/** 
+ * @brief used to query the google API
+ */
 class CURLplusplus{
 
 	private:
