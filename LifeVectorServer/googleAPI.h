@@ -1,7 +1,7 @@
 /**
  * @file googleAPI.h
  * @author Abha Sajnani(asajnani@uwo.ca) & Jorge Fernandez
- * @brief
+ * @brief This class reads from google maps API JSON and retrieves address details.
  * @version 0.1
  *
  */

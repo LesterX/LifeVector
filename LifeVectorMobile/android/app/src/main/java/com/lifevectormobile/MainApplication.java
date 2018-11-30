@@ -3,6 +3,7 @@ package com.lifevectormobile;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import com.RNRSA.RNRSAPackage;
 import it.innove.BleManagerPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
@@ -30,6 +31,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new MPAndroidChartPackage(),
             new RNRSAPackage(),
             new BleManagerPackage(),
             new RNSpinkitPackage(),

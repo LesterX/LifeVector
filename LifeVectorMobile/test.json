@@ -1,0 +1,43 @@
+{
+  "results": [
+    {
+      "address": "1740 Richmond St, London, ON N5X 2S7",
+      "Name": "Loblaws",
+      "timespent": 2,
+      "visits": 1
+    },
+    {
+      "address": "1680 Richmond St, London, ON N6G 3Y9, Canada",
+      "Name": "Masonville",
+      "timespent": 3,
+      "visits": 1
+    },
+    {
+      "address": "1235 Richmond St, London, ON N6G 3Y9, Canada",
+      "Name": "1235 Richmond St",
+      "timespent": 4,
+      "visits": 1
+    },
+    {
+      "address": "1151 Richmond St, London, ON N6G 3Y9, Canada",
+      "Name": "Weldon Library",
+      "timespent": 5,
+      "visits": 1
+    },
+    {
+      "address": "1151 Richmond St, London, ON N6G 3Y9, Canada",
+      "Name": "Weldon Library",
+      "timespent": 5,
+      "visits": 1
+    },
+    {
+      "address": "1151 Richmond St, London, ON N6G 3Y9, Canada",
+      "Name": "Middlesex College",
+      "timespent": 8,
+      "visits": 1
+    }
+
+
+
+  ]
+}
