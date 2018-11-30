@@ -16,8 +16,8 @@ cd bluez-5.45
 make
 service bluetooth stop
 sudo make install           # Helpful for development
-systemctl daemon-reload     # Helpful for development
-service bluetooth start     # Helpful for development
+sudo systemctl daemon-reload     # Helpful for development
+sudo service bluetooth start     # Helpful for development
 sudo apt-get install -y libdbus-1-dev libudev-dev libical-dev libreadline-dev
 sed -i 's/.*ExecStart.*/ExecStart=\/usr\/lib\/bluetooth\/bluetoothd -d --noplugin=hostname/' /lib/systemd/system/bluetooth.service
 sudo systemctl daemon-reload
