@@ -6,22 +6,39 @@ PFLAG=-lmysqlclient
 PFLAG2=-L/usr/include/curl/lib -lcurl
 PFLAG3=-lcrypto
 
-all: clean main 
+# Compile All Files and Run All Tests
+all: main TestUC TestArchive TestSquasher TestReport
 
-main: ./Test_Runners/UserControllerTest.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o ArchivedLocation.o ArchiveLibrary.o CoordinateInformation.o LocationInformation.o UserVisitInfo.o VisitLog.o
+# TESTS EXE GENERATOR #
+
+# Test for User Controller
+UC.test: ./Test_Runners/UserControllerTest.o main.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestArch: ./Test_Runners/ArchiveTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
+# Test for Report Generation
+Report.test: ./Test_Runners/fetchTest.cpp main.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestFetch: ./Test_Runners/fetchTest.cpp fetchReport.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o
+# Test for Archive Library and Archive Classes
+ArchLib.test: ./Test_Runners/ALibTest.o main.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-ArchLib: ./Test_Runners/ALibTest.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserLibrary.o hashfunc.o UserController.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o EncryptionModule.o
+# Test the Squashing Class and algorithm
+Squasher.test: ./Test_Runners/TestSquash.o main.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
 
-TestSquash: ./Test_Runners/TestSquash.o ArchiveLibrary.o ArchivedLocation.o LocationInformation.o CoordinateInformation.o UserVisitInfo.o VisitLog.o user.o UserController.o UserLibrary.o hashfunc.o Database.o DataDepositor.o md5.o RawDataRepository.o googleAPI.o placesAPI.o SystemTimeManager.o CURLplusplus.o squasher.o
+
+# Compile All .cpp files into main.o 
+main: main.o VisitLog.o UserVisitInfo.o LocationInformation.o CoordinateInformation.o ArchivedLocation.o ArchiveLibrary.o SystemTimeManager.o EncryptionModule.o CURLplusplus.o placesAPI.o googleAPI.o RawDataRepository.o squasher.o md5.o DataDepositor.o Database.o UserController.o hashfunc.o UserLibrary.o user.o UserControllerTest.o fetchReport.o
 	$(CC) -o $@ $^ $(CMATH) $(PFLAG) $(PFLAG2) $(PFLAG3)
+
+
+
+# COMPILE TEST .o FILES #
+
+
+UserControllerTest.o: ./Test_Runners/UserControllerTest.cpp
+	$(CC) $(CFLAGS) -o $@ $<
 
 TestSquash.o: ./Test_Runners/TestSquash.cpp
 	$(CC) $(CFLAGS) -o $@ $<
@@ -32,10 +49,11 @@ ALibTest.o: ./Test_Runners/ALibTest.cpp
 fetchTest.o: ./Test_Runners/fetchTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-fetchReport.o: fetchReport.cpp
-	$(CC) $(CFLAGS) -o $@ $<
 
-UserControllerTest.o: ./Test_Runners/UserControllerTest.cpp
+
+# Individual .cpp Compilations
+
+fetchReport.o: fetchReport.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 user.o: user.cpp
@@ -65,7 +83,7 @@ squasher.o: squasher.cpp
 RawDataRepository.o: RawDataRepository.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-googleAPI.cpp.o: googleAPI.cpp
+googleAPI.o: googleAPI.cpp
 	$(CC) $(CFLAGS) -o $@ $< 	
 
 placesAPI.o: placesAPI.cpp
@@ -78,9 +96,6 @@ EncryptionModule.o: EncryptionModule.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 SystemTimeManager.o: SystemTimeManager.cpp
-	$(CC) $(CFLAGS) -o $@ $<
-
-ArchiveTest.o: ./Test_Runners/ArchiveTest.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
 ArchivedLocation.o: ArchivedLocation.cpp 
@@ -101,21 +116,29 @@ UserVisitInfo.o: UserVisitInfo.cpp
 VisitLog.o: VisitLog.cpp
 	$(CC) $(CFLAGS) -o $@ $<
 
-ATest: TestArch
-	@echo Running ArchiveTest
-	./TestArch
+# Test Executables
 
-ALibTest: ArchLib
-	@echo Run ArchLib
-	./ArchLib
+TestArchive: ArchLibTest
+	@echo Running Execution to Test Archive Library Files
+	./ArchLib.test
 
-testFetch: TestFetch
-	./TestFetch
+TestUC: UCTest
+	@echo Running User Controller Tests For Functionality
+	./UC.test
 
-test: clean main #cleans and runs main with the test file
-	sudo ./main
+TestSquasher: SquasherTest
+	@echo Running Test of Squasher Algorithm
+	./Squasher.test
 
+TestReport: ReportTest
+	@echo Running Test for Generating Sample Report for Front End
+	./Report.test
+
+# Cleanses Files and Recompiles All Files
+test: clean main
+	@echo ALL .cpp FILES COMPILED SUCCESSFULLY
+
+# Cleanses Folder of All Generated .o and executables
 clean:
-	rm -f *.o main TestArch ArchLib TestSquash
-
-
+	rm -f *.o main UCTest ReportTest ArchLibTest SquasherTest
+	@echo ALL BINARY & EXECUTABLE FILES CLEANSED
