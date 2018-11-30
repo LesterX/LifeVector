@@ -32,6 +32,30 @@
 // See the discussion at the top of Server.cpp
 //
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/*
+ * @author Samar Sajnani (ssajnani@uwo.ca)
+ * @brief Server header file with read, write and notify functions
+ */
+
+/*
+ * @brief Utility function to remove bluetooth frame delimiters
+ * @param string to remove the delimiters from
+ * @return string without delimiters
+ */
+
+/*
+ * @brief Non-secure channel used to pass public key and encrypted AES symmetric key,
+ * before setting up secure channel
+ *      Key_transfer - non-secure function used by the client to write the public key for AES symmetric key
+ *      transfer, triggers the on-update function. These functions for write, read and notify are all defined by
+ *      lambda return functions. On update the key_transfer function generates and returns an encrypted symmetric
+ *      key that can only be decrypted by the client's private key
+ *      @param public_key string
+ *      @return AES encrypted string
+ */
+ /*
+ * @brief Secure channel used for login, settings, transferring raw gps data, and retrieving reports for the client
+ */
 
 #pragma once
 
