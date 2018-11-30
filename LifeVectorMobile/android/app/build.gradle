@@ -140,7 +140,6 @@ android {
 
 dependencies {
     compile project(':react-native-charts-wrapper')
-    compile project(':react-native-rsa-native')
     compile project(':react-native-ble-manager')
     compile project(':react-native-spinkit')
     compile project(':react-native-device-info')

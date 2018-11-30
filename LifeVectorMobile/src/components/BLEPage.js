@@ -21,14 +21,12 @@ import BLEAndLocation from './BLEAndLocation';
 import newBLE from 'react-native-ble-manager';
 import { AsyncStorage } from "react-native";
 import { bytesToString, stringToBytes } from 'convert-string';
-import {RSA, RSAKeychain} from 'react-native-rsa-native';
 const uniqueId = require('react-native-unique-id');
 const BleManagerModule = NativeModules.BleManager;
 const bleManagerEmitter = new NativeEventEmitter(BleManagerModule);
+var forge = require('node-forge');
 
-import Spinner from 'react-native-spinkit';
 import { BleManager } from 'react-native-ble-plx';
-var aesjs = require('aes-js');
 const GLOBAL = require('./libraries/globals');
 
 export default class BLEPage extends Component {
@@ -52,6 +50,7 @@ export default class BLEPage extends Component {
         this.bkgdID = null;
         this.dev_id = null;
         this.AES_key = null;
+        this.AES_iv = null;
 
         this.peripherals = [];
 
@@ -107,27 +106,36 @@ export default class BLEPage extends Component {
 
       AsyncStorage.getItem('public_key', (err, result) => {
         AsyncStorage.getItem('private_key', (err1, result1) => {
-          if (!result || !result1){
-            RSA.generate(2048)
-              .then(keys => {
-                AsyncStorage.setItem('public_key', keys.public, () => {
-                  console.log("Successfully saved public key");
-                });
-                AsyncStorage.setItem('private_key', keys.private, () => {
-                  console.log("Successfully saved private key");
-                });
+          if (result == null || result1 == null){
+            forge.pki.rsa.generateKeyPair({bits: 2048, workers: 2}, function(err, keypair) {
+              console.log(keypair);
+              var pub_key = forge.pki.publicKeyToPem(keypair.publicKey);
+              AsyncStorage.setItem('public_key', pub_key, () => {
+                console.log("Successfully saved public key");
+                this.public_key = pub_key;
               });
+              var priv_key = forge.pki.privateKeyToPem(keypair.privateKey);
+              AsyncStorage.setItem('private_key', priv_key, () => {
+                console.log("Successfully saved private key");
+                this.private_key = priv_key;
+              });
+            });
+
           } else {
             this.public_key = result;
             this.private_key = result1;
           }
+
         });
       });
 
       AsyncStorage.getItem('AES_key', (err, result) => {
-          if (!(err || !result)){
+        AsyncStorage.getItem('AES_iv', (err1, result1) => {
+          if (!(err || err1 || !result || !result1)) {
             this.AES_key = result;
+            this.AES_iv = result1;
           }
+        });
       });
 
 
@@ -179,7 +187,9 @@ export default class BLEPage extends Component {
       if (this.state.is_connected !== prevState.is_connected){
         if (this.state.is_connected == true){
           AsyncStorage.getItem('public_key', (err, result) => {
-            var sendData = this.convertPKCS1toPKCS8(result);
+            var sendData = result;
+            console.log(sendData);
+            // var sendData = this.convertPKCS1toPKCS8(result);
             // To enable BleManagerDidUpdateValueForCharacteristic listener
             var that = this;
             setTimeout(()=>{
@@ -224,7 +234,9 @@ export default class BLEPage extends Component {
                   clearInterval(this.connectionID);
                 }
               })
-              .catch((error)=>{});
+              .catch((error)=>{
+                console.log(error);
+              });
             this.manager.stopDeviceScan();
           }, 100);
 
@@ -346,7 +358,9 @@ export default class BLEPage extends Component {
 
                 }
               })
-              .catch((error) => {})
+              .catch((error) => {
+                console.log(error);
+              })
           } else {
             this.scanAndConnect();
           }
@@ -399,51 +413,50 @@ export default class BLEPage extends Component {
           // Convert bytes array to string
           console.log(value);
           const data = bytesToString(value);
+          console.log(data.length);
           if (data == "already logged in") {
             AsyncStorage.getItem('AES_key', (err, result) => {
+              AsyncStorage.getItem('AES_iv', (err, result1) => {
                 this.AES_key = result;
+                this.AES_iv = result1;
+              });
             });
           } else {
             setTimeout(() => {
               console.log('here: ' + this.private_key);
-              RSA.decrypt(data, this.private_key)
-                .then((encodedMessage) => {
-                  console.log("Encoded: " + encodedMessage);
-                  var AES_key = encodedMessage.match("\\[key:\\](.*)");
-                  console.log("THE KEY IS: " + AES_key);
-                  this.AES_key = AES_key;
-                  AsyncStorage.setItem('AES_key', AES_key, () => {
-                    console.log("Successfully saved aes key");
+              var privateKey = forge.pki.privateKeyFromPem(this.private_key);
+              var encodedMessage = privateKey.decrypt(data);
+              var AES_key = encodedMessage.match("\\[key:\\](.*)\\[iv:\\]")[1];
+              var AES_iv = encodedMessage.match("\\[iv:\\](.*)")[1];
+              this.AES_key = AES_key;
+              this.AES_iv = AES_iv;
+              AsyncStorage.setItem('AES_key', AES_key, () => {
+                console.log("Successfully saved aes key");
+              });
+
+              // An example 128-bit key
+              var base64Encrypted = this.encrypt("Pass back",this.AES_key, this.AES_iv);
+              var that = this;
+              setTimeout(()=>{
+                that.manager2.startNotification(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST)
+                  .then(() => {
+                    setTimeout(()=> {
+                      that.manager2.write(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST, stringToBytes(that.string_format(base64Encrypted, that.dev_id)), GLOBAL.MTU_SIZE)
+                        .then((value) => {
+                          console.log(String.fromCharCode.apply(null, value));
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        })
+                    },5000);
+
                   });
-
-                  // An example 128-bit key
-                  var base64Encrypted = this.encrypt("Pass back",this.AES_key);
-                  var that = this;
-                  setTimeout(()=>{
-                    that.manager2.startNotification(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST)
-                      .then(() => {
-                        setTimeout(()=> {
-                          that.manager2.write(that.state.connected_peripheral, GLOBAL.NON_SECURE_CHANNEL, GLOBAL.KEY_TEST, stringToBytes(that.string_format(base64Encrypted, that.dev_id)), GLOBAL.MTU_SIZE)
-                            .then((value) => {
-                              console.log(String.fromCharCode.apply(null, value));
-                            })
-                            .catch((error) => {
-                              console.log(error);
-                            })
-                        },10000);
-
-                      });
-                  }, 5000);
-                })
-                .catch((error) => {
-                  console.log('asdasd');
-                  console.log(error);
-                });
-            }, 5000);
+              }, 5000);
+            }, 10000);
           }
         }else if (characteristic.toUpperCase() == GLOBAL.KEY_TEST){
           const data = bytesToString(value);
-          console.log(data);
+          this.decrypt(data, this.AES_key, this.AES_iv);
         }
 
       }
@@ -474,43 +487,32 @@ export default class BLEPage extends Component {
         // });
     }
 
-    encrypt(key, text){
-        var key = Uint8Array.from(atob(key), c => c.charCodeAt(0));
-        // The initialization vector (must be 16 bytes)
-        // Convert text to bytes (text must be a multiple of 16 bytes)
-        var textBytes = aesjs.utils.utf8.toBytes(text);
+    encrypt(text, passKey, iv){
 
-        var aesCtr = new aesjs.ModeOfOperation.ctr(key);
-        var encryptedBytes = aesCtr.encrypt(textBytes);
+        var cipher = forge.cipher.createCipher('AES-CTR', forge.util.decode64(passKey));
+        console.log(forge.util.decode64(passKey));
+        console.log(forge.util.decode64(iv));
+        cipher.start({iv: forge.util.decode64(iv)});
+        cipher.update(forge.util.createBuffer(text));
+        cipher.finish();
+        var encrypted = cipher.output;
+
+
 
         // To print or store the binary data, you may convert it to hex
-        var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-        console.log(encryptedHex);
+        var encryptedHex = encrypted.toHex();
         //Convert to Base64 String
-        return this.hexToBase64(encryptedHex);
+        return "[Len:" +text.length.toString() + "]" + this.hexToBase64(encryptedHex);
     }
-    decrypt(key, cipher){
-        var key = Uint8Array.from(atob(key), c => c.charCodeAt(0));
-        // The initialization vector (must be 16 bytes)
-        // Convert text to bytes (text must be a multiple of 16 bytes)
-        var cipherBytes = aesjs.utils.utf8.toBytes(cipher);
+    decrypt(cipher, passKey, iv){
+      var decipher = forge.cipher.createDecipher('AES-CTR', forge.util.decode64(passKey));
+      decipher.start({iv: forge.util.decode64(iv)});
+      decipher.update(forge.util.createBuffer(cipher));
+      var result = decipher.finish(); // check 'result' for true/false
+      // outputs decrypted hex
+      console.log(decipher.output);
 
-        var aesCtr = new aesjs.ModeOfOperation.ctr(key);
-        var decryptedBytes = aesCtr.decrypt(cipherBytes);
-
-        // To print or store the binary data, you may convert it to hex
-        return aesjs.utils.utf8.fromBytes(decryptedBytes);
-
-    }
-    writeKeyTest(param){
-      this.manager2.write(this.state.connected_peripheral, '00000001-1E3C-FAD4-74E2-97A033F1BFAA', '00000004-1E3C-FAD4-74E2-97A033F1BFAA', param, 512)
-        .then((value) => {
-          console.log(String.fromCharCode.apply(null, value));
-        })
-        .catch((error) => {
-          console.log(error);
-          this.writeKeyTest(param);
-        })
+      return decipher.output;
     }
     disconnect(){
        this.manager2.disconnect(this.state.connected_peripheral)
