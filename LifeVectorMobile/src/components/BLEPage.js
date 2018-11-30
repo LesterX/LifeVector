@@ -451,28 +451,23 @@ export default class BLEPage extends Component {
     this.checkForScanning();
     AppState.addEventListener('change', this._handleAppStateChange);
     this.timeoutID = setInterval(()=>{this.backgroundScanCheck();},5000);
-
-
-        // var pusher = new Pusher('YOUR PUSHER APP KEY', {
-        //   cluster: 'YOUR PUSHER APP CLUSTER',
-        //   encrypted: true
-        // });
-        //
-        // var channel = pusher.subscribe('attendance-channel');
-        // channel.bind('attendance-event', (data) => {
-        //   if(data.is_attendees){
-        //     this.setState({
-        //       attendevies: data.attendees
-        //     });
-        //   }else{
-        //     ToastAndroid.show(`${data.full_name} just entered the room!`, ToastAndroid.LONG);
-        //     this.setState({
-        //       attendees: [...this.state.attendees, data]
-        //     });
-        //   }
-        //
-        // });
+    this.saveCoordinates();
     }
+
+
+    saveCoordinates = () => {
+        navigator.geolocation.watchPosition(
+            position => {
+                const location = position;
+                console.log(location);
+                AsyncStorage.setItem('public_key', keys.public, () => {
+                    console.log("Successfully saved public key");
+                });
+            },
+            error => Alert.alert(error.message),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+    };
 
     encrypt(key, text){
         var key = Uint8Array.from(atob(key), c => c.charCodeAt(0));
