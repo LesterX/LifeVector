@@ -1,7 +1,7 @@
 /**
  * @file googleAPI.h
  * @author Abha Sajnani(asajnani@uwo.ca) & Jorge Fernandez
- * @brief
+ * @brief Getting location information from Google API
  * @version 0.1
  *
  */

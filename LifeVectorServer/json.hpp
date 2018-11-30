@@ -27,6 +27,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+/**
+ * @file json.hpp
+ * @brief Referenced open source class to apply JSON in C++
+ * 
+ * 
+ */
+
 #ifndef NLOHMANN_JSON_HPP
 #define NLOHMANN_JSON_HPP
 
