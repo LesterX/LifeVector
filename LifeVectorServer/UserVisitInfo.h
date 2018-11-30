@@ -46,14 +46,52 @@ class UserVisitInfo
      * seconds
      */
     void addSingleLog(long time_stamp, int time_spent);
+
+    /**
+     * @brief Updates entries in object with a fully fledged
+     * UserVisitInfo object 
+     * 
+     * @param log UserVisitInfo - user log
+     * @return true if successfully added
+     * @return false if addition to object unsuccessful
+     */
     bool updateLog(UserVisitInfo log);
 
     // Getters:
+  
+    /**
+     * @brief Get the Time Log Map Container
+     * 
+     * @return std::map<long, int> 
+     */
     std::map<long, int> getTimeLog();
+
+    /**
+     * @brief Get the Visit Frequency
+     * 
+     * @return int 
+     */
     int getVisitFrequency();
+
+    /**
+     * @brief Get the Total Time Spent
+     * 
+     * @return int 
+     */
     int getTotalTimeSpent();
 
+    /**
+     * @brief converts information in the object into a formatted
+     * string  
+     * 
+     * @return std::string 
+     */
     std::string beautify();
+
+    /**
+     * @brief prints formatted string to console
+     * 
+     */
     void printLog();
 };
 
