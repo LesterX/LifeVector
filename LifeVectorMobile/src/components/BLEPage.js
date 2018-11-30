@@ -28,9 +28,14 @@ var forge = require('node-forge');
 
 import { BleManager } from 'react-native-ble-plx';
 const GLOBAL = require('./libraries/globals');
-
+/*
+This is the main page that runs all the front-end components.
+ */
 export default class BLEPage extends Component {
 
+    /*
+    Constructor initializes bluetooth, generates RSA Keys and connects if a device was previously connected to bluetooth
+     */
     constructor() {
         super();
         this.manager = new BleManager();
@@ -473,9 +478,9 @@ export default class BLEPage extends Component {
             position => {
                 const location = position;
                 console.log(location);
-                AsyncStorage.setItem('public_key', keys.public, () => {
-                    console.log("Successfully saved public key");
-                });
+                // AsyncStorage.setItem('public_key', keys.public, () => {
+                //     console.log("Successfully saved public key");
+                // });
             },
             error => Alert.alert(error.message),
             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }

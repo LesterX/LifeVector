@@ -24,7 +24,7 @@ export default class lifeVectorMobile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <PieChart/>
+        <BLEPage/>
       </View>
     );
   }
