@@ -1,3 +1,7 @@
+/**
+ *@file fetchReport.h
+ *@brief creates and fetches the report to send to the front end
+ */
 #ifndef FETCHREPORT_H
 #define FETCHREPORT_H
 
@@ -28,6 +32,9 @@
 #include <cmath>
 #include <stdlib.h>
 
+/**
+ *@brief 
+ */
 
 class fetchReport
 {
@@ -38,13 +45,26 @@ class fetchReport
     Database *connect_db;
 
   public:
-  // Constructor
+  /**
+   *@brief constructor
+   */
   fetchReport();   
-  // Destructor
+  /**
+   *@brief destructor
+   */
   ~fetchReport();
 
+  /**
+   *@brief writes to an external report json file with location information for the user
+   *@param visitL pointer to the visit log to get time spent and visits
+   *@param db_connect a point to the database
+   *@param loc_id
+   */
   void process(VisitLog *visitL, Database *db_connect, int loc_id);
-  
+  /**
+   *@brief get the report if needed
+   *@return returns the json report
+   */
   nlohmann::json getReport();
 
 

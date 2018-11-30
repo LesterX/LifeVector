@@ -299,7 +299,7 @@ int main(int argc, char **ppArgv)
 	//     This first parameter (the service name) must match tha name configured in the D-Bus permissions. See the Readme.md file
 	//     for more information.
 	//
-	if (!ggkStart("lifepi00000000a05258cd", "lifepi00000000a05258cd", "lifepi00000000a05258cd", dataGetter, dataSetter, kMaxAsyncInitTimeoutMS))
+	if (!ggkStart("lifepi", "lifepi", "lifepi", dataGetter, dataSetter, kMaxAsyncInitTimeoutMS))
 	{
 		return -1;
 	}

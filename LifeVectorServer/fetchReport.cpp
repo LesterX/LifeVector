@@ -1,30 +1,19 @@
-/**
- *@brief creates and fetches the report to send to the front end
- */
+
 
 #include "fetchReport.h"
 
 using namespace std;
 
-/**
- *@brief constructor
- */
+
 fetchReport::fetchReport(){
 
 }   
-/**
- *@brief destructor
- */
+
 fetchReport::~fetchReport(){
 
 }
 
-/**
- *@brief writes to an external report json file with location information for the user
- *@param visitL pointer to the visit log to get time spent and visits
- *@param db_connect a point to the database
- *@param loc_id
- */
+
 void fetchReport::process(VisitLog *visitL, Database *db_connect, int loc_id){
 
     connect_db = db_connect;
@@ -71,10 +60,7 @@ void fetchReport::process(VisitLog *visitL, Database *db_connect, int loc_id){
     o << report << std::endl;
 }
 
-/**
- *@brief get the report if needed
- *@return returns the json report
- */
+
 nlohmann::json fetchReport::getReport(){
 
     return report;
