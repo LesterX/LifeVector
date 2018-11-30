@@ -15,6 +15,11 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
+/**
+ * @brief creates a user or sets values for existing users. 
+ * Has getters and setters to accomplish this
+ * 
+ */
 class User  
 {
  

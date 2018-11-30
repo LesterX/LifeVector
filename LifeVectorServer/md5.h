@@ -54,6 +54,10 @@
 //      MD5(std::string).hexdigest()
 //
 // assumes that char is 8 bit and int is 32 bit
+
+/**
+ * @brief Referenced open source md5 encryption class 
+ */
 class MD5
 {
 public:

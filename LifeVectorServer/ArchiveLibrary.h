@@ -29,6 +29,11 @@
 
 #include "StringParser.h"
 
+/**
+ * @brief The Library to handle interfacing between the C++ objects
+ * and database. Generates and updates Archived Locations and the 
+ * Visit Logs related to each location and for all users.
+ */
 class ArchiveLibrary
 {
 private:

@@ -15,7 +15,7 @@ bool UserController::createUser(string username, string devID, string password)
 	if (userLibrary.isRegistered(username, devID))
 	{
 		//the user is found in database
-		cout << "Error: User Creation Failed: User is already registered in Database" << endl;
+		cout << "User Creation Failed: User is already registered in Database" << endl;
 		return false;
 	}
 
@@ -67,11 +67,10 @@ bool UserController::fetchReport(json *dbReport, string username, string deviceI
 	{
 		*dbReport = (*target).getReport();
 
-        cout << "haahaha" << endl;
 		// Check if report is empty
 		if (dbReport->empty())
 		{
-			cout << "Error: No reports stored in Database" << endl;
+			cout << "Warning: No reports stored in Database" << endl;
 			return false;
 		}
 
@@ -118,7 +117,7 @@ bool UserController::compareUserHash(std::string username, std::string deviceID,
 bool UserController::saveRawGPStoDB(std::string username, std::string deviceID, RawDataRepository rawDataSet){
 	if(userLibrary.uploadRawGPSData(username, deviceID, rawDataSet))
 	{
-		cout << "Raw GPS data successfully saved to Database" << endl;
+		cout << "Raw GPS data saved to Database" << endl;
 		return true;
 	}
 	else return false;

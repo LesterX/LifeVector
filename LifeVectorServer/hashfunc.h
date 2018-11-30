@@ -13,6 +13,10 @@
 #include <stdlib.h> 
 #include <linux/random.h>
 
+/**
+ * @brief Using md5 to encrypt data
+ * 
+ */
 class hashfunc  {
  
 	public:

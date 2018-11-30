@@ -95,7 +95,7 @@ std::string Database::getSQLResult(string sql)
 
 	if (mysql_query(connection, sql.c_str()))
 	{
-		ss << "Reseult Query Error:" << mysql_error(connection) << endl;
+		ss << "Result Query Error:" << mysql_error(connection) << endl;
 		return ss.str();
 	}
 	else

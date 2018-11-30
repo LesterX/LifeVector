@@ -58,7 +58,7 @@ bool VisitLog::addNewUser(std::string userID)
 {
     if (userFound(userID))
     {
-        std::cout << "User Found, don't need to add" << std::endl;
+        std::cout << "Note: User Found in Visit Set" << std::endl;
         return false;
     }
     else
@@ -81,7 +81,6 @@ bool VisitLog::addFullLog(std::string userID, UserVisitInfo log)
 
     UserVisitInfo *entry = &(target->second);
     bool is_updated = entry->updateLog(log);
-    std::cout << "here" << std::endl;
 
     if (is_updated)
     {

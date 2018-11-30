@@ -30,7 +30,6 @@
 * @brief This class reads from google maps API JSON and retrieves address details.
 *
 */
-
 class googleAPI
 {
 	private:

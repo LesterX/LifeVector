@@ -26,7 +26,10 @@
 #include <iterator>
 
 
-
+/**
+ * @brief header file for placesAPI class
+ * 
+ */
 class placesAPI{
 
 	private:

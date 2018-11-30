@@ -104,7 +104,7 @@ int main()
     //uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;"); //<-------------------------------
 
     // single instance
-    cout << "add from above" << endl;
+    cout << "add location from above to db" << endl;
 
     TestLibrary.saveLocationToDatabase(archL);
     ArchivedLocation *frmDB_l = TestLibrary.getLocationFromDatabase(200);
@@ -121,7 +121,7 @@ int main()
     string lat[4] = {"43.009005", "43.005586", "43.642571", "43.653440"};
     string lng[4] = {"-81.269028", "-81.276231", "-79.387057", "-79.384094"};
 
-    cout << "coords in array" << endl;
+    cout << "Test Coords put in array" << endl;
 
      ArchivedLocation loca_loca;
     // add 4 locations
@@ -163,7 +163,7 @@ int main()
         // make new id
         loc_id += temp;
 
-        cout << "check - reached" << endl;
+        // cout << "check - reached" << endl;
     }
 
     cout << " 4 locations archived" << endl;
