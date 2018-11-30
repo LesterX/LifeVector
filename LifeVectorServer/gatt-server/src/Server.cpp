@@ -157,7 +157,12 @@
 //
 //     https://www.freedesktop.org/software/gstreamer-sdk/data/docs/latest/glib/glib-GVariantType.html
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+/*
+ * @filename Server.cpp
+ * @author Samar Sajnani (ssajnani@uwo.ca)
+ * @brief Server endpoints file
+ *
+ */
 #include <algorithm>
 
 #include "Server.h"
@@ -185,6 +190,7 @@ namespace ggk {
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
+// Global variables needed to hold session data
 std::map< std::string, std::map<std::string, std::string> > bufferStorage;
 EncryptionModule em;
 
@@ -197,6 +203,11 @@ EncryptionModule em;
 // Our one and only server. It's global.
     std::shared_ptr <Server> TheServer = nullptr;
 //Used to remove the [START] and [END] substrings from received messages
+/*
+ * @brief Utility function to remove bluetooth frame delimiters 
+ * @param string to remove the delimiters from 
+ * @return string without delimiters
+ */
 std::string removeStartAndEnd(std::string start_end_string){
     string startDEL = "[START]";
     string endDEL = "[END]";
@@ -375,7 +386,21 @@ std::string removeStartAndEnd(std::string start_end_string){
 
                 .gattCharacteristicEnd()
                 .gattServiceEnd()
-
+/*
+ * @brief Non-secure channel used to pass public key and encrypted AES symmetric key, 
+ * before setting up secure channel
+ * 	Key_transfer - non-secure function used by the client to write the public key for AES symmetric key 
+ * 	transfer, triggers the on-update function. These functions for write, read and notify are all defined by 
+ * 	lambda return functions. On update the key_transfer function generates and returns an encrypted symmetric 
+ * 	key that can only be decrypted by the client's private key
+ * 	@param public_key string
+ * 	@return AES encrypted string
+ *
+ * 	test_key - After client receives the symmetric key, it encrypts 'Pass back' with the the key and sends the encrypted value to the server, the server decryptes the value and if it matches, the server encrypts 'Received' and sends the encrypted text to the client. The client verifies with itself if it has received 'Received' after decrypting the encrypted text.
+ * 	@param encrypted string 
+ * 	@return encrypted string
+ *
+ */
                         // Custom read/write text string service (00000001-1E3C-FAD4-74E2-97A033F1BFAA)
                         //
                         // This service will return a text string value (default: 'Hello, world!'). If the text value is updated, it will notify
@@ -389,14 +414,23 @@ std::string removeStartAndEnd(std::string start_end_string){
                         // Standard characteristic "WriteValue" method call
                 .onWriteValue(CHARACTERISTIC_METHOD_CALLBACK_LAMBDA
                                       {
-                                              // Update the text string value
+                                              // Receive text string from the client from a buffer
                                               GVariant * pAyBuffer = g_variant_get_child_value(pParameters, 0);
                                               std::string writeValue = Utils::stringFromGVariantByteArray(pAyBuffer);
+					      /*
+					       * Data is buffered so it needs to be defragmented as it is received us						    * ing a packaging protocol
+					       *
+					       * unique_client_id(32 bytes):[START]Text ......[END] (terminator)
+					       *
+					       */
                                               std::string public_key_fragment;
+					      // Test if received string follows a specific format before processing
                                               if (writeValue.substr(36, 1) == ":" && writeValue.substr(8,1) == "-" && writeValue.substr(13,1) == "-" && writeValue.substr(18,1) == "-"){
                                                   std::string dev_id = writeValue.substr (0,36);
+						  //Check if the fragmented array is a fragmented piece
                                                   if ( bufferStorage.find(dev_id) == bufferStorage.end() || bufferStorage[dev_id].find("status") == bufferStorage[dev_id].end() || bufferStorage[dev_id]["status"] == "not authenticated") {
-                                                      if (writeValue.substr(37, 7) != "[START]"){
+                                                     //If fragmented append the pieces to bufferStorage 
+						     if (writeValue.substr(37, 7) != "[START]"){
                                                           if (bufferStorage.find(dev_id) != bufferStorage.end() && bufferStorage[dev_id].find("pub_key") != bufferStorage[dev_id].end() && bufferStorage[dev_id]["pub_key"].find("[END]") != std::string::npos){
                                                               return;
                                                           }
@@ -410,13 +444,16 @@ std::string removeStartAndEnd(std::string start_end_string){
                                                           bufferStorage[dev_id]["pub_key"] = "";
                                                       }
                                                       bufferStorage[dev_id]["pub_key"] += public_key_fragment;
-                                                      if (writeValue.find("[END]") != std::string::npos) {
+                                                      // IF the packet is completely transferred and was reassembled
+						      if (writeValue.find("[END]") != std::string::npos) {
                                                           //Create encryption module and generate the key and cipher for AES
                                                           // Load the necessary cipher
 
                                                           byte key[KEY_SIZE], iv[BLOCK_SIZE];
-
+							
+							  //Generate an AES key and iv for the AES_256_CTR cipher
                                                           em.gen_params(key, iv);
+							  //Store the key and iv for future use by the same client
                                                           std::string charAESKey(reinterpret_cast<char*>(key));
                                                           bufferStorage[dev_id]["key"] = charAESKey;
                                                           std::string charAESiv(reinterpret_cast<char*>(iv));
@@ -424,10 +461,13 @@ std::string removeStartAndEnd(std::string start_end_string){
 
                                                           OPENSSL_cleanse(key, KEY_SIZE);
                                                           OPENSSL_cleanse(iv, BLOCK_SIZE);
+							  //Call the update function if the aes cipher was 
+							  //	succesfully generated
 
                                                           self.callOnUpdatedValue(pConnection, pUserData, dev_id);
                                                       }
                                                   } else {
+							 //If the user is logged in let them know
                                                       self.callOnUpdatedValue(pConnection, pUserData, "already logged in");
                                                   }
                                               }
@@ -440,14 +480,20 @@ std::string removeStartAndEnd(std::string start_end_string){
                         // We can handle updates in any way we wish, but the most common use is to send a change notification.
                 .onUpdatedValue(CHARACTERISTIC_UPDATED_VALUE_CALLBACK_LAMBDA
                                         {
-                                                if (id != "already logged in"){
+                                        /*
+					 * If a user is already logged in ignore this function call because the
+					 * secure channel is already created
+					 */        
+					if (id != "already logged in"){
                                             byte key[KEY_SIZE], iv[BLOCK_SIZE];
+					    //Reassemble the key and iv from the storageBuffer
                                             memcpy(key, bufferStorage[id]["key"].data(), bufferStorage[id]["key"].length());
                                             memcpy(iv, bufferStorage[id]["iv"].data(), bufferStorage[id]["iv"].length());
 
-                                            char * key_char = em.base64((unsigned char*)key, KEY_SIZE);
+                                            //Base 64 encode the key and the block values
+					    char * key_char = em.base64((unsigned char*)key, KEY_SIZE);
                                             char * iv_char = em.base64((unsigned char*)iv, BLOCK_SIZE);
-
+						//Create the plaintxt message for transferring the key and block size
                                             std::string charAESKey(key_char);
                                             std::string charAESiv(iv_char);
                                             std::string msg;
@@ -455,10 +501,12 @@ std::string removeStartAndEnd(std::string start_end_string){
                                             msg += charAESKey;
                                             msg += "[iv:]";
                                             msg += charAESiv;
-
+					    // Gather the public key 
                                             char* first_message = const_cast<char*>(msg.c_str());
                                             string pub_key_str = removeStartAndEnd(bufferStorage[id]["pub_key"]);
-
+					    
+					    // Encrypt the plaintext AES cipher key and block with the 
+					    // client public key
 
                                             int key_length = pub_key_str.length();
                                             char key1[key_length];
@@ -467,12 +515,15 @@ std::string removeStartAndEnd(std::string start_end_string){
                                             EVP_PKEY* pkey = PEM_read_bio_PUBKEY(mem, NULL, NULL, NULL);
                                             RSA * public_key = EVP_PKEY_get1_RSA(pkey);
                                             char *encrypt = NULL;
+					    // Max size of the RSA encrypted value is 256
                                             encrypt = (char*)malloc(256);
                                             int encrypt_length = em.public_encrypt(strlen(first_message), (unsigned char*)first_message, (unsigned char*)encrypt, public_key, RSA_PKCS1_PADDING);
                                             if(encrypt_length == -1) {
                                                 printf("An error occurred in public_encrypt() method");
                                             }
+					    //Create the encrypted string that will be sent to the client
                                             std::string send(encrypt, encrypt_length);
+					    //Send the string
                                             self.sendChangeNotificationValue(pConnection, send);
                                             BIO_free_all(mem);
                                             EVP_PKEY_free(pkey);
@@ -482,7 +533,8 @@ std::string removeStartAndEnd(std::string start_end_string){
                                             OPENSSL_cleanse(iv, BLOCK_SIZE);
 
                                         } else {
-                                            self.sendChangeNotificationValue(pConnection, id);
+                                            //Send the already logged in if so
+						self.sendChangeNotificationValue(pConnection, id);
                                                 }
                                                 return true;
 
@@ -537,15 +589,12 @@ std::string removeStartAndEnd(std::string start_end_string){
                                               secure_string ctext = result.c_str();
                                               secure_string rtext;
 
-                                              std::cout << "here" << std::endl;
 
                                               em.aes_decrypt(key, iv, sizeOfDecrypted, ctext, rtext);
 
                                               OPENSSL_cleanse(key, KEY_SIZE);
                                               OPENSSL_cleanse(iv, BLOCK_SIZE);
-                                              std::cout << "here1" << std::endl;
                                               if (rtext.find("Pass back") != std::string::npos){
-                                                  std::cout << "here2" << std::endl;
                                                   self.callOnUpdatedValue(pConnection, pUserData, dev_id);
                                               }
                                       }
@@ -564,26 +613,18 @@ std::string removeStartAndEnd(std::string start_end_string){
                                                 byte key[KEY_SIZE], iv[BLOCK_SIZE];
                                                 memcpy(key, bufferStorage[id]["key"].data(), bufferStorage[id]["key"].length());
                                                 memcpy(iv, bufferStorage[id]["iv"].data(), bufferStorage[id]["iv"].length());
-                                                std::cout << "here3" << std::endl;
                                                 // plaintext, ciphertext, recovered text
                                                 std::string report = "Received";
                                                 secure_string ptext = report.c_str();
                                                 secure_string ctext, rtext;
 
-                                                std::cout << "here4" << std::endl;
 
                                                 em.aes_encrypt(key, iv, ptext, ctext);
-                                                std::cout << "here5" << std::endl;
                                                 const char * ret = ctext.c_str();
-                                                std::cout << "here6" << std::endl;
                                                 OPENSSL_cleanse(key, KEY_SIZE);
-                                                std::cout << "here7" << std::endl;
                                                 OPENSSL_cleanse(iv, BLOCK_SIZE);
-                                                std::cout << "here8" << std::endl;
                                                 self.sendChangeNotificationValue(pConnection, ret);
-                                                std::cout << "here9" << std::endl;
                                                 return true;
-                                                std::cout << "here10" << std::endl;
 
                                         })
 
