@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS=-c
+CFLAGS=-c -w
 CXXFLAGS=$(CFLAGS)
 CMATH=-lm
 PFLAG=-lmysqlclient
@@ -9,7 +9,7 @@ OBJ = *.o
 
 # Compile All Files and Run All Tests
 all: main TestUC TestArchive TestSquasher TestReport
-	@echo Compile and Run All Tests
+	@echo Compile and Run All Tests - Successful!
 
 # TESTS EXE GENERATOR #
 
