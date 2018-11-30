@@ -1,10 +1,11 @@
 /**
  * @file RawDataRepository.h
  * @author Rukun Wang (rwang263@uwo.ca)
- * @brief This class is responsible for the reading and parsing of the raw GPS data
- * file received from mobile device for processing. It parses the .json file
- * into a vector container, holding the timestamp and coordinate data. It is 
- * also capable of storing the raw data into the server database, if needed.
+ * @brief This class is responsible for the reading and parsing of the 
+ * raw GPS data file received from mobile device for processing. It 
+ * parses the .json file into a vector container, holding the timestamp 
+ * and coordinate data. It is also capable of storing the raw data into 
+ * the server database, if needed.
  * @version 0.1
  * @date 2018-11-29
  * 
@@ -23,6 +24,14 @@
 
 #include "json.hpp"
 
+/**
+ * @brief This class is responsible for the reading and parsing of the 
+ * raw GPS data file received from mobile device for processing. It 
+ * parses the .json file into a vector container, holding the timestamp 
+ * and coordinate data. It is also capable of storing the raw data into 
+ * the server database, if needed.
+ * 
+ */
 class RawDataRepository
 {
 private:

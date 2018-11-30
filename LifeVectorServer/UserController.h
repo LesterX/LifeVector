@@ -23,6 +23,10 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
+/**
+ * @brief Controller for the user information stored in database
+ * 
+ */
 class UserController
 {
 public:

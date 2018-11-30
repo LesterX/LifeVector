@@ -17,6 +17,10 @@
 
 using namespace std;
 
+/**
+ * @brief Read and write database
+ * 
+ */
 class Database
 {
 public:

@@ -8,6 +8,11 @@
 #ifndef COORDINATION_INFORMATION_H
 #define COORDINATION_INFORMATION_H
 
+/**
+ * @brief Stores and handles all quantitative Location Information
+ * including the reference gps coordinate and the location boundary
+ * limits 
+ */
 class CoordinateInformation
 {
 private:

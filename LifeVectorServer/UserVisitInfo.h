@@ -16,6 +16,10 @@
 
 #include "SystemTimeManager.h"
 
+/**
+ * @brief Class holding all the squashed and processed user 
+ * visit information
+ */
 class UserVisitInfo
 {
   private:

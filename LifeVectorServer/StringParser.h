@@ -13,6 +13,10 @@
 #include <algorithm>
 #include <iterator>
 
+/**
+ * @brief Class used to help parse and split strings
+ * 
+ */
 class StringParser
 {
   public:

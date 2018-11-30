@@ -1,13 +1,13 @@
 /**
  * @file squasher.h
  * @brief Squasher to process raw data
- * 
- * @author Yimin Xu (yxu537@uwo.ca)
- * 
  * Used for processing raw data from front end, which recording
  * the time stamps, latitude, and longitude. Adding unfound location 
  * into archived library and squash continuous points at same 
  * location together
+ * @author Yimin Xu (yxu537@uwo.ca)
+ * 
+ 
  */
 
 #ifndef SQUASHER_H
@@ -17,7 +17,13 @@
 #include "ArchiveLibrary.h"
 #include "Database.h"
 
-
+/**
+ * @brief Squasher to process raw data
+ * Used for processing raw data from front end, which recording
+ * the time stamps, latitude, and longitude. Adding unfound location 
+ * into archived library and squash continuous points at same 
+ * location together * 
+ */
 class squasher{
 
 private:

@@ -17,6 +17,10 @@
 #include "user.h"
 #include "DataDepositor.h"
 
+/**
+ * @brief Directly controll the user data in database
+ * 
+ */
 class UserLibrary
 {
   public:

@@ -15,77 +15,81 @@
 
 #include <string>
 
+/**
+ * @brief Stores and handles all qualitative Location Information
+ * including the location ID, name and address. It also holds the 
+ * location descriptions, describing location activity category 
+ */
 class LocationInformation
 {
-  private:
-    int id; // shorthand location identifier
-    std::string name,
-        address,
-        description; // describes location activity category
+private:
+  int id; // shorthand location identifier
+  std::string name,
+      address,
+      description; // describes location activity category
 
-  public:
-    /**
+public:
+  /**
      * @brief Construct a new Location Information object
      * 
      * @param locationID int
      */
-    LocationInformation(int locationID);
+  LocationInformation(int locationID);
 
-    /**
+  /**
      * @brief Destroy the Location Information object
      * 
      */
-    ~LocationInformation();
+  ~LocationInformation();
 
-    /**
+  /**
      * @brief Set the Name of location
      * 
      * @param location_name string
      */
-    void setName(std::string location_name);
+  void setName(std::string location_name);
 
-    /**
+  /**
      * @brief Set the Address of location
      * 
      * @param location_address string
      */
-    void setAddress(std::string location_address);
+  void setAddress(std::string location_address);
 
-    /**
+  /**
      * @brief Set the Description of location
      * 
      * @param location_description string
      */
-    void setDescription(std::string location_description);
+  void setDescription(std::string location_description);
 
-    
-    /**
+  /**
      * @brief Get the location ID
      * 
      * @return int 
      */
-    int getID();
+  int getID();
 
-    /**
+  /**
      * @brief Get the Name of location
      * 
      * @return std::string 
      */
-    std::string getName();
+  std::string getName();
 
-    /**
+  /**
      * @brief Get the Address of location
      * 
      * @return std::string 
      */
-    std::string getAddress();
+  std::string getAddress();
 
-    /**
+  /**
      * @brief Get the Description of location
      * 
      * @return std::string 
      */
-    std::string getDescription();
+  std::string getDescription();
 };
 
 #endif

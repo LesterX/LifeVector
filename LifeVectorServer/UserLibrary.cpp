@@ -75,7 +75,7 @@ bool UserLibrary::createUserInDB(User user)
         }
         else
         {
-            cout << "Error: Failed to create user" << endl;
+            cout << "Fail: User not Created" << endl;
             return false;
         }
     }
@@ -100,7 +100,7 @@ bool UserLibrary::deleteUserFromDB(string username, string deviceID)
         }
         else
         {
-            cout << "Error: Failed to delete user for Database" << endl;
+            cout << "Fail: Could not delete user from Database" << endl;
             return false;
         }
     }
@@ -187,7 +187,7 @@ bool UserLibrary::updateUserSyncTime(User user, int syncTime)
         }
         else
         {
-            cout << "Error: Failed to update syncTime" << endl;
+            cout << "Fail: Could not update syncTime" << endl;
             return false;
         }
     }
@@ -214,7 +214,7 @@ bool UserLibrary::updateReport(User user, json report)
         }
         else
         {
-            cout << "Error: Failed to update report" << endl;
+            cout << "Fail: Could not update report" << endl;
             return false;
         }
     }
@@ -228,7 +228,7 @@ bool UserLibrary::uploadRawGPSData(std::string username, std::string deviceID, R
 
     if (!isPresent(deviceID))
     {
-        cout << "Error: User/Device not present in Database, Please register device!" << endl;
+        cout << "Warning: User/Device not present in Database, Please register device!" << endl;
         return false;
     }
 

@@ -15,6 +15,10 @@
 #include <time.h>
 #include <string>
 
+/**
+ * @brief Handles the time conversions from UNIX time to a readable
+ * 
+ */
 class SystemTimeManager
 {
 private:
