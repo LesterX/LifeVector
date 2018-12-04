@@ -17,7 +17,6 @@ import LoginPage from './src/components/LoginPage';
 import {DeviceInfo} from 'react-native-device-info';
 import BLEPage from "./src/components/BLEPage";
 import BarChart from "./src/components/BarChart";
-import PieChart from "./src/components/LineChart";
 
 export default class lifeVectorMobile extends Component {
 
