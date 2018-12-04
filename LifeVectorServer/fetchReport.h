@@ -67,6 +67,12 @@ class fetchReport
    */
   nlohmann::json getReport();
 
+  /**
+   *@brief print the report to the console
+   *
+   */
+  void printReport();
+
 
 
 };

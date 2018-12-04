@@ -314,8 +314,13 @@ int main(){
             fr.process(vlog, uc.getDBConnection(), found->getID());
         }
     }
-    cout << "report processed" << endl;
-    cout << "end of test" << endl;
+
+    cout << "\n~~~~~: Fetching Report :~~~~~\n" << endl;
+
+    fr.printReport();
+
+    cout << "\nReport Processed\n\n\n" << endl;
+    cout << "End of Test" << endl;
  
 
 

@@ -66,4 +66,10 @@ nlohmann::json fetchReport::getReport(){
     return report;
 }
 
+void fetchReport::printReport(){
+
+    cout << report.dump(4) << endl;
+
+}
+
 
