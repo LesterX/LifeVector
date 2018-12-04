@@ -292,7 +292,7 @@ int main()
             // Location Log
             cout << "Get location visit logs from database: " << endl;
             VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
-            vlog->printLog();
+            // vlog->printLog();
 
             // Visit count function test
 
@@ -332,7 +332,7 @@ int main()
         for (uit; uit != u_log->end(); ++uit)
         {
             cout << "User at LocID: " << uit->first << endl;
-            uit->second.printLog();
+            // uit->second.printLog();
         }
     }
 
