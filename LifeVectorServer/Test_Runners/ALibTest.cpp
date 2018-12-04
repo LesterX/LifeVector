@@ -27,6 +27,7 @@
 
 int main()
 {
+	cout << "Testing Archive Library Functionalities\n\n"; 
     // Fresh Test Ground
 
     using namespace std;
@@ -34,46 +35,53 @@ int main()
     UserController uc("server", "LifeVector123");
     uc.getDBConnection()->exeSQL("DELETE FROM User;");
 
+    cout << "Adding users, main_usr and usr1, for Archive testing.\n" << endl;
     uc.createUser("usr1", "nx5", "LV123");
     uc.createUser("main_usr", "nx5", "archve");
 
     // Location Archiver Tests
+
+    cout << "Testing Object Creation: LocationInformation" << endl;
 
     LocationInformation l(200);
     l.setName("Thompson Arena");
     l.setAddress("Western University, Lambton Drive, Stoneybrook Gardens, London, Middlesex County, Ontario, N6G 5K8, Canada");
     l.setDescription("sports centre");
 
-    cout << "LocInfo: \n"
-         << l.getID() << " - has been created.\n"
-         << l.getAddress() << "\n"
-         << l.getName() << "\n"
-         << l.getDescription()
-         << endl;
+    cout << "LocationInformation Obj creation of ID : "
+         << l.getID() << " - was successful.\n" << endl;
+
+    cout << "Creating CoordinateInformation Obj" << endl;
 
     double x = 43.00307, y = -81.27547;
     double n = 43.00341, w = -81.27605, s = 43.00268, e = -81.27488;
     CoordinateInformation c(x, y);
     c.setLimits(n, s, e, w);
 
-    cout << "Coordinate Object created" << endl;
+    cout << "CoordinateInformation Object creation successful" << endl << endl;
+
+    cout << "Creating ArchivedLocation Object..." << endl;
 
     ArchivedLocation archL(l.getID(), x, y, n, s, e, w);
     archL.setLocationInformation(l.getName(), l.getAddress(), l.getDescription());
 
-    cout << "ArchivedLocation object created: archL : " << endl;
+    cout << "ArchivedLocation object, archL, created : " << endl;
     archL.printInformation();
 
     // Log class tests
+    
+    cout << "Testing tracking log stroage obj containers \n\n"
+	 << "Creating UserVisitInfo obj for user-specific squash data..." << endl; 
 
     UserVisitInfo uvi;
     uvi.addSingleLog(1543183200, 900);
     uvi.addSingleLog(1540519559, 3000);
     uvi.addSingleLog(1542337559, 6000);
 
-    cout << "UserVisitInfo object created : uvi" << endl;
+    cout << "UserVisitInfo object, uvi, successfully created:\n" << endl;
     uvi.printLog();
 
+    cout << "Creating VisitLog obj for squashed location..." << endl; 
     VisitLog vl;
     bool check = false;
 
@@ -90,40 +98,44 @@ int main()
             check = vl.addFullLog(uID, uvi);
         }
     }
-
-    cout << "VisitLog vl is populated with uvi - " << check << endl;
+    cout << "uvi log addition to vl for " << uID << "\t: bool = " << check << endl;
 
     UserVisitInfo uvi2;
-
     uvi2.updateLog(uvi);
+    bool bl = vl.addFullLog("main_usr/nx5", uvi2);
+    cout << "uvi2 created with uvi obj, directly" << endl
+	 << "uvi2 log addition to vl for 'main_usr/nx5'\t bool = " << bl << endl;
+
+    vl.printLog();
 
     // Archive Library Test
-    cout << "~~~~~ Testing Library ~~~~~" << endl;
+    cout << "\n~~~~~ Testing Archive Library Functionalities~~~~~" << endl;
     ArchiveLibrary TestLibrary(uc.getDBConnection());
     uc.getDBConnection()->exeSQL("DELETE FROM ArchivedLocations;");
-    //uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;"); //<-------------------------------
+    uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;");
+    cout << "ArchiveLibrary obj created.\n" << endl;
 
     // single instance
-    cout << "add location from above to db" << endl;
+    cout << "Adding location of ID - 200 to database..." << endl;
 
     TestLibrary.saveLocationToDatabase(archL);
     ArchivedLocation *frmDB_l = TestLibrary.getLocationFromDatabase(200);
-    cout << frmDB_l->getID() << endl;
+    cout << "Location of ID " << frmDB_l->getID() << "has been successfully save to database\n" << endl;
 
-    uvi2.printLog();
-
+    cout << "Create 4 locations for archiving..." << endl;
     // Add a location
     string loc_name, address, desc;
     int loc_id = 400, id[4] = {0, 0, 0, 0}, temp = 3, cnt;
     double x_ref, y_ref, n_border, e_border, s_border, w_border;
 
     // create some locations:
+    cout << "Generate coordinates of locations\n";
     string lat[4] = {"43.009005", "43.005586", "43.642571", "43.653440"};
     string lng[4] = {"-81.269028", "-81.276231", "-79.387057", "-79.384094"};
 
-    cout << "Test Coords put in array" << endl;
+    ArchivedLocation loca_loca;
 
-     ArchivedLocation loca_loca;
+    cout << "Create locations with Google API's\n";
     // add 4 locations
     for (cnt = 0; cnt < 4; cnt++)
     {
@@ -145,7 +157,8 @@ int main()
 
         // create ArchiveLocation
         loca_loca = TestLibrary.constructLocation(loc_id, loc_name, address, desc, x_ref, y_ref, n_border, s_border, e_border, w_border);
-        id[cnt] = loc_id;
+
+	cout << "Location " << loc_id << " has been found and created.\n";
 
         // print whats found
         loca_loca.printInformation();
@@ -155,9 +168,8 @@ int main()
 
         if (loc_id == loca_loca.getID())
         {
-            cout << "new location added to DB" << endl;
             id[cnt] = loca_loca.getID();
-            cout << "here: " << cnt << ", id " << id[cnt] << endl;
+            cout << "Location " << id[cnt] << " has been saved to database.\n";
         }
 
         // make new id
@@ -166,10 +178,7 @@ int main()
         // cout << "check - reached" << endl;
     }
 
-    cout << " 4 locations archived" << endl;
-
-    cout << "end of test" << endl;
-
+    cout << "4 locations has been archived to the database" << endl;
     /******************************/
 
    
@@ -178,17 +187,14 @@ int main()
     //fr.getReport();
 
     
-
-
-
-    /**********************************88*/
+    /***********************************/
 
     // create some time logs;
     int interval = 5 * 60; // tracking interval 5min => 300s
 
     // generate some logs
 
-    cout << "inserting time logs for locations: " << endl;
+    cout << "Generatign and inserting time logs for locations into database..." << endl;
 
     UserVisitInfo u1;
     u1.addSingleLog(1538745600, (4 * interval));  // 2018-10-05 09:20:00, 20min
@@ -205,11 +211,11 @@ int main()
     UserVisitInfo u4;
     u4.addSingleLog(1541472300, (48 * interval)); // 2018-11-5 21:45:00, 240min
 
-    cout << "t_log populated" << endl;
+    cout << "time logs generated." << endl;
 
     //get locations from DB
 
-    cout << "single fetch" << endl;
+    cout << "Fetch a location from database..." << endl;
 
     ArchivedLocation *sloc = TestLibrary.getLocationFromDatabase(200);
 
@@ -222,11 +228,11 @@ int main()
     cout << testint << frmstr << endl
          << testd << wasstr << endl;
  */
-    cout << sloc->getID() << endl;
+    cout << "Location " << sloc->getID() << " retrieved from database.\n" << endl;
 
     sloc->printInformation();
 
-    cout << "the incredible loop (id : 399 - 410)" << endl;
+    cout << "Find Locations from database with various IDs. Present and not present in DB..." << endl;
 
     cnt = 0;
     for (temp = 399; temp < 410; temp++)
@@ -238,7 +244,7 @@ int main()
             if (cnt < 4)
             {
                 id[cnt] = found->getID();
-                cout << "here: " << cnt << ", id " << id[cnt] << endl;
+                cout << "Location " << id[cnt] << "found in DB." << endl;
                 cnt++;
 
                 found->printInformation();
@@ -246,22 +252,28 @@ int main()
         }
     }
 
+    cout << "End of Location search test\n" << endl;
+
     //uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;"); // <-------------------------------
+
+    cout << "Test Saving Logs to DB..." << endl;
 
     // add the logs to the 4 locations
     TestLibrary.archiveUserLog(200, "usr1", "nx5", uvi2);
-    cout << "loc 200 added with log" << endl;
+    cout << "uvi2 log data successfully saved to database, for usr1" << endl;
 
     temp = 0;
     UserVisitInfo userlogs[4] = {u1, u2, u3, u4};
     for (; temp < 4; temp++)
     {
         TestLibrary.archiveUserLog(id[temp], "main_usr", "nx5", userlogs[temp]);
+	cout << "Log dataset " << temp+1 << " has been seved to Location " << id[temp] << " in database, for main_usr." << endl;
     }
 
-    cout << "logs archived to related locations" << endl
+    cout << "All log datasets successfully archived to database" << endl
          << endl;
 
+    cout << "Full Archive Data retrieval from database for main_usr: " << endl;
     // get and print log information for each location
     for (temp = 0; temp < 4; temp++)
     {
@@ -287,16 +299,19 @@ int main()
             }
 
             // Location Log
+	    cout << "Get location visit logs from database: " << endl;
             VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
             vlog->printLog();
 
             // Visit count function test
+	    
+            cout << "Test Visit Frequency and Total Visit Duration getters:" << endl;
             int l_count = TestLibrary.getVisitCount(found->getID());
             int lu_count = TestLibrary.getVisitCount(found->getID(), "main_usr", "nx5");
 
             if (l_count == lu_count)
             {
-                cout << "count functions test passed " << endl
+                cout << "Frequency function test passed." << endl
                      << "total count: " << l_count << endl
                      << "main_usr count: " << lu_count << endl;
             }
@@ -307,14 +322,14 @@ int main()
 
             if (dur == udur)
             {
-                cout << "duration functions test passed " << endl
+                cout << "Visit duration functions test passed. " << endl
                      << "total duration: " << dur << endl
                      << "main_usr duration: " << udur << endl;
             }
         }
     }
 
-    cout << "end of test" << endl;
+    cout << "end of archive tests" << endl;
 
     return 0;
 }

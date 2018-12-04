@@ -137,5 +137,5 @@ test: clean main
 
 # Cleanses Folder of All Generated .o and executables
 clean:
-	rm -f *.o main UC.test Report.test ArchLib.test Squasher.test
+	rm -f *.o main UCTest ReportTest ArchLibTest SquasherTest
 	@echo All Files Cleansed

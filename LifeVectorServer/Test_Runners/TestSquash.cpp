@@ -18,9 +18,14 @@ using namespace std;
 
 int main(int argc, char** argv) {
 
+	cout << "Squasher Algorothm Test: " << endl;
+
 	//Create user in database for testing
 	UserController uc("server","LifeVector123");
+	
+	cout << "Create Test User..." << endl;
 	uc.createUser("Yimin","01","LifeVector123");
+	cout << "Test User Created" << endl;
 
 	//Create database object and Raw data repository	
 	Database db;
@@ -30,9 +35,12 @@ int main(int argc, char** argv) {
 
 	
 	//Create squasher
+	
+	cout << "Squash sample raw dataset" <<endl;
 	squasher sq(rdr, &db,"Yimin","01");
 	sq.squash();
 	
+	cout << "Squash successful." << endl;
 	return 0;
 }
 

@@ -30,6 +30,8 @@
 
 int main(){
 
+	cout << "Report Fetching and Creation Tests:" << endl;
+
     // Fresh Test Ground
 
     using namespace std;
@@ -41,7 +43,6 @@ int main(){
     uc.createUser("main_usr", "nx5", "archve");
 
     // Location Archiver Tests
-
     LocationInformation l(200);
     l.setName("Thompson Arena");
     l.setAddress("Western University, Lambton Drive, Stoneybrook Gardens, London, Middlesex County, Ontario, N6G 5K8, Canada");
