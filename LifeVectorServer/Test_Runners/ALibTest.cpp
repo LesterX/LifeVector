@@ -27,7 +27,7 @@
 
 int main()
 {
-	cout << "Testing Archive Library Functionalities\n\n"; 
+    cout << "Testing Archive Library Functionalities\n\n";
     // Fresh Test Ground
 
     using namespace std;
@@ -35,7 +35,8 @@ int main()
     UserController uc("server", "LifeVector123");
     uc.getDBConnection()->exeSQL("DELETE FROM User;");
 
-    cout << "Adding users, main_usr and usr1, for Archive testing.\n" << endl;
+    cout << "Adding users, main_usr and usr1, for Archive testing.\n"
+         << endl;
     uc.createUser("usr1", "nx5", "LV123");
     uc.createUser("main_usr", "nx5", "archve");
 
@@ -49,7 +50,8 @@ int main()
     l.setDescription("sports centre");
 
     cout << "LocationInformation Obj creation of ID : "
-         << l.getID() << " - was successful.\n" << endl;
+         << l.getID() << " - was successful.\n"
+         << endl;
 
     cout << "Creating CoordinateInformation Obj" << endl;
 
@@ -58,7 +60,8 @@ int main()
     CoordinateInformation c(x, y);
     c.setLimits(n, s, e, w);
 
-    cout << "CoordinateInformation Object creation successful" << endl << endl;
+    cout << "CoordinateInformation Object creation successful" << endl
+         << endl;
 
     cout << "Creating ArchivedLocation Object..." << endl;
 
@@ -69,19 +72,20 @@ int main()
     archL.printInformation();
 
     // Log class tests
-    
+
     cout << "Testing tracking log stroage obj containers \n\n"
-	 << "Creating UserVisitInfo obj for user-specific squash data..." << endl; 
+         << "Creating UserVisitInfo obj for user-specific squash data..." << endl;
 
     UserVisitInfo uvi;
     uvi.addSingleLog(1543183200, 900);
     uvi.addSingleLog(1540519559, 3000);
     uvi.addSingleLog(1542337559, 6000);
 
-    cout << "UserVisitInfo object, uvi, successfully created:\n" << endl;
+    cout << "UserVisitInfo object, uvi, successfully created:\n"
+         << endl;
     uvi.printLog();
 
-    cout << "Creating VisitLog obj for squashed location..." << endl; 
+    cout << "Creating VisitLog obj for squashed location..." << endl;
     VisitLog vl;
     bool check = false;
 
@@ -104,7 +108,7 @@ int main()
     uvi2.updateLog(uvi);
     bool bl = vl.addFullLog("main_usr/nx5", uvi2);
     cout << "uvi2 created with uvi obj, directly" << endl
-	 << "uvi2 log addition to vl for 'main_usr/nx5'\t bool = " << bl << endl;
+         << "uvi2 log addition to vl for 'main_usr/nx5'\t bool = " << bl << endl;
 
     vl.printLog();
 
@@ -113,14 +117,16 @@ int main()
     ArchiveLibrary TestLibrary(uc.getDBConnection());
     uc.getDBConnection()->exeSQL("DELETE FROM ArchivedLocations;");
     uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;");
-    cout << "ArchiveLibrary obj created.\n" << endl;
+    cout << "ArchiveLibrary obj created.\n"
+         << endl;
 
     // single instance
     cout << "Adding location of ID - 200 to database..." << endl;
 
     TestLibrary.saveLocationToDatabase(archL);
     ArchivedLocation *frmDB_l = TestLibrary.getLocationFromDatabase(200);
-    cout << "Location of ID " << frmDB_l->getID() << "has been successfully save to database\n" << endl;
+    cout << "Location of ID " << frmDB_l->getID() << "has been successfully save to database\n"
+         << endl;
 
     cout << "Create 4 locations for archiving..." << endl;
     // Add a location
@@ -158,7 +164,7 @@ int main()
         // create ArchiveLocation
         loca_loca = TestLibrary.constructLocation(loc_id, loc_name, address, desc, x_ref, y_ref, n_border, s_border, e_border, w_border);
 
-	cout << "Location " << loc_id << " has been found and created.\n";
+        cout << "Location " << loc_id << " has been found and created.\n";
 
         // print whats found
         loca_loca.printInformation();
@@ -181,12 +187,10 @@ int main()
     cout << "4 locations has been archived to the database" << endl;
     /******************************/
 
-   
     //fetchReport fr();
 
     //fr.getReport();
 
-    
     /***********************************/
 
     // create some time logs;
@@ -228,7 +232,8 @@ int main()
     cout << testint << frmstr << endl
          << testd << wasstr << endl;
  */
-    cout << "Location " << sloc->getID() << " retrieved from database.\n" << endl;
+    cout << "Location " << sloc->getID() << " retrieved from database.\n"
+         << endl;
 
     sloc->printInformation();
 
@@ -252,7 +257,8 @@ int main()
         }
     }
 
-    cout << "End of Location search test\n" << endl;
+    cout << "End of Location search test\n"
+         << endl;
 
     //uc.getDBConnection()->exeSQL("DELETE FROM VisitLog;"); // <-------------------------------
 
@@ -267,13 +273,13 @@ int main()
     for (; temp < 4; temp++)
     {
         TestLibrary.archiveUserLog(id[temp], "main_usr", "nx5", userlogs[temp]);
-	cout << "Log dataset " << temp+1 << " has been seved to Location " << id[temp] << " in database, for main_usr." << endl;
+        cout << "Log dataset " << temp + 1 << " has been seved to Location " << id[temp] << " in database, for main_usr." << endl;
     }
 
     cout << "All log datasets successfully archived to database" << endl
          << endl;
 
-    cout << "Full Archive Data retrieval from database for main_usr: " << endl;
+    cout << "Full Archive Data retrieval from database each location: " << endl;
     // get and print log information for each location
     for (temp = 0; temp < 4; temp++)
     {
@@ -283,28 +289,13 @@ int main()
         {
             found->printInformation();
 
-            // User Log
-            std::map<int, UserVisitInfo> *u_log = TestLibrary.getUserLogFromDatabase("main_usr", "nx5");
-
-            if (u_log)
-            {
-                cout << "user log retrieved" << endl;
-
-                map<int, UserVisitInfo>::iterator uit = u_log->begin();
-                for (uit; uit != u_log->end(); ++uit)
-                {
-                    cout << "User at LocID: " << uit->first << endl;
-                    uit->second.printLog();
-                }
-            }
-
             // Location Log
-	    cout << "Get location visit logs from database: " << endl;
+            cout << "Get location visit logs from database: " << endl;
             VisitLog *vlog = TestLibrary.getLocationRecordFromDatabase(found->getID());
             vlog->printLog();
 
             // Visit count function test
-	    
+
             cout << "Test Visit Frequency and Total Visit Duration getters:" << endl;
             int l_count = TestLibrary.getVisitCount(found->getID());
             int lu_count = TestLibrary.getVisitCount(found->getID(), "main_usr", "nx5");
@@ -329,8 +320,23 @@ int main()
         }
     }
 
+    // User Log
+    cout << "User Visit Logs for main_usr:" << endl;
+    std::map<int, UserVisitInfo> *u_log = TestLibrary.getUserLogFromDatabase("main_usr", "nx5");
+
+    if (u_log)
+    {
+        cout << "user log retrieved" << endl;
+
+        map<int, UserVisitInfo>::iterator uit = u_log->begin();
+        for (uit; uit != u_log->end(); ++uit)
+        {
+            cout << "User at LocID: " << uit->first << endl;
+            uit->second.printLog();
+        }
+    }
+
     cout << "end of archive tests" << endl;
 
     return 0;
 }
-

@@ -101,6 +101,8 @@ bool VisitLog::addSingleEntry(std::string userID, long time, int duration)
 
     UserVisitInfo *entry = &(target->second);
     entry->addSingleLog(time, duration);
+    visitCount++;
+    durationSpent += duration;
     return true;
 }
 
@@ -110,17 +112,17 @@ std::string VisitLog::beautify()
     std::map<std::string, UserVisitInfo>::iterator it = userVisitRecord.begin();
     output << "Location Visit Record Information: \n";
 
-    for (it; it != userVisitRecord.end(); ++it)
+    for (; it != userVisitRecord.end(); ++it)
     {
         std::vector<std::string> userID;
         StringParser::custom_parse(it->first, userID, '/');
 
         output << "User : " << userID[0] << ", DeviceID : " << userID[1] << "\n";
-        it->second.beautify();
+        output << it->second.beautify();
     }
 
     output << "Total Visits at this Location : " << visitCount
-              << "\nTotal Time at this Location : " << durationSpent << "\n";
+              << "\nTotal Time at this Location : " << SystemTimeManager::format(durationSpent) << "\n";
 
     return output.str();
 }
